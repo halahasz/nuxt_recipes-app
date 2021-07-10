@@ -1,0 +1,30 @@
+{
+  "scripts": {
+    "layer0:dev": "layer0 dev",
+    "layer0:build": "layer0 build",
+    "layer0:deploy": "layer0 deploy",
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "name": "recipes",
+  "version": "1.0.0",
+  "description": "My terrific Nuxt.js project",
+  "author": "Halina Balys",
+  "private": true,
+  "dependencies": {
+    "@nuxt/core": "^2.0.0"
+  },
+  "devDependencies": {
+    "@layer0/cli": "^3.16.0",
+    "@layer0/core": "^3.16.0",
+    "@layer0/nuxt": "^3.16.0",
+    "@layer0/vue": "^3.16.0",
+    "axios": "^0.19.2",
+    "firebase": "^7.11.0",
+    "node-sass": "^4.13.1",
+    "nuxt": "^2.0.0",
+    "sass-loader": "^10"
+  }
+}
