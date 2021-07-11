@@ -78,7 +78,7 @@
         @change="onFilePicked"
       />
     </div>
-    <div class="form__group field">
+    <div class="form__group title">
       <input
         v-model="editedRecipe.title"
         type="text"
@@ -209,106 +209,11 @@
         Cancel
       </button>
     </div>
-    <!-- <v-text-field
-      v-model="editedRecipe.title"
-      :value="editedRecipe.title"
-      label="Title"
-      color="#fa6a18"
-    ></v-text-field>
-    <v-text-field
-      color="#fa6a18"
-      background-color="fa6a18"
-      v-model="editedRecipe.author"
-      label="Author"
-    ></v-text-field>
-    <v-text-field
-      class="recipe-link"
-      v-model="editedRecipe.link"
-      label="Link"
-      color="#fa6a18"
-    ></v-text-field>
-    <div class="recipe-link-container">
-      <v-text-field
-        class="recipe-time"
-        v-model="editedRecipe.time"
-        label="Time"
-        color="#fa6a18"
-      ></v-text-field>
-      <v-text-field
-        v-model="editedRecipe.portions"
-        label="Portions"
-        color="#fa6a18"
-      ></v-text-field>
-    </div>
-    <p class="ingredients-label">INGREDIENTS</p>
-    <template v-if="editedRecipe.ingredients">
-      <div
-        class="recipe-ingredient-container"
-        v-for="(ingredient, index) in editedRecipe.ingredients"
-        :key="index"
-      >
-        <v-text-field
-          color="#fa6a18"
-          class="recipe-ingredient"
-          v-model="ingredient.ingredient"
-          :label="'Ingredient ' + (index + 1)"
-        ></v-text-field>
-        <v-btn
-          v-if="editedRecipe.ingredients.length > 1"
-          class="btn-rmIngr"
-          color="#fff"
-          @click="removeIngr(index)"
-          rounded
-          >-</v-btn
-        >
-        <v-text-field
-          class="recipe-amount"
-          color="#fa6a18"
-          v-model="ingredient.amount"
-          :label="'Amount ' + (index + 1)"
-        ></v-text-field>
-      </div>
-    </template>
-    <v-btn class="btn-ingr" @click="addIngr" rounded color="#fff"
-      >+ Add ingredient</v-btn
-    >
-    <v-textarea
-      color="#fa6a18"
-      class="recipe-textarea"
-      name="input-7-1"
-      v-model="editedRecipe.recipe"
-      label="Recipe"
-      value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
-    ></v-textarea>
-    <div class="add-recipe-container">
-      <v-btn
-        class="btn-save btn-custom ma-2"
-        type="submit"
-        rounded
-        color="#fa6a18"
-        >Save</v-btn
-      >
-      <v-btn
-        class="btn-remove btn-custom ma-2"
-        @click="onRemove"
-        rounded
-        color="rgb(223, 70, 36)"
-        >Remove</v-btn
-      >
-      <v-btn
-        class="btn-cancel btn-custom ma-2"
-        @click.native="onCancel"
-        rounded
-        color="#fff"
-        >Cancel</v-btn
-      >
-    </div> -->
   </form>
 </template>
 
 <script>
 import { fb, db } from "@/store/firebase";
-// import add from "@/assets/img/add.svg";
 
 export default {
   name: "AdminPostForm",
@@ -425,7 +330,8 @@ export default {
   position: relative;
 }
 .recipe-thumbnail {
-  max-width: 150px;
+  max-width: 200px;
+  max-height: 300px;
   border-radius: 30px;
   margin: 30px 0px 20px 0;
   position: relative;
@@ -435,7 +341,7 @@ export default {
   content: "";
   top: 0;
   background: #fff;
-  right: 50%;
+  right: calc(50% - 28px);
   width: 56px;
   height: 56px;
   border-radius: 30px;
@@ -451,6 +357,12 @@ export default {
   margin: 17px auto 20px;
   width: 100%;
   background-color: transparent;
+  &.title {
+    .form__field {
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+  }
   &-container {
     display: flex;
     justify-content: space-between;
@@ -576,6 +488,7 @@ export default {
   margin-top: 10px;
   font-weight: 600;
   font-size: 15px;
+  font-size: 1.4rem;
   height: 240px;
   width: 100%;
   line-height: 21px;
@@ -583,6 +496,7 @@ export default {
   border-color: $grey;
   font-family: "Open Sans", sans-serif;
   border: 1px solid $grey;
+  font-weight: 100;
   &:focus {
     outline: 1px solid $primary;
     border: none;
