@@ -18,7 +18,7 @@ export default {
     //   { src: "https://www.gstatic.com/firebasejs/7.11.0/firebase-app.js" }
     // ],
     link: [
-      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+      { rel: "icon", type: "image/x-icon", href: "/favicon.png" },
       {
         rel: "stylesheet",
         href:
@@ -33,7 +33,7 @@ export default {
   /*
    ** Global CSS
    */
-  css: [],
+  css: ["@/assets/styles/styles.scss"],
   /*
    ** Plugins to load before mounting the App
    */

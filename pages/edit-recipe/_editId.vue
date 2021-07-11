@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import AdminPostForm from "@/components/Admin/AdminPostForm";
+import AdminPostForm from "@/components/AdminPostForm";
 import axios from "axios";
 
 export default {
@@ -43,7 +43,7 @@ export default {
     onIngrDeleted(rmIngr) {
       axios
         .delete(
-          "https://recipes-6f5e0..firebaseio.com/recipes/" +
+          "https://recipes-6f5e0.firebaseio.com/recipes/" +
             this.$route.params.editId +
             "/ingredients/" +
             rmIngr +

@@ -1,26 +1,22 @@
 <template>
-  <div>
-    <Navigation />
+  <div class="container-base">
+    <Header />
+
+    <!-- Menu Mobile -->
+    <!-- <transition name="slide-fade">
+      <MenuMobile v-if="showMenuMobile === true" />
+    </transition> -->
+
     <nuxt />
+    <!-- <Footer /> -->
   </div>
 </template>
+
 <script>
-import Navigation from "@/components/Navigation/Navigation";
+import Header from "@/components/Header";
 export default {
   components: {
-    Navigation
+    Header
   }
 };
 </script>
-<style>
-html {
-  font-family: "Open Sans", sans-serif;
-  scroll-behavior: smooth;
-}
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-  margin: 0;
-}
-</style>

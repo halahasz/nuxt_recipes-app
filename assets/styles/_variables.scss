@@ -1,0 +1,31 @@
+// Bootstrap Media Queries
+$max-container-width: 1600px;
+$sm-width: 480px;
+$md-width: 1024px;
+$lg-width: 1200px;
+
+// Custom Media Queries
+$width-stack: (
+  sm-mobile: 320px,
+  md-mobile: 375px,
+  mobile: 480px,
+  sm-tablet: 576px,
+  tablet: 768px,
+  desktop: 1024px,
+  lg-desktop: 1200px,
+  hd-ready: 1366px,
+  wrapper-bp: 1450px,
+  lg-hd-ready: 1600px,
+  full-hd: 1920px,
+  4k: 2560px
+);
+
+//Colors
+$primary: #fa6a18;
+$grey: rgba(0, 0, 0, 0.42);
+$black: #000000;
+$red: rgb(223, 70, 36);
+$white: #ffffff;
+
+$box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2),
+  0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);

@@ -1,0 +1,32 @@
+@import "_variables";
+
+html,
+body {
+  font-family: "Open Sans", sans-serif;
+  font-size: 10px;
+  line-height: 1.4;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+input,
+select {
+  outline: 0;
+  &:active,
+  &:visited {
+    outline: 0;
+  }
+}
+
+.container-base {
+  max-width: $max-container-width;
+  width: auto;
+  margin: 0 auto;
+  overflow: hidden;
+}

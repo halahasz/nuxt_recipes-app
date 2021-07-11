@@ -29,8 +29,8 @@
 
 <script>
 import axios from "axios";
-import Recipe from "@/components/Recipes/Recipe";
-import SearchRecipes from "@/components/SearchRecipes/SearchRecipes";
+import Recipe from "@/components/Recipe";
+import SearchRecipes from "@/components/SearchRecipes";
 const url = "https://recipes-6f5e0.firebaseio.com/recipes.json";
 
 export default {

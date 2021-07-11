@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import RecipesList from "@/components/Recipes/RecipesList";
+import RecipesList from "@/components/RecipesList";
 import { mapGetters } from "vuex";
 
 export default {

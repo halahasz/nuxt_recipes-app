@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import RecipesList from "@/components/Recipes/RecipesList";
+import RecipesList from "@/components/RecipesList";
 export default {
   components: {
     RecipesList

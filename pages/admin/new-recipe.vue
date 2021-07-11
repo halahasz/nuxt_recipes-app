@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import AdminPostForm from "@/components/Admin/AdminPostForm";
+import AdminPostForm from "@/components/AdminPostForm";
 export default {
   components: {
     AdminPostForm

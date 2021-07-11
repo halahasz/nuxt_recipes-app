@@ -33,15 +33,13 @@ const createStore = () => {
     actions: {
       nuxtServerInit(vuexContext, context) {
         return axios
-          .get("https://recipes-6f5e0.firebaseio.com/recipes.json")
+          .get(
+            'https://recipes-6f5e0.firebaseio.com/recipes.json?orderBy="order"&limitToFirst=6'
+          )
           .then(res => {
             const recipesArray = [];
-            let index = 0;
             for (const key in res.data) {
-              if (index < 6) {
-                recipesArray.unshift({ ...res.data[key], id: key });
-              }
-              index++;
+              recipesArray.unshift({ ...res.data[key], id: key });
             }
             vuexContext.commit("setRecipes", recipesArray);
           })

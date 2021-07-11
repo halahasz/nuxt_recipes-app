@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import RecipesList from "@/components/Recipes/RecipesList";
+import RecipesList from "@/components/RecipesList";
 
 export default {
   components: {
@@ -19,30 +19,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-html,
-body {
-  overflow-x: hidden;
-}
-.recipes-page {
-  max-width: 80%;
-  margin-left: 10%;
-  position: relative;
-  margin-bottom: 100px;
-  margin-top: 35px;
-}
-h1 {
-  position: absolute;
-  font-size: 42px;
-  color: rgba(255, 255, 255, 0.9);
-  text-shadow: 0px 0px 7px rgb(69, 69, 69);
-  margin-left: 45px;
-  top: 70px;
-  z-index: 2;
-  @media (max-width: 480px) {
-    font-size: 43px;
-    margin-left: 30px;
-  }
-}
-</style>

@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import Recipe from "@/components/Recipes/Recipe";
+import Recipe from "@/components/Recipe";
 export default {
   name: "RecipesList",
   components: {
@@ -37,6 +37,7 @@ export default {
   }
 };
 </script>
+
 <style scoped>
 .recipes-list {
   display: flex;
