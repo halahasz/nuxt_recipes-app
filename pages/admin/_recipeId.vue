@@ -1,16 +1,16 @@
 <template>
   <div class="admin-recipe-page">
     <section class="update-form">
-      <AdminPostForm isAdmin="true" :recipe="loadedRecipe" />
+      <RecipeForm isAdmin="true" :recipe="loadedRecipe" />
     </section>
   </div>
 </template>
 
 <script>
-import AdminPostForm from "@/components/AdminPostForm";
+import RecipeForm from "@/components/UI/RecipeForm";
 export default {
   components: {
-    AdminPostForm
+    RecipeForm
   },
   props: {
     recipe: {

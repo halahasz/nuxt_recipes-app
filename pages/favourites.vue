@@ -1,16 +1,15 @@
 <template>
   <div class="favourites-page">
-    <RecipesList :recipes="likedRecipes" />
+    <RecipeList :recipes="likedRecipes" />
   </div>
 </template>
 
 <script>
-import RecipesList from "@/components/RecipesList";
-import { mapGetters } from "vuex";
+import RecipeList from "@/components/UI/RecipeList";
 
 export default {
   components: {
-    RecipesList
+    RecipeList
   },
   computed: {
     likedRecipes() {

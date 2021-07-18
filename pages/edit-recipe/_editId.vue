@@ -1,7 +1,7 @@
 <template>
   <div class="admin-post-page">
     <section class="update-form">
-      <AdminPostForm
+      <RecipeForm
         :recipe="loadedRecipe"
         @del-recipe="onDeleted"
         @del-ingr="onIngrDeleted"
@@ -12,13 +12,13 @@
 </template>
 
 <script>
-import AdminPostForm from "@/components/AdminPostForm";
+import RecipeForm from "@/components/UI/RecipeForm";
 import axios from "axios";
 
 export default {
   layout: "admin",
   components: {
-    AdminPostForm
+    RecipeForm
   },
   asyncData(context) {
     return axios

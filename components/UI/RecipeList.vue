@@ -19,9 +19,9 @@
 </template>
 
 <script>
-import Recipe from "@/components/Recipe";
+import Recipe from "@/components/UI/Recipe";
 export default {
-  name: "RecipesList",
+  name: "RecipeList",
   components: {
     Recipe
   },

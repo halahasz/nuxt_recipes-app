@@ -172,7 +172,7 @@ export default {
         .then(() => {
           this.$store.commit("editLikedRecipe", this.id, editedRecipe);
         })
-        .catch(e => alert(e));
+        .catch(e => console.log(e));
     }
   }
 };

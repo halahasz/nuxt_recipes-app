@@ -1,5 +1,6 @@
 import Vuex from "vuex";
 import axios from "axios";
+import api from "@/api/baseConfig";
 
 const createStore = () => {
   return new Vuex.Store({
@@ -33,9 +34,7 @@ const createStore = () => {
     actions: {
       nuxtServerInit(vuexContext, context) {
         return axios
-          .get(
-            'https://recipes-6f5e0.firebaseio.com/recipes.json?orderBy="order"&limitToFirst=6'
-          )
+          .get(api.BASE_URL + 'recipes.json?orderBy="order"&limitToFirst=6')
           .then(res => {
             const recipesArray = [];
             for (const key in res.data) {
@@ -50,7 +49,7 @@ const createStore = () => {
           ...recipe
         };
         return axios
-          .post("https://recipes-6f5e0.firebaseio.com/recipes.json", {
+          .post(api.BASE_URL + "recipes.json", {
             ...createdRecipe
           })
           .then(result => {
@@ -64,9 +63,7 @@ const createStore = () => {
       deleteRecipe(vuexContext, deletedRecipe) {
         return axios
           .delete(
-            "https://recipes-6f5e0.firebaseio.com/recipes/" +
-              deletedRecipe.id +
-              ".json",
+            api.BASE_URL + "recipes/" + deletedRecipe.id + ".json",
             deletedRecipe
           )
           .then(result => {
@@ -78,9 +75,7 @@ const createStore = () => {
       editRecipe(vuexContext, editedRecipe) {
         return axios
           .put(
-            "https://recipes-6f5e0.firebaseio.com/recipes/" +
-              editedRecipe.id +
-              ".json",
+            api.BASE_URL + "recipes/" + editedRecipe.id + ".json",
             editedRecipe
           )
           .then(res => {
@@ -89,8 +84,8 @@ const createStore = () => {
           .catch(e => console.log(e));
       },
 
-      setRecipes(vuexContext, posts) {
-        vuexContext.commit("setRecipes", posts);
+      setRecipes(vuexContext, recipes) {
+        vuexContext.commit("setRecipes", recipes);
       }
     },
     getters: {

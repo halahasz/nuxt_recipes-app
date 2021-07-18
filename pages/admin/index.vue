@@ -10,16 +10,16 @@
         Number of recipes:
         <strong>{{ this.$store.state.loadedRecipes.length }}</strong>
       </p>
-      <RecipesList isAdmin />
+      <RecipeList isAdmin />
     </section>
   </div>
 </template>
 
 <script>
-import RecipesList from "@/components/RecipesList";
+import RecipeList from "@/components/UI/RecipeList";
 export default {
   components: {
-    RecipesList
+    RecipeList
   }
 };
 </script>

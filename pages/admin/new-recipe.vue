@@ -1,17 +1,16 @@
 <template>
   <div class="admin-new-recipe-page">
     <section class="new-post-form">
-      <AdminPostForm />
+      <RecipeForm />
     </section>
   </div>
 </template>
 
 <script>
-import AdminPostForm from "@/components/AdminPostForm";
+import RecipeForm from "@/components/UI/RecipeForm";
 export default {
   components: {
-    AdminPostForm
+    RecipeForm
   }
 };
 </script>
-

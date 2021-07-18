@@ -1,17 +1,17 @@
 <template>
   <div class="admin-new-recipe-page">
     <section class="new-post-form">
-      <AdminPostForm isAdmin @submit="onSubmitted" />
+      <RecipeForm isAdmin @submit="onSubmitted" />
     </section>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import AdminPostForm from "@/components/AdminPostForm";
+import RecipeForm from "@/components/UI/RecipeForm";
 export default {
   components: {
-    AdminPostForm
+    RecipeForm
   },
   methods: {
     onSubmitted(recipeData) {
