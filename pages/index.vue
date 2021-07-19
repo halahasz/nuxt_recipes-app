@@ -16,24 +16,19 @@ export default {
     RecipeSearch
   },
   computed: {
-    loadedRecipes() {
-      return this.$store.getters.loadedRecipes;
+    loadedRecipes: {
+      get() {
+        return this.$store.getters.loadedRecipes;
+      },
+      set(value) {
+        this.$store.commit("setRecipes", value);
+      }
     }
   },
   methods: {
     searchText(text) {
       if (text.length > 2) {
-        this.recipes = null;
-        return axios
-          .get(url)
-          .then(res => {
-            var re = new RegExp(text, "gi");
-            let arr = Object.entries(res.data).filter(a =>
-              a[1].ingredients.find(b => b.ingredient.toLowerCase().match(re))
-            );
-            this.recipes = [arr[0][1]];
-          })
-          .catch(e => console.log(e));
+        this.$store.dispatch("searchRecipes", text.toLowerCase());
       }
     }
   }

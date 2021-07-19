@@ -131,7 +131,7 @@
         <label for="portions" class="form__label">Portions</label>
       </div>
     </div>
-    <p class="ingredients-label">INGREDIENTS</p>
+    <p class="ingredients-label">INGREDIENTS (1-10)</p>
     <template v-if="editedRecipe.ingredients">
       <div
         class="recipe-ingredient-container"
@@ -140,7 +140,7 @@
       >
         <div class="form__group field">
           <input
-            v-model="ingredient.ingredient"
+            v-model.trim="ingredient.ingredient"
             type="text"
             class="form__field"
             placeholder="Ingredient"
@@ -175,6 +175,7 @@
       </div>
     </template>
     <button
+      v-if="editedRecipe.ingredients.length < 10"
       type="button"
       class="btn-ingr"
       @click="addIngr"
@@ -204,7 +205,7 @@
       <button
         type="button"
         class="btn-cancel btn-custom ma-2"
-        @click.native="onCancel"
+        @click="onCancel"
       >
         Cancel
       </button>
@@ -223,6 +224,7 @@ export default {
         ? { ...this.recipe }
         : {
             title: "",
+            keywards: {},
             photo: "",
             id: this.$route.params.id,
             link: "",
@@ -260,7 +262,6 @@ export default {
       this.$emit("submit", this.editedRecipe);
     },
     onRemove() {
-      //Navigate back
       this.$emit("del-recipe", this.editedRecipe);
     },
     removeIngr(index) {
@@ -268,17 +269,17 @@ export default {
       this.$emit("del-ingr", rmIngr);
     },
     onCancel() {
-      //Navigate back
       this.$router.push("/edit-recipe/" + this.$route.params.editId);
     },
     addIngr() {
-      let counter = 0;
-      const newIngr = {
-        id: this.editedRecipe.ingredients.length,
-        ingredient: this.editedRecipe.ingredient,
-        amount: this.editedRecipe.amount
-      };
-      this.editedRecipe.ingredients.push(newIngr);
+      if (this.editedRecipe.ingredients.length < 10) {
+        const newIngr = {
+          id: this.editedRecipe.ingredients.length,
+          ingredient: this.editedRecipe.ingredient.toLowerCase(),
+          amount: this.editedRecipe.amount
+        };
+        this.editedRecipe.ingredients.push(newIngr);
+      }
     },
     onPickFile() {
       this.$refs.fileInput.click();

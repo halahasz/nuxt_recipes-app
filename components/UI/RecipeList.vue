@@ -9,6 +9,7 @@
       :title="recipe.title"
       :author="recipe.author"
       :recipe="recipe.recipe"
+      :keywards="recipe.keywards"
       :time="recipe.time"
       :portions="recipe.portions"
       :ingredients="recipe.ingredients"

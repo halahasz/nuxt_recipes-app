@@ -1,11 +1,10 @@
 <template>
   <div>
     <form class="recipes-form" @submit.prevent="onSubmit">
-      <input type="text" v-model="text" placeholder="Search ..." />
+      <input type="text" v-model.trim="text" placeholder="Search ..." />
       <button color="#fff" class="btn-add" fab @click.prevent="onSubmit">
         <svg
           id="Search"
-          @click="onSearch"
           xmlns="http://www.w3.org/2000/svg"
           width="22.412"
           height="21.343"

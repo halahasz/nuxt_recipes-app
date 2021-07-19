@@ -150,6 +150,7 @@ export default {
           {
             id: this.id,
             title: this.title,
+            keywards: this.keywards,
             photo: this.photo,
             link: this.link,
             time: this.time,

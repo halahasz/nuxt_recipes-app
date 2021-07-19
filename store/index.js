@@ -32,7 +32,7 @@ const createStore = () => {
       }
     },
     actions: {
-      nuxtServerInit(vuexContext, context) {
+      nuxtServerInit({ commit }) {
         return axios
           .get(api.BASE_URL + 'recipes.json?orderBy="order"&limitToFirst=6')
           .then(res => {
@@ -40,11 +40,11 @@ const createStore = () => {
             for (const key in res.data) {
               recipesArray.unshift({ ...res.data[key], id: key });
             }
-            vuexContext.commit("setRecipes", recipesArray);
+            commit("setRecipes", recipesArray);
           })
-          .catch(e => context.error(e));
+          .catch(e => console.log(e));
       },
-      addRecipe(vuexContext, recipe) {
+      addRecipe({ commit }, recipe) {
         const createdRecipe = {
           ...recipe
         };
@@ -54,13 +54,13 @@ const createStore = () => {
           })
           .then(result => {
             createdRecipe.id = result.data.name;
-            vuexContext.commit("addRecipe", {
+            commit("addRecipe", {
               ...createdRecipe
             });
           })
           .catch(e => console.log(e));
       },
-      deleteRecipe(vuexContext, deletedRecipe) {
+      deleteRecipe({ commit }, deletedRecipe) {
         return axios
           .delete(
             api.BASE_URL + "recipes/" + deletedRecipe.id + ".json",
@@ -68,24 +68,40 @@ const createStore = () => {
           )
           .then(result => {
             deletedRecipe.id = result.config.id;
-            vuexContext.commit("deleteRecipe", deletedRecipe);
+            commit("deleteRecipe", deletedRecipe);
           })
           .catch(e => console.log(e));
       },
-      editRecipe(vuexContext, editedRecipe) {
+      editRecipe({ commit }, editedRecipe) {
         return axios
           .put(
             api.BASE_URL + "recipes/" + editedRecipe.id + ".json",
             editedRecipe
           )
           .then(res => {
-            vuexContext.commit("editRecipe", editedRecipe);
+            commit("editRecipe", editedRecipe);
           })
           .catch(e => console.log(e));
       },
 
-      setRecipes(vuexContext, recipes) {
-        vuexContext.commit("setRecipes", recipes);
+      setRecipes({ commit }, recipes) {
+        commit("setRecipes", recipes);
+      },
+      searchRecipes({ commit }, text) {
+        const recipesArray = [];
+        for (let i = 0; i < 10; i++) {
+          axios
+            .get(
+              api.BASE_URL +
+                `recipes.json?orderBy="ingredients/${i}/ingredient"&equalTo="${text}"`
+            )
+            .then(res => {
+              for (const key in res.data) {
+                recipesArray.unshift({ ...res.data[key], id: key });
+              }
+            });
+        }
+        commit("setRecipes", recipesArray);
       }
     },
     getters: {

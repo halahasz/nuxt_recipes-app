@@ -7,7 +7,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import RecipeForm from "@/components/UI/RecipeForm";
 export default {
   components: {
