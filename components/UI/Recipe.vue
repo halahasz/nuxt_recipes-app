@@ -182,7 +182,7 @@ export default {
 <style lang="scss">
 .recipe-container {
   position: relative;
-  width: 33%;
+  width: 33.333%;
   padding: 0 15px;
   @media (max-width: 1300px) {
     width: 50%;

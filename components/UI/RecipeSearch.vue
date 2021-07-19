@@ -1,11 +1,18 @@
 <template>
   <div>
-    <form class="recipes-form" @submit.prevent="onSubmit">
-      <input
-        type="text"
-        v-model.trim="text"
-        placeholder="Search ingredient ..."
-      />
+    <form class="search-form" @submit.prevent="onSubmit">
+      <div class="form__group">
+        <input
+          v-model.trim="text"
+          type="text"
+          class="form__field"
+          placeholder=" "
+          name="text"
+          required
+        />
+        <label for="text" class="form__label">Search ingredient ...</label>
+      </div>
+
       <button color="#fff" class="btn-add" fab @click.prevent="onSubmit">
         <svg
           id="Search"
@@ -25,10 +32,6 @@
         </svg>
       </button>
     </form>
-    <p v-if="text" style="text-align: center">
-      Search results for:
-      <b>{{ text }}</b>
-    </p>
   </div>
 </template>
 
@@ -50,39 +53,110 @@ export default {
 </script>
 
 <style scoped lang="scss">
-button {
-  margin: 0 auto 15px;
-  display: block;
+@import "@/assets/styles/_variables";
+@import "@/assets/styles/_mixins";
+
+.search-form {
+  width: 250px;
+  margin: 10px auto;
+  position: relative;
+  left: -35px;
+  .btn-add {
+    margin: 0 auto 15px;
+    display: block;
+    right: -70px;
+  }
+  /* input {
+    border: 1px solid rgb(179, 218, 176);
+    padding: 10px;
+    border-radius: 5px;
+  }
+  input:focus,
+  input:active {
+    outline: none;
+    box-shadow: 0 5px 15px -7px rgb(184, 224, 181);
+  }
+  input[type="submit"] {
+    background: rgb(179, 218, 176);
+    color: white;
+    cursor: pointer;
+    margin-left: 10px;
+    margin-top: 1rem;
+    transition: all 0.2s ease-in-out;
+  }
+  input[type="submit"]:hover {
+    background: transparent;
+    border: 1px solid rgb(149, 194, 147);
+    color: rgb(69, 78, 119);
+    box-shadow: 0 5px 15px -7px rgb(184, 224, 181);
+  } */
 }
-form {
-  padding-top: 1rem;
-  @media (min-width: 800px) {
-    width: 60%;
-    margin-left: 20%;
+.form__field {
+  font-family: inherit;
+  width: 100%;
+  border: 0;
+  height: 30px;
+  border-bottom: 1px solid $grey;
+  outline: 0;
+  font-size: 1.4rem;
+  padding: 7px 0 7px 5px;
+  background: transparent;
+  transition: border-color 0.2s;
+  &:focus {
+    background-color: transparent;
+    border-bottom: 1px solid $primary;
+  }
+  &:focus ~ .form__label {
+    left: 5px;
+  }
+  &:active {
+    background-color: transparent;
+    border-bottom: 2px solid $primary;
+  }
+
+  &::placeholder {
+    color: transparent;
+  }
+
+  &:placeholder-shown ~ .form__label {
+    font-size: 1.3rem;
+    cursor: text;
+    top: 25px;
+    left: 5px;
+    @include mQuery(desktop) {
+      font-size: 1.4rem;
+      top: 15px;
+    }
   }
 }
-input {
-  border: 1px solid rgb(179, 218, 176);
-  padding: 10px;
-  border-radius: 5px;
+.form__label {
+  position: absolute;
+  top: 0;
+  left: 5px;
+  display: block;
+  transition: 0.2s;
+  font-size: 1rem;
+  transition: all 0.3s ease-in-out;
+  color: $grey;
+  pointer-events: none;
 }
-input:focus,
-input:active {
-  outline: none;
-  box-shadow: 0 5px 15px -7px rgb(184, 224, 181);
+.form__field:focus {
+  ~ .form__label {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 1rem;
+    color: $primary;
+  }
+  padding-bottom: 6px;
 }
-input[type="submit"] {
-  background: rgb(179, 218, 176);
-  color: white;
-  cursor: pointer;
-  margin-left: 10px;
-  margin-top: 1rem;
-  transition: all 0.2s ease-in-out;
-}
-input[type="submit"]:hover {
-  background: transparent;
-  border: 1px solid rgb(149, 194, 147);
-  color: rgb(69, 78, 119);
-  box-shadow: 0 5px 15px -7px rgb(184, 224, 181);
+/* reset input */
+.form__field {
+  &:required,
+  &:invalid {
+    box-shadow: none;
+    background-color: transparent;
+  }
 }
 </style>

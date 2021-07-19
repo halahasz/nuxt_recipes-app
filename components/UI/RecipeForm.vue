@@ -346,10 +346,24 @@ export default {
   width: 56px;
   height: 56px;
   border-radius: 30px;
+  transition: all 0.3s ease-in-out;
   box-shadow: $box-shadow;
+  &:hover {
+    box-shadow: $box-shadow-light;
+    svg {
+      path,
+      circle {
+        fill: #f60;
+      }
+    }
+  }
   svg {
-    width: 30px;
+    width: 27px;
     height: 30px;
+    path,
+    circle {
+      transition: all 0.3s ease-in-out;
+    }
   }
 }
 .form__group {
