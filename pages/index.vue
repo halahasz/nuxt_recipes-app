@@ -27,9 +27,7 @@ export default {
   },
   methods: {
     searchText(text) {
-      if (text.length > 2) {
-        this.$store.dispatch("searchRecipes", text.toLowerCase());
-      }
+      this.$store.dispatch("searchRecipes", text.toLowerCase());
     }
   }
 };

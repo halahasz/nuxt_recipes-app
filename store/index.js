@@ -88,20 +88,33 @@ const createStore = () => {
         commit("setRecipes", recipes);
       },
       searchRecipes({ commit }, text) {
-        const recipesArray = [];
-        for (let i = 0; i < 10; i++) {
-          axios
-            .get(
-              api.BASE_URL +
-                `recipes.json?orderBy="ingredients/${i}/ingredient"&equalTo="${text}"`
-            )
+        if (text.length) {
+          const recipesArray = [];
+          for (let i = 0; i < 10; i++) {
+            axios
+              .get(
+                api.BASE_URL +
+                  `recipes.json?orderBy="ingredients/${i}/ingredient"&equalTo="${text}"`
+              )
+              .then(res => {
+                for (const key in res.data) {
+                  recipesArray.unshift({ ...res.data[key], id: key });
+                }
+              });
+          }
+          commit("setRecipes", recipesArray);
+        } else {
+          return axios
+            .get(api.BASE_URL + 'recipes.json?orderBy="order"&limitToFirst=6')
             .then(res => {
+              const recipesArray = [];
               for (const key in res.data) {
                 recipesArray.unshift({ ...res.data[key], id: key });
               }
-            });
+              commit("setRecipes", recipesArray);
+            })
+            .catch(e => console.log(e));
         }
-        commit("setRecipes", recipesArray);
       }
     },
     getters: {

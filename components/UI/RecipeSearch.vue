@@ -1,7 +1,11 @@
 <template>
   <div>
     <form class="recipes-form" @submit.prevent="onSubmit">
-      <input type="text" v-model.trim="text" placeholder="Search ..." />
+      <input
+        type="text"
+        v-model.trim="text"
+        placeholder="Search ingredient ..."
+      />
       <button color="#fff" class="btn-add" fab @click.prevent="onSubmit">
         <svg
           id="Search"
@@ -40,7 +44,6 @@ export default {
   methods: {
     onSubmit() {
       this.$emit("search-text", this.text.toLowerCase());
-      document.querySelector(".recipes-form").reset();
     }
   }
 };
