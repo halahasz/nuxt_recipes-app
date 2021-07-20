@@ -1,5 +1,5 @@
 // Bootstrap Media Queries
-$max-container-width: 1600px;
+$max-container-width: 1200px;
 $sm-width: 480px;
 $md-width: 1024px;
 $lg-width: 1200px;
@@ -22,15 +22,16 @@ $width-stack: (
 
 //Colors
 $primary: #fa6a18;
-$primary-dark: hsl(22, 96%, 50%);
+$accent: rgba(10, 121, 206, 0.9);
+$primary-dark: hsl(22, 96%, 70%);
 $grey: rgba(0, 0, 0, 0.6);
 $black: #000000;
 $red: rgb(223, 70, 36);
-$red-dark: hsl(11, 75%, 45%);
+$red-dark: hsl(11, 75%, 40%);
 $white: #ffffff;
 $grey-bg: #f9f5ee;
 $recipe-bg: #fdfaf4;
 
-$box-shadow: 0px 3px 15px -1px rgba(68, 32, 8, 0.2);
-$box-shadow-light: 0px 0px 10px 0px rgba(0, 0, 0, 0.05),
-  0px 5px 18px 0px rgba(0, 0, 0, 0.12);
+$box-shadow: 0px 5px 15px -1px rgba(64, 102, 158, 0.2);
+$box-shadow-light: 0px 4px 15px 0px rgba(31, 13, 116, 0.25);
+$transition: all 0.2s cubic-bezier(0, 0, 0.58, 1);

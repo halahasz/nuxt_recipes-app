@@ -2,7 +2,12 @@
   <form class="recipe-form" @submit.prevent="onSave">
     <div class="add-recipe-container">
       <img class="recipe-thumbnail" :src="editedRecipe.photo" />
-      <button type="button" class="btn-add" @click="onPickFile">
+      <button
+        :class="{ right: this.editedRecipe.photo }"
+        type="button"
+        class="btn-add"
+        @click="onPickFile"
+      >
         <svg
           version="1.1"
           id="Capa_1"
@@ -78,7 +83,7 @@
         @change="onFilePicked"
       />
     </div>
-    <Input label="Title" v-model="editedRecipe.title" />
+    <Input label="Title" bold v-model="editedRecipe.title" />
     <Input label="Author" v-model="editedRecipe.author" />
     <Input label="Link" v-model="editedRecipe.link" />
 
@@ -107,7 +112,7 @@
         </button>
         <Input
           class="form__group--amount"
-          :label="'Amount ' + (index + 1)"
+          label="Amount"
           v-model.trim="ingredient.amount"
         />
       </div>
@@ -222,25 +227,30 @@ export default {
     },
     onFilePicked(e) {
       const files = event.target.files;
-      let fileName = files[0].name;
-      if (fileName.lastIndexOf(".") <= 0) {
-        return alert("Please add a valid file!");
-      }
-      const fileReader = new FileReader();
-      fileReader.addEventListener("load", () => {
-        this.editedRecipe.photo = fileReader.result;
-      });
-      fileReader.readAsDataURL(files[0]);
-
-      let file = e.target.files[0];
-      var storageRef = fb.storage().ref("edit-recipe/" + file.name);
-      let uploadTask = storageRef.put(file);
-
-      uploadTask.on("state_changed", function(snapshot) {
-        uploadTask.snapshot.ref.getDownloadURL().then(function(getDownloadURL) {
-          this.editedRecipe.photo = getDownloadURL;
+      if (files[0]) {
+        let fileName = files[0].name;
+        if (fileName.lastIndexOf(".") <= 0) {
+          return alert("Please add a valid file!");
+        }
+        const fileReader = new FileReader();
+        fileReader.addEventListener("load", () => {
+          this.editedRecipe.photo = fileReader.result;
         });
-      });
+        fileReader.readAsDataURL(files[0]);
+
+        let file = e.target.files[0];
+
+        var storageRef = fb.storage().ref("edit-recipe/" + file.name);
+        let uploadTask = storageRef.put(file);
+
+        uploadTask.on("state_changed", function(snapshot) {
+          uploadTask.snapshot.ref
+            .getDownloadURL()
+            .then(function(getDownloadURL) {
+              this.editedRecipe.photo = getDownloadURL;
+            });
+        });
+      }
     }
   }
 };
@@ -276,14 +286,17 @@ export default {
 .btn-add {
   position: absolute;
   content: "";
-  top: 0;
+  top: -4px;
   background: #fff;
   right: calc(50% - 28px);
   width: 56px;
   height: 56px;
   border-radius: 30px;
-  transition: all 0.3s ease-in-out;
+  transition: $transition;
   box-shadow: $box-shadow;
+  &.right {
+    right: 40%;
+  }
   &:hover {
     box-shadow: $box-shadow-light;
     svg {
@@ -296,9 +309,10 @@ export default {
   svg {
     width: 27px;
     height: 30px;
+    transition: $transition;
     path,
     circle {
-      transition: all 0.3s ease-in-out;
+      transition: $transition;
     }
   }
 }
@@ -378,6 +392,7 @@ export default {
 .recipe-textarea {
   background-color: transparent;
   resize: vertical;
+  color: $accent;
   margin-top: 10px;
   font-weight: 600;
   font-size: 15px;

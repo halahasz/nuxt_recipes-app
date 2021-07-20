@@ -5,10 +5,13 @@
       :value="value"
       :type="sort"
       class="form__field"
+      :class="{ bold: bold }"
       :placeholder="label"
       :name="label"
     />
-    <label :for="label" class="form__label">{{ label }}</label>
+    <label :class="{ bold: bold }" :for="label" class="form__label">{{
+      label
+    }}</label>
   </div>
 </template>
 
@@ -25,6 +28,10 @@ export default {
     },
     type: {
       type: String,
+      required: false
+    },
+    bold: {
+      type: Boolean,
       required: false
     }
   },
@@ -56,6 +63,10 @@ export default {
   padding: 7px 0 7px 5px;
   background: transparent;
   transition: all 0.2s;
+  color: $accent;
+  &.bold {
+    font-weight: 700;
+  }
   &:focus {
     background-color: transparent;
     border-bottom: 1px solid $primary;
@@ -93,6 +104,9 @@ export default {
   transition: all 0.3s ease-in-out;
   color: $grey;
   pointer-events: none;
+  &.bold {
+    font-weight: 700;
+  }
 }
 
 .form__field:focus {

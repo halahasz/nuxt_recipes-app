@@ -41,7 +41,7 @@ export default {
 
 <style scoped>
 .recipes-list {
-  margin-top: 40px;
+  margin-top: 20px;
   display: flex;
   flex-wrap: wrap;
 }

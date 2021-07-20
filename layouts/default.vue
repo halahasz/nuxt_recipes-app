@@ -1,15 +1,16 @@
 <template>
-  <div class="container-base">
+  <div class="container-bg">
     <Header />
-
-    <!-- Menu Mobile -->
-    <!-- <transition name="slide-fade">
+    <div class="container-base">
+      <!-- Menu Mobile -->
+      <!-- <transition name="slide-fade">
       <MenuMobile v-if="showMenuMobile === true" />
     </transition> -->
-    <div class="wrapper-base">
-      <nuxt />
+      <div class="wrapper-base">
+        <nuxt />
+      </div>
+      <!-- <Footer /> -->
     </div>
-    <!-- <Footer /> -->
   </div>
 </template>
 

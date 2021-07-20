@@ -1,19 +1,15 @@
 <template>
   <div class="recipes-page">
-    <RecipeSearch @search-text="searchText" />
-    <h1>Last recipe</h1>
     <RecipeList :recipes="loadedRecipes" />
   </div>
 </template>
 
 <script>
 import RecipeList from "@/components/UI/RecipeList";
-import RecipeSearch from "@/components/UI/RecipeSearch";
 
 export default {
   components: {
-    RecipeList,
-    RecipeSearch
+    RecipeList
   },
   computed: {
     loadedRecipes: {
@@ -24,11 +20,11 @@ export default {
         this.$store.commit("setRecipes", value);
       }
     }
-  },
-  methods: {
-    searchText(text) {
-      this.$store.dispatch("searchRecipes", text.toLowerCase());
-    }
   }
+  // methods: {
+  //   searchText(text) {
+  //     this.$store.dispatch("searchRecipes", text.toLowerCase());
+  //   }
+  // }
 };
 </script>
