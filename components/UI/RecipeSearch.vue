@@ -62,7 +62,6 @@ export default {
     margin: 0 auto 15px;
     display: block;
     right: -70px;
-    top: -4px;
   }
 }
 </style>

@@ -27,6 +27,7 @@ select {
   margin: 40px auto 0;
   background-color: $grey-bg;
   min-height: calc(100vh - 40px);
+  overflow: hidden;
 }
 
 .container-base {

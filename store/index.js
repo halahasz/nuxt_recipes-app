@@ -5,11 +5,15 @@ import api from "@/api/baseConfig";
 const createStore = () => {
   return new Vuex.Store({
     state: {
-      loadedRecipes: []
+      loadedRecipes: [],
+      recipesNum: 6
     },
     mutations: {
       setRecipes(state, recipes) {
         state.loadedRecipes = recipes;
+      },
+      setRecipesNum(state, num) {
+        state.recipesNum = num;
       },
       addRecipe(state, recipe) {
         state.loadedRecipes.unshift(recipe);
@@ -32,15 +36,36 @@ const createStore = () => {
       }
     },
     actions: {
-      nuxtServerInit({ commit }) {
+      nuxtServerInit({ commit, state }) {
         return axios
-          .get(api.BASE_URL + 'recipes.json?orderBy="order"&limitToFirst=6')
+          .get(
+            api.BASE_URL +
+              `recipes.json?orderBy="order"&limitToFirst=${state.recipesNum}`
+          )
           .then(res => {
             const recipesArray = [];
             for (const key in res.data) {
               recipesArray.unshift({ ...res.data[key], id: key });
             }
             commit("setRecipes", recipesArray);
+          })
+          .catch(e => console.log(e));
+      },
+      loadRecipes({ commit, state }, num) {
+        const recipesNum = state.recipesNum + num;
+        return axios
+          .get(
+            api.BASE_URL +
+              `recipes.json?orderBy="order"&limitToFirst=${recipesNum}`
+          )
+          .then(res => {
+            const recipesArray = [];
+            for (const key in res.data) {
+              recipesArray.unshift({ ...res.data[key], id: key });
+            }
+            const sorted = recipesArray.sort((a, b) => a.order - b.order);
+            commit("setRecipesNum", recipesNum);
+            commit("setRecipes", sorted);
           })
           .catch(e => console.log(e));
       },

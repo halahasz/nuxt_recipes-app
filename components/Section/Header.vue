@@ -145,7 +145,7 @@ export default {
       this.$store.dispatch("searchRecipes", text.toLowerCase());
     },
     handleScroll() {
-      window.scrollY > 100 ? (this.scrolled = true) : (this.scrolled = false);
+      window.scrollY > 50 ? (this.scrolled = true) : (this.scrolled = false);
     }
   },
   beforeMount() {
@@ -176,11 +176,18 @@ export default {
   transition: $transition;
   &.scrolled {
     height: 60px;
+    .header-title {
+      font-size: 25px;
+      &:before {
+        content: "";
+        width: 100px;
+      }
+    }
     .btn-add {
       width: 40px;
       height: 40px;
       right: -60px;
-      top: 6px;
+      top: 4px;
       svg {
         width: 20px;
         height: 20px;
@@ -207,6 +214,7 @@ export default {
   }
   &-title {
     font-size: 30px;
+    transition: $transition;
     color: $white;
     text-shadow: 0px 0px 7px rgba($accent, 0.9);
     padding-left: 50px;
@@ -215,6 +223,7 @@ export default {
     padding-bottom: 15px;
     &:before {
       position: absolute;
+      transition: $transition;
       content: "";
       width: 170px;
       height: 1px;

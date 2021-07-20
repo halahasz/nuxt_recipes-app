@@ -3,7 +3,10 @@
     <nuxt-link class="recipe-card" :to="recipeLink">
       <article
         class="recipe-preview"
-        :style="{ 'background-image': 'url(' + photo + ')' }"
+        :style="{
+          'background-image': `url(${photo ||
+            require(`@/assets/img/food-placeholder-${title.length % 5}.jpg`)})`
+        }"
       >
         <h2>{{ title }}</h2>
       </article>

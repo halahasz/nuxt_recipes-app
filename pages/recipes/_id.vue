@@ -2,7 +2,11 @@
   <div class="recipe-page">
     <div
       class="recipe-photo"
-      :style="{ 'background-image': 'url(' + loadedRecipe.photo + ')' }"
+      :style="{
+        'background-image': `url(${loadedRecipe.photo ||
+          require(`@/assets/img/food-placeholder-${loadedRecipe.title.length %
+            5}.jpg`)})`
+      }"
     >
       <div class="recipe-photo__content">
         <svg

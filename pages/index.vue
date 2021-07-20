@@ -1,6 +1,7 @@
 <template>
   <div class="recipes-page">
     <RecipeList :recipes="loadedRecipes" />
+    <button @click="loadRecipes(3)">Load</button>
   </div>
 </template>
 
@@ -20,11 +21,11 @@ export default {
         this.$store.commit("setRecipes", value);
       }
     }
+  },
+  methods: {
+    loadRecipes(num) {
+      this.$store.dispatch("loadRecipes", num);
+    }
   }
-  // methods: {
-  //   searchText(text) {
-  //     this.$store.dispatch("searchRecipes", text.toLowerCase());
-  //   }
-  // }
 };
 </script>
