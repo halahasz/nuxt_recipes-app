@@ -78,58 +78,13 @@
         @change="onFilePicked"
       />
     </div>
-    <div class="form__group title">
-      <input
-        v-model="editedRecipe.title"
-        type="text"
-        class="form__field"
-        placeholder="Title"
-        name="title"
-        required
-      />
-      <label for="title" class="form__label">Title</label>
-    </div>
-    <div class="form__group field">
-      <input
-        v-model="editedRecipe.author"
-        type="text"
-        class="form__field"
-        placeholder="Author"
-        name="author"
-      />
-      <label for="author" class="form__label">Author</label>
-    </div>
-    <div class="form__group field">
-      <input
-        v-model="editedRecipe.link"
-        type="text"
-        class="form__field"
-        placeholder="Link"
-        name="link"
-      />
-      <label for="link" class="form__label">Link</label>
-    </div>
+    <Input label="Title" v-model="editedRecipe.title" />
+    <Input label="Author" v-model="editedRecipe.author" />
+    <Input label="Link" v-model="editedRecipe.link" />
+
     <div class="form__group-container">
-      <div class="form__group field">
-        <input
-          v-model="editedRecipe.time"
-          type="text"
-          class="form__field"
-          placeholder="Time"
-          name="time"
-        />
-        <label for="time" class="form__label">Time</label>
-      </div>
-      <div class="form__group field">
-        <input
-          v-model="editedRecipe.portions"
-          type="number"
-          class="form__field"
-          placeholder="Portions"
-          name="portions"
-        />
-        <label for="portions" class="form__label">Portions</label>
-      </div>
+      <Input label="Time" v-model="editedRecipe.time" />
+      <Input label="Portions" type="number" v-model="editedRecipe.portions" />
     </div>
     <p class="ingredients-label">INGREDIENTS (1-10)</p>
     <template v-if="editedRecipe.ingredients">
@@ -138,19 +93,10 @@
         v-for="(ingredient, index) in editedRecipe.ingredients"
         :key="index"
       >
-        <div class="form__group field">
-          <input
-            v-model.trim="ingredient.ingredient"
-            type="text"
-            class="form__field"
-            placeholder="Ingredient"
-            name="ingredient"
-          />
-          <label for="ingredient" class="form__label">{{
-            "Ingredient " + (index + 1)
-          }}</label>
-        </div>
-
+        <Input
+          :label="'Ingredient ' + (index + 1)"
+          v-model.trim="ingredient.ingredient"
+        />
         <button
           type="button"
           v-if="editedRecipe.ingredients.length > 1"
@@ -159,19 +105,11 @@
         >
           -
         </button>
-
-        <div class="form__group form__group--amount field">
-          <input
-            v-model="ingredient.amount"
-            type="text"
-            class="form__field"
-            placeholder="Amount"
-            name="Amount"
-          />
-          <label for="ingredient" class="form__label">{{
-            "Amount " + (index + 1)
-          }}</label>
-        </div>
+        <Input
+          class="form__group--amount"
+          :label="'Amount ' + (index + 1)"
+          v-model.trim="ingredient.amount"
+        />
       </div>
     </template>
     <button
@@ -215,9 +153,13 @@
 
 <script>
 import { fb, db } from "@/store/firebase";
+import Input from "@/components/UI/Input";
 
 export default {
   name: "AdminPostForm",
+  components: {
+    Input
+  },
   data() {
     return {
       editedRecipe: this.recipe
@@ -275,7 +217,9 @@ export default {
       if (this.editedRecipe.ingredients.length < 10) {
         const newIngr = {
           id: this.editedRecipe.ingredients.length,
-          ingredient: this.editedRecipe.ingredient.toLowerCase(),
+          ingredient: this.editedRecipe.ingredient
+            ? this.editedRecipe.ingredient.toLowerCase()
+            : null,
           amount: this.editedRecipe.amount
         };
         this.editedRecipe.ingredients.push(newIngr);
@@ -387,81 +331,13 @@ export default {
     }
   }
 }
-.form__field {
-  font-family: inherit;
-  width: 100%;
-  border: 0;
-  height: 30px;
-  border-bottom: 1px solid $grey;
-  outline: 0;
-  font-size: 1.4rem;
-  padding: 7px 0 7px 5px;
-  background: transparent;
-  transition: border-color 0.2s;
-  &:focus {
-    background-color: transparent;
-    border-bottom: 1px solid $primary;
-  }
-  &:focus ~ .form__label {
-    left: 5px;
-  }
-  &:active {
-    background-color: transparent;
-    border-bottom: 2px solid $primary;
-  }
-
-  &::placeholder {
-    color: transparent;
-  }
-
-  &:placeholder-shown ~ .form__label {
-    font-size: 1.3rem;
-    cursor: text;
-    top: 25px;
-    left: 5px;
-    @include mQuery(desktop) {
-      font-size: 1.4rem;
-      top: 15px;
-    }
-  }
-}
-.form__label {
-  position: absolute;
-  top: 0;
-  left: 5px;
-  display: block;
-  transition: 0.2s;
-  font-size: 1rem;
-  transition: all 0.3s ease-in-out;
-  color: $grey;
-  pointer-events: none;
-}
-
-.form__field:focus {
-  ~ .form__label {
-    position: absolute;
-    top: 0;
-    display: block;
-    transition: 0.2s;
-    font-size: 1rem;
-    color: $primary;
-  }
-  padding-bottom: 6px;
-}
-/* reset input */
-.form__field {
-  &:required,
-  &:invalid {
-    box-shadow: none;
-    background-color: transparent;
-  }
-}
 .ingredients-label {
   margin-bottom: 20px;
   margin-top: 40px;
   font-weight: bold;
   font-size: 1.6rem;
 }
+
 .recipe-ingredient-container {
   display: flex;
   justify-content: space-between;

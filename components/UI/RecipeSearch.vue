@@ -59,7 +59,7 @@ export default {
 .search-form {
   width: 250px;
   margin: 10px auto;
-  position: relative;
+  position: sticky;
   left: -35px;
   .btn-add {
     margin: 0 auto 15px;
