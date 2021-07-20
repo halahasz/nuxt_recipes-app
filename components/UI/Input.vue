@@ -55,7 +55,7 @@ export default {
   font-size: 1.4rem;
   padding: 7px 0 7px 5px;
   background: transparent;
-  transition: border-color 0.2s;
+  transition: all 0.2s;
   &:focus {
     background-color: transparent;
     border-bottom: 1px solid $primary;

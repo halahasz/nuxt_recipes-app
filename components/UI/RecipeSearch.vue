@@ -1,18 +1,7 @@
 <template>
-  <div>
+  <div class="search-form-container">
     <form class="search-form" @submit.prevent="onSubmit">
-      <div class="form__group">
-        <input
-          v-model.trim="text"
-          type="text"
-          class="form__field"
-          placeholder=" "
-          name="text"
-          required
-        />
-        <label for="text" class="form__label">Search ingredient ...</label>
-      </div>
-
+      <Input label="Search ingredient ..." v-model.trim="text" />
       <button color="#fff" class="btn-add" fab @click.prevent="onSubmit">
         <svg
           id="Search"
@@ -36,9 +25,14 @@
 </template>
 
 <script>
+import Input from "@/components/UI/Input";
+
 export default {
   name: "RecipeSearch",
   emits: ["search-text"],
+  components: {
+    Input
+  },
   data() {
     return {
       text: ""
@@ -56,40 +50,24 @@ export default {
 @import "@/assets/styles/_variables";
 @import "@/assets/styles/_mixins";
 
+.search-form-container {
+  position: sticky;
+  top: 70px;
+  z-index: 100;
+}
 .search-form {
   width: 250px;
-  margin: 10px auto;
-  position: sticky;
+  margin: 0 auto;
+  position: relative;
   left: -35px;
+  &:host {
+    display: block;
+  }
   .btn-add {
     margin: 0 auto 15px;
     display: block;
     right: -70px;
   }
-  /* input {
-    border: 1px solid rgb(179, 218, 176);
-    padding: 10px;
-    border-radius: 5px;
-  }
-  input:focus,
-  input:active {
-    outline: none;
-    box-shadow: 0 5px 15px -7px rgb(184, 224, 181);
-  }
-  input[type="submit"] {
-    background: rgb(179, 218, 176);
-    color: white;
-    cursor: pointer;
-    margin-left: 10px;
-    margin-top: 1rem;
-    transition: all 0.2s ease-in-out;
-  }
-  input[type="submit"]:hover {
-    background: transparent;
-    border: 1px solid rgb(149, 194, 147);
-    color: rgb(69, 78, 119);
-    box-shadow: 0 5px 15px -7px rgb(184, 224, 181);
-  } */
 }
 .form__field {
   font-family: inherit;

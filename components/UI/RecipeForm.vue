@@ -86,7 +86,7 @@
       <Input label="Time" v-model="editedRecipe.time" />
       <Input label="Portions" type="number" v-model="editedRecipe.portions" />
     </div>
-    <p class="ingredients-label">INGREDIENTS (1-10)</p>
+    <p class="ingredients-label">INGREDIENTS <span>(1-10)</span></p>
     <template v-if="editedRecipe.ingredients">
       <div
         class="recipe-ingredient-container"
@@ -115,7 +115,7 @@
     <button
       v-if="editedRecipe.ingredients.length < 10"
       type="button"
-      class="btn-ingr"
+      class="btn-ingr btn-custom"
       @click="addIngr"
       rounded
       color="#fff"
@@ -132,19 +132,11 @@
       placeholder="Type your recipe..."
     ></textarea>
     <div class="add-recipe-container">
-      <button class="btn-save btn-custom ma-2" type="submit">Save</button>
-      <button
-        type="button"
-        class="btn-remove btn-custom ma-2"
-        @click="onRemove"
-      >
+      <button class="btn-save btn-custom" type="submit">Save</button>
+      <button type="button" class="btn-remove btn-custom" @click="onRemove">
         Remove
       </button>
-      <button
-        type="button"
-        class="btn-cancel btn-custom ma-2"
-        @click="onCancel"
-      >
+      <button type="button" class="btn-cancel btn-custom" @click="onCancel">
         Cancel
       </button>
     </div>
@@ -211,7 +203,7 @@ export default {
       this.$emit("del-ingr", rmIngr);
     },
     onCancel() {
-      this.$router.push("/edit-recipe/" + this.$route.params.editId);
+      this.$router.push("/recipes/" + this.$route.params.editId);
     },
     addIngr() {
       if (this.editedRecipe.ingredients.length < 10) {
@@ -260,7 +252,7 @@ export default {
 
 .recipe-form {
   width: 60%;
-  margin: 0px 30px 120px;
+  padding: 0px 30px 120px;
   margin-left: 20%;
   @media (max-width: 1000px) {
     width: calc(100% - 60px);
@@ -336,6 +328,9 @@ export default {
   margin-top: 40px;
   font-weight: bold;
   font-size: 1.6rem;
+  span {
+    font-weight: normal;
+  }
 }
 
 .recipe-ingredient-container {
@@ -360,9 +355,14 @@ export default {
   z-index: 10;
   border-radius: 10px;
   color: $primary;
-  line-height: 20px;
   box-shadow: $box-shadow;
+  line-height: 18px;
+  background-color: $white;
   top: 8px;
+  transition: box-shadow 0.3s ease-in-out;
+  &:hover {
+    box-shadow: $box-shadow-light;
+  }
 }
 .btn-ingr {
   text-transform: none;
@@ -376,6 +376,8 @@ export default {
   letter-spacing: 1px;
 }
 .recipe-textarea {
+  background-color: transparent;
+  resize: vertical;
   margin-top: 10px;
   font-weight: 600;
   font-size: 15px;
@@ -406,7 +408,9 @@ export default {
 button.btn-custom {
   text-transform: none;
   cursor: pointer;
+  background-color: $white;
   box-shadow: $box-shadow;
+  transition: all 0.3s ease-in-out;
   color: $primary;
   padding: 0 16px;
   padding-bottom: 2px;
@@ -415,14 +419,23 @@ button.btn-custom {
   margin-top: 20px;
   letter-spacing: 1px;
   margin-right: 15px;
+  &:hover {
+    box-shadow: $box-shadow-light;
+  }
 }
 button.btn-remove {
   color: $white;
   background-color: $red;
+  &:hover {
+    background-color: $red-dark;
+  }
 }
 button.btn-save {
   color: $white;
   background-color: $primary;
+  &:hover {
+    background-color: $primary-dark;
+  }
 }
 button.btn-cancel {
   color: $grey;
