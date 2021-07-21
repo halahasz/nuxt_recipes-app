@@ -6,11 +6,15 @@ const createStore = () => {
   return new Vuex.Store({
     state: {
       loadedRecipes: [],
-      recipesNum: 6
+      recipesNum: 6,
+      allRecipesLoaded: false
     },
     mutations: {
       setRecipes(state, recipes) {
         state.loadedRecipes = recipes;
+      },
+      setAllRecipesLoaded(state, value) {
+        state.allRecipesLoaded = value;
       },
       setRecipesNum(state, num) {
         state.recipesNum = num;
@@ -59,6 +63,11 @@ const createStore = () => {
               `recipes.json?orderBy="order"&limitToFirst=${recipesNum}`
           )
           .then(res => {
+            const arr = Object.entries(res.data);
+            console.log(arr.length, state.loadedRecipes.length);
+            if (arr.length === state.loadedRecipes.length) {
+              commit("setAllRecipesLoaded", true);
+            }
             const recipesArray = [];
             for (const key in res.data) {
               recipesArray.unshift({ ...res.data[key], id: key });

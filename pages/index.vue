@@ -1,7 +1,9 @@
 <template>
   <div class="recipes-page">
     <RecipeList :recipes="loadedRecipes" />
-    <button @click="loadRecipes(3)">Load</button>
+    <button class="btn-load" v-if="!allRecipesLoaded" @click="loadRecipes(3)">
+      Load more recipes
+    </button>
   </div>
 </template>
 
@@ -20,6 +22,9 @@ export default {
       set(value) {
         this.$store.commit("setRecipes", value);
       }
+    },
+    allRecipesLoaded() {
+      return this.$store.state.allRecipesLoaded;
     }
   },
   methods: {

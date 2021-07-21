@@ -4,6 +4,7 @@
       <img class="recipe-thumbnail" :src="editedRecipe.photo" />
       <button
         :class="{ right: this.editedRecipe.photo }"
+        title="Pick file"
         type="button"
         class="btn-add"
         @click="onPickFile"
