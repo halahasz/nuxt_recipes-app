@@ -46,6 +46,11 @@ export default {
   /*
    ** Nuxt.js modules
    */
+
+  env: {
+    baseUrl: "https://recipes-6f5e0.firebaseio.com/",
+    fbAPIKey: "AIzaSyB7w290E1E2wWvkzqChlblUK68TBEbuvpU"
+  },
   // modules: ["@nuxtjs/axios", "@nuxtjs/proxy"],
   // proxy: {
   //   "/recipes.json": {

@@ -47,7 +47,7 @@ const createStore = () => {
       nuxtServerInit({ commit, state }) {
         return axios
           .get(
-            api.BASE_URL +
+            process.env.baseUrl +
               `recipes.json?orderBy="order"&limitToFirst=${state.recipesNum}`
           )
           .then(res => {
@@ -64,7 +64,7 @@ const createStore = () => {
         const recipesNum = state.recipesNum + num;
         return axios
           .get(
-            api.BASE_URL +
+            process.env.baseUrl +
               `recipes.json?orderBy="order"&limitToFirst=${recipesNum}`
           )
           .then(res => {
@@ -86,7 +86,7 @@ const createStore = () => {
       },
       loadLikedRecipes({ commit, state }, id) {
         return axios
-          .get(api.BASE_URL + `recipes.json?orderBy="id"&equalTo=${id}`)
+          .get(process.env.baseUrl + `recipes.json?orderBy="id"&equalTo=${id}`)
           .then(res => {
             const recipesArray = [];
             for (const key in res.data) {
@@ -102,7 +102,7 @@ const createStore = () => {
           ...recipe
         };
         return axios
-          .post(api.BASE_URL + "recipes.json", {
+          .post(process.env.baseUrl + "recipes.json", {
             ...createdRecipe
           })
           .then(result => {
@@ -116,7 +116,7 @@ const createStore = () => {
       deleteRecipe({ commit }, deletedRecipe) {
         return axios
           .delete(
-            api.BASE_URL + "recipes/" + deletedRecipe.id + ".json",
+            process.env.baseUrl + "recipes/" + deletedRecipe.id + ".json",
             deletedRecipe
           )
           .then(result => {
@@ -128,7 +128,7 @@ const createStore = () => {
       editRecipe({ commit }, editedRecipe) {
         return axios
           .put(
-            api.BASE_URL + "recipes/" + editedRecipe.id + ".json",
+            process.env.baseUrl + "recipes/" + editedRecipe.id + ".json",
             editedRecipe
           )
           .then(res => {
@@ -136,7 +136,6 @@ const createStore = () => {
           })
           .catch(e => console.log(e));
       },
-
       setRecipes({ commit }, recipes) {
         commit("setRecipes", recipes);
       },
@@ -144,9 +143,9 @@ const createStore = () => {
         if (text.length) {
           const recipesArray = [];
           for (let i = 0; i < 10; i++) {
-            axios
+            return axios
               .get(
-                api.BASE_URL +
+                process.env.baseUrl +
                   `recipes.json?orderBy="ingredients/${i}/ingredient"&equalTo="${text}"`
               )
               .then(res => {
@@ -158,7 +157,10 @@ const createStore = () => {
           commit("setRecipes", recipesArray);
         } else {
           return axios
-            .get(api.BASE_URL + 'recipes.json?orderBy="order"&limitToFirst=6')
+            .get(
+              process.env.baseUrl +
+                'recipes.json?orderBy="order"&limitToFirst=6'
+            )
             .then(res => {
               const recipesArray = [];
               for (const key in res.data) {
@@ -168,6 +170,24 @@ const createStore = () => {
             })
             .catch(e => console.log(e));
         }
+      },
+      signUp({ commit }, payload) {
+        return axios
+          .post(
+            `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.fbAPIKey}`,
+            payload
+          )
+          .then(res => console.log(res))
+          .catch(err => console.log(err));
+      },
+      signIn({ commit }, payload) {
+        return axios
+          .post(
+            `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.fbAPIKey}`,
+            payload
+          )
+          .then(res => console.log(res))
+          .catch(err => console.log(err));
       }
     },
     getters: {

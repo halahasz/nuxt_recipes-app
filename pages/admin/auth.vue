@@ -1,37 +1,54 @@
 <template>
   <div class="admin-auth-page">
     <div class="auth-container">
-      <form>
-        <!-- <AppControlInput type="email">E-Mail Address</AppControlInput>
-        <AppControlInput type="password">Password</AppControlInput>
-        <AppButton type="submit">{{ isLogin ? "Login" : "Sign Up" }}</AppButton>
-        <AppButton
+      <form @submit.prevent="onSubmit">
+        <Input type="email" v-model="email" label="E-Mail Address" />
+        <Input type="password" v-model="password" label="Password" />
+        <button type="submit">{{ isLogin ? "Login" : "Signup" }}</button>
+        <button
           type="button"
-          btn-style="inverted"
           style="margin-left: 10px"
           @click="isLogin = !isLogin"
-          >Switch to {{ isLogin ? "Signup" : "Login" }}</AppButton
-        >-->
+        >
+          Switch to {{ isLogin ? "Signup" : "Login" }}
+        </button>
       </form>
     </div>
   </div>
 </template>
 
 <script>
-// import AppControlInput from "@/components/UI/AppControlInput";
-// import AppButton from "@/components/UI/AppButton";
+import Input from "@/components/UI/Input";
 
 export default {
   name: "AdminAuthPage",
   layout: "admin",
-  // components: {
-  //   AppControlInput,
-  //   AppButton
-  // },
+  components: {
+    Input
+  },
   data() {
     return {
-      isLogin: true
+      email: "",
+      password: "",
+      isLogin: false
     };
+  },
+  methods: {
+    onSubmit() {
+      if (!this.isLogin) {
+        this.$store.dispatch("signUp", {
+          email: this.email,
+          password: this.password,
+          returnSecureToken: true
+        });
+      } else {
+        this.$store.dispatch("signIn", {
+          email: this.email,
+          password: this.password,
+          returnSecureToken: true
+        });
+      }
+    }
   }
 };
 </script>
