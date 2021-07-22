@@ -1,7 +1,7 @@
 <template>
   <div class="header" :class="{ scrolled: scrolled }">
     <div class="header-wrapper">
-      <h1 class="header-title">My recipes</h1>
+      <h1 class="header-title">{{ title }}</h1>
       <ul class="nav">
         <li class="nav-item">
           <nuxt-link :to="'/'" exact>
@@ -18,7 +18,7 @@
           </nuxt-link>
         </li>
         <li class="nav-item">
-          <nuxt-link :to="'/favourites'">
+          <nuxt-link :to="'/favourites-recipes'">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="26.211"
@@ -134,6 +134,7 @@ export default {
   components: {
     RecipeSearch
   },
+  props: ["title"],
   data() {
     return {
       scrolled: false
@@ -221,7 +222,7 @@ export default {
     font-size: 30px;
     transition: $transition;
     color: $white;
-    text-shadow: 0px 0px 7px rgba($accent, 0.9);
+    text-shadow: 0px 0px 4px rgba($accent, 1);
     padding-left: 50px;
     z-index: 2;
     position: relative;
