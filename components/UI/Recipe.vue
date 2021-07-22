@@ -182,7 +182,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .recipe-container {
   position: relative;
   width: 33.333%;

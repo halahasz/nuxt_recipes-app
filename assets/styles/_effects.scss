@@ -1,0 +1,83 @@
+@import "_variables";
+
+// .slide-fade-enter-active {
+//   transition-delay: 0.5s;
+//   transition: 0.2s;
+// }
+
+// .slide-fade-leave-active {
+//   transition: 0.3s;
+// }
+
+// .slide-fade-enter,
+// .slide-fade-leave-to {
+//   //opacity: 0;
+//   transform: translate3d(0, -100%, 0);
+// }
+
+// .fade-enter-active,
+// .fade-leave-active {
+//   transition-delay: 0.5s;
+//   transition: opacity 0.5s;
+// }
+
+// .fade-enter,
+// .fade-leave-to {
+//   opacity: 0;
+// }
+
+.fade-group-enter-active,
+.fade-group-leave-active {
+  transition-delay: 0.5s;
+  transition: opacity 0.5s;
+}
+
+.fade-group-enter,
+.fade-group-leave-to {
+  opacity: 0;
+}
+
+.fade-group-leave-active {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+}
+
+// .page-enter-active,
+// .page-leave-active {
+//   transition: opacity 0.5s;
+// }
+
+// .page-enter,
+// .page-leave-active {
+//   opacity: 0;
+// }
+
+// .slide-cookie-enter-active {
+//   transition-duration: 0.3s;
+//   transition-delay: 0.5s;
+//   transition-timing-function: ease-in;
+//   transition: opacity 0.5s;
+// }
+
+// .slide-cookie-leave-active {
+//   transition-duration: 0.3s;
+//   transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+//   opacity: 0;
+// }
+
+// .slide-cookie-enter-to,
+// .slide-cookie-leave-from {
+//   overflow: hidden;
+//   max-height: 800px;
+//   opacity: 1;
+// }
+
+// .slide-cookie-enter-from,
+// .slide-cookie-leave-to {
+//   overflow: hidden;
+//   max-height: 0;
+//   bottom: 3%;
+//   opacity: 0;
+// }

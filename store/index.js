@@ -7,11 +7,15 @@ const createStore = () => {
     state: {
       loadedRecipes: [],
       recipesNum: 6,
-      allRecipesLoaded: false
+      allRecipesLoaded: false,
+      loading: false
     },
     mutations: {
       setRecipes(state, recipes) {
         state.loadedRecipes = recipes;
+      },
+      setLoading(state, value) {
+        state.loading = value;
       },
       setAllRecipesLoaded(state, value) {
         state.allRecipesLoaded = value;
@@ -56,6 +60,7 @@ const createStore = () => {
           .catch(e => console.log(e));
       },
       loadRecipes({ commit, state }, num) {
+        commit("setLoading", true);
         const recipesNum = state.recipesNum + num;
         return axios
           .get(
@@ -75,6 +80,7 @@ const createStore = () => {
             const sorted = recipesArray.sort((a, b) => a.order - b.order);
             commit("setRecipesNum", recipesNum);
             commit("setRecipes", sorted);
+            commit("setLoading", false);
           })
           .catch(e => console.log(e));
       },

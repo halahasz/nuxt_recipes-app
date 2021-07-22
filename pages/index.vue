@@ -1,18 +1,28 @@
 <template>
   <div class="recipes-page">
     <RecipeList :recipes="loadedRecipes" />
-    <button class="btn-load" v-if="!allRecipesLoaded" @click="loadRecipes(3)">
-      Load more recipes
-    </button>
+    <transition-group tag="span" name="fade-group" mode="out-in">
+      <LoadingSpinner key="1" v-if="loading" />
+      <button
+        key="2"
+        class="btn-load"
+        v-if="!allRecipesLoaded && !loading"
+        @click="loadRecipes(3)"
+      >
+        Load more
+      </button>
+    </transition-group>
   </div>
 </template>
 
 <script>
 import RecipeList from "@/components/UI/RecipeList";
+import LoadingSpinner from "@/components/UI/LoadingSpinner";
 
 export default {
   components: {
-    RecipeList
+    RecipeList,
+    LoadingSpinner
   },
   computed: {
     loadedRecipes: {
@@ -25,6 +35,9 @@ export default {
     },
     allRecipesLoaded() {
       return this.$store.state.allRecipesLoaded;
+    },
+    loading() {
+      return this.$store.state.loading;
     }
   },
   methods: {
