@@ -142,6 +142,11 @@ export default {
   methods: {
     searchText(text) {
       this.$router.push("/");
+      if (text !== "") {
+        this.$store.commit("setAllRecipesLoaded", true);
+      } else {
+        this.$store.commit("setAllRecipesLoaded", false);
+      }
       this.$store.dispatch("searchRecipes", text.toLowerCase());
     },
     handleScroll() {
@@ -167,7 +172,7 @@ export default {
   justify-content: center;
   top: 0;
   align-items: center;
-  width: 100%;
+  width: 100vw;
   left: 0;
   right: 0;
   box-shadow: $box-shadow;

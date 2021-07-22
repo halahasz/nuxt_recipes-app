@@ -84,6 +84,19 @@ const createStore = () => {
           })
           .catch(e => console.log(e));
       },
+      loadLikedRecipes({ commit, state }, id) {
+        return axios
+          .get(api.BASE_URL + `recipes.json?orderBy="id"&equalTo=${id}`)
+          .then(res => {
+            const recipesArray = [];
+            for (const key in res.data) {
+              recipesArray.unshift({ ...res.data[key], id: key });
+            }
+            const sorted = recipesArray.sort((a, b) => a.order - b.order);
+            commit("setRecipes", sorted);
+          })
+          .catch(e => console.log(e));
+      },
       addRecipe({ commit }, recipe) {
         const createdRecipe = {
           ...recipe

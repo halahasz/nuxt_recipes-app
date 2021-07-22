@@ -1,5 +1,9 @@
 @import "_variables";
 
+html {
+  margin-left: calc(100vw - 100%);
+  background-color: $grey-bg;
+}
 html,
 body {
   font-family: "Open Sans", sans-serif;
@@ -25,7 +29,6 @@ select {
 
 .container-bg {
   margin: 40px auto 0;
-  background-color: $grey-bg;
   min-height: calc(100vh - 40px);
   overflow: hidden;
 }
@@ -38,5 +41,5 @@ select {
 }
 
 .wrapper-base {
-  padding-bottom: 50px;
+  padding-bottom: 80px;
 }

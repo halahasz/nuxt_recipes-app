@@ -182,7 +182,34 @@ export default {
   methods: {
     onSubmitted() {
       this.loadedRecipe.liked = !this.loadedRecipe.liked;
-      // this.$store.commit("editRecipe", this.loadedRecipe);
+
+      // Save liked recipes in cookies
+      if (this.loadedRecipe.liked) {
+        if (!this.$cookies.get("likedRecipes")) {
+          const arr = [];
+          arr.push(this.loadedRecipe.id);
+          this.$cookies.set("likedRecipes", arr, {
+            maxAge: 60 * 60 * 24 * 7
+          });
+        } else {
+          const arr = this.$cookies.get("likedRecipes");
+          arr.push(this.loadedRecipe.id);
+          this.$cookies.set("likedRecipes", arr, {
+            maxAge: 60 * 60 * 24 * 7
+          });
+        }
+      } else {
+        if (!this.$cookies.get("likedRecipes")) {
+          return;
+        } else {
+          const arr = this.$cookies.get("likedRecipes");
+          const filteredArr = arr.filter(el => el != this.loadedRecipe.id);
+          this.$cookies.set("likedRecipes", filteredArr, {
+            maxAge: 60 * 60 * 24 * 7
+          });
+        }
+      }
+
       axios
         .put(
           "https://recipes-6f5e0.firebaseio.com/recipes/" +
