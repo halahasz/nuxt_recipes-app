@@ -35,19 +35,13 @@ export default {
   },
   methods: {
     onSubmit() {
-      if (!this.isLogin) {
-        this.$store.dispatch("signUp", {
+      this.$store
+        .dispatch("authenticateUser", {
+          isLogin: this.isLogin,
           email: this.email,
-          password: this.password,
-          returnSecureToken: true
-        });
-      } else {
-        this.$store.dispatch("signIn", {
-          email: this.email,
-          password: this.password,
-          returnSecureToken: true
-        });
-      }
+          password: this.password
+        })
+        .then(() => this.$router.push("/admin"));
     }
   }
 };

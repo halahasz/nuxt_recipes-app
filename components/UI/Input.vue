@@ -1,5 +1,5 @@
 <template>
-  <div class="form__group field">
+  <div class="form__group">
     <input
       @input="handleInput"
       :value="value"
@@ -8,6 +8,7 @@
       :class="{ bold: bold }"
       :placeholder="label"
       :name="label"
+      :required="required"
     />
     <label :class="{ bold: bold }" :for="label" class="form__label">{{
       label
@@ -31,6 +32,10 @@ export default {
       required: false
     },
     bold: {
+      type: Boolean,
+      required: false
+    },
+    required: {
       type: Boolean,
       required: false
     }

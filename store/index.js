@@ -8,7 +8,8 @@ const createStore = () => {
       loadedRecipes: [],
       recipesNum: 6,
       allRecipesLoaded: false,
-      loading: false
+      loading: false,
+      token: null
     },
     mutations: {
       setRecipes(state, recipes) {
@@ -41,6 +42,9 @@ const createStore = () => {
         );
         state.loadedRecipes.splice(recipeIndex, 1);
         return state.loadedRecipes;
+      },
+      setToken(state, token) {
+        state.token = token;
       }
     },
     actions: {
@@ -69,7 +73,6 @@ const createStore = () => {
           )
           .then(res => {
             const arr = Object.entries(res.data);
-            console.log(arr.length, state.loadedRecipes.length);
             if (arr.length === state.loadedRecipes.length) {
               commit("setAllRecipesLoaded", true);
             }
@@ -97,12 +100,12 @@ const createStore = () => {
           })
           .catch(e => console.log(e));
       },
-      addRecipe({ commit }, recipe) {
+      addRecipe({ commit, state }, recipe) {
         const createdRecipe = {
           ...recipe
         };
         return axios
-          .post(process.env.baseUrl + "recipes.json", {
+          .post(process.env.baseUrl + "recipes.json?auth=" + state.token, {
             ...createdRecipe
           })
           .then(result => {
@@ -113,10 +116,14 @@ const createStore = () => {
           })
           .catch(e => console.log(e));
       },
-      deleteRecipe({ commit }, deletedRecipe) {
+      deleteRecipe({ commit, state }, deletedRecipe) {
         return axios
           .delete(
-            process.env.baseUrl + "recipes/" + deletedRecipe.id + ".json",
+            process.env.baseUrl +
+              "recipes/" +
+              deletedRecipe.id +
+              ".json?auth=" +
+              state.token,
             deletedRecipe
           )
           .then(result => {
@@ -125,10 +132,14 @@ const createStore = () => {
           })
           .catch(e => console.log(e));
       },
-      editRecipe({ commit }, editedRecipe) {
+      editRecipe({ commit, state }, editedRecipe) {
         return axios
           .put(
-            process.env.baseUrl + "recipes/" + editedRecipe.id + ".json",
+            process.env.baseUrl +
+              "recipes/" +
+              editedRecipe.id +
+              ".json?auth=" +
+              state.token,
             editedRecipe
           )
           .then(res => {
@@ -171,22 +182,18 @@ const createStore = () => {
             .catch(e => console.log(e));
         }
       },
-      signUp({ commit }, payload) {
+      authenticateUser({ commit }, authData) {
+        let authUrl = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.fbAPIKey}`;
+        if (!authData.isLogin) {
+          authUrl = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.fbAPIKey}`;
+        }
         return axios
-          .post(
-            `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.fbAPIKey}`,
-            payload
-          )
-          .then(res => console.log(res))
-          .catch(err => console.log(err));
-      },
-      signIn({ commit }, payload) {
-        return axios
-          .post(
-            `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.fbAPIKey}`,
-            payload
-          )
-          .then(res => console.log(res))
+          .post(authUrl, {
+            email: authData.email,
+            password: authData.password,
+            returnSecureToken: true
+          })
+          .then(res => commit("setToken", res.data.idToken))
           .catch(err => console.log(err));
       }
     },

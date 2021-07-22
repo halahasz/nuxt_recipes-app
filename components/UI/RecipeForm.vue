@@ -84,7 +84,7 @@
         @change="onFilePicked"
       />
     </div>
-    <Input label="Title" bold v-model="editedRecipe.title" />
+    <Input label="Title" bold required v-model="editedRecipe.title" />
     <Input label="Author" v-model="editedRecipe.author" />
     <Input label="Link" v-model="editedRecipe.link" />
 
@@ -198,7 +198,6 @@ export default {
   },
   methods: {
     onSave() {
-      //Save the recipe
       this.$emit("submit", this.editedRecipe);
     },
     onRemove() {
