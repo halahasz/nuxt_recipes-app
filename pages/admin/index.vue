@@ -18,6 +18,7 @@
 <script>
 import RecipeList from "@/components/UI/RecipeList";
 export default {
+  middleware: ["check-auth", "auth"],
   components: {
     RecipeList
   }

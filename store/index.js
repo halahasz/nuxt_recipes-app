@@ -1,6 +1,6 @@
 import Vuex from "vuex";
 import axios from "axios";
-import api from "@/api/baseConfig";
+import Cookie from "js-cookie";
 
 const createStore = () => {
   return new Vuex.Store({
@@ -45,6 +45,9 @@ const createStore = () => {
       },
       setToken(state, token) {
         state.token = token;
+      },
+      clearToken(state) {
+        state.token = null;
       }
     },
     actions: {
@@ -182,7 +185,7 @@ const createStore = () => {
             .catch(e => console.log(e));
         }
       },
-      authenticateUser({ commit }, authData) {
+      authenticateUser({ commit, dispatch }, authData) {
         let authUrl = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.fbAPIKey}`;
         if (!authData.isLogin) {
           authUrl = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.fbAPIKey}`;
@@ -193,8 +196,45 @@ const createStore = () => {
             password: authData.password,
             returnSecureToken: true
           })
-          .then(res => commit("setToken", res.data.idToken))
+          .then(res => {
+            commit("setToken", res.data.idToken);
+            localStorage.setItem("token", res.data.idToken);
+            localStorage.setItem(
+              "expirationDate",
+              new Date().getTime() + +res.data.expiresIn
+            );
+            Cookie.set("jwt", res.data.idToken);
+            Cookie.set(
+              "expirationDate",
+              new Date().getTime() + +res.data.expiresIn
+            );
+          })
           .catch(err => console.log(err));
+      },
+      initAuth({ commit }, req) {
+        let token, expirationDate;
+        if (req) {
+          const jwtCookie = req.headers.cookie
+            .split(";")
+            .find(c => c.trim().startsWith("jwt="));
+          if (!jwtCookie) {
+            return;
+          }
+          token = jwtCookie.split("=")[1];
+          expirationDate = req.headers.cookie
+            .split(";")
+            .find(c => c.trim().startsWith("expirationDate="))
+            .split("=")[1];
+        } else {
+          token = localStorage.getItem("token");
+          expirationDate = localStorage.getItem("expirationDate");
+        }
+        if (new Date().getTime() > +expirationDate || !token) {
+          commit("clearToken");
+          return;
+        }
+
+        commit("setToken", token);
       }
     },
     getters: {
@@ -205,6 +245,9 @@ const createStore = () => {
         return state.loadedRecipes
           ? state.loadedRecipes.filter(a => a.liked === true)
           : [];
+      },
+      isAuthenticated(state) {
+        return state.token != null;
       }
     }
   });

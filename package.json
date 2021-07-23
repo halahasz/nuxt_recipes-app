@@ -15,7 +15,8 @@
   "private": true,
   "dependencies": {
     "@nuxt/core": "^2.0.0",
-    "cookie-universal-nuxt": "^2.1.5"
+    "cookie-universal-nuxt": "^2.1.5",
+    "js-cookie": "^2.2.1"
   },
   "devDependencies": {
     "@layer0/cli": "^3.16.2",
