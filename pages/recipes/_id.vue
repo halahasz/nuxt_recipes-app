@@ -165,6 +165,7 @@
 
 <script>
 import axios from "axios";
+
 export default {
   data() {
     return {
@@ -194,6 +195,7 @@ export default {
         } else {
           const arr = this.$cookies.get("likedRecipes");
           arr.push(this.loadedRecipe.id);
+          this.$cookies.remove("likedRecipes");
           this.$cookies.set("likedRecipes", arr, {
             maxAge: 60 * 60 * 24 * 7
           });
@@ -204,6 +206,7 @@ export default {
         } else {
           const arr = this.$cookies.get("likedRecipes");
           const filteredArr = arr.filter(el => el != this.loadedRecipe.id);
+          this.$cookies.remove("likedRecipes");
           this.$cookies.set("likedRecipes", filteredArr, {
             maxAge: 60 * 60 * 24 * 7
           });

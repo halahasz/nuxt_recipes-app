@@ -1,5 +1,5 @@
 <template>
-  <div class="container-bg">
+  <div class="container-bg" @click="startLogoutInterval">
     <Header :title="title" />
     <div class="container-base">
       <!-- Menu Mobile -->
@@ -20,6 +20,11 @@ export default {
   components: {
     Header
   },
+  data() {
+    return {
+      logoutTimeout: null
+    };
+  },
   computed: {
     title() {
       if (this.$route.path === "/") {
@@ -37,6 +42,25 @@ export default {
         );
       }
     }
+  },
+  mounted() {
+    // checking user activity
+    if (this.logoutTimeout === null) {
+      this.startLogoutInterval();
+    }
+  },
+  methods: {
+    // automatic logout after 15 minutes with no activity
+    startLogoutInterval() {
+      clearTimeout(this.logoutTimeout);
+      this.logoutTimeout = setTimeout(() => {
+        this.$store.commit("setActive", false);
+        this.$router.push("/admin/auth");
+      }, 1000 * 60 * 15);
+    }
+  },
+  beforeDestroy() {
+    clearTimeout(this.logoutTimeout);
   }
 };
 </script>

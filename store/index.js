@@ -9,7 +9,8 @@ const createStore = () => {
       recipesNum: 6,
       allRecipesLoaded: false,
       loading: false,
-      token: null
+      token: null,
+      active: true
     },
     mutations: {
       setRecipes(state, recipes) {
@@ -48,6 +49,9 @@ const createStore = () => {
       },
       clearToken(state) {
         state.token = null;
+      },
+      setActive(state, value) {
+        state.active = value;
       }
     },
     actions: {
@@ -185,7 +189,7 @@ const createStore = () => {
             .catch(e => console.log(e));
         }
       },
-      authenticateUser({ commit, dispatch }, authData) {
+      authenticateUser({ commit }, authData) {
         let authUrl = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.fbAPIKey}`;
         if (!authData.isLogin) {
           authUrl = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.fbAPIKey}`;
@@ -198,7 +202,7 @@ const createStore = () => {
           })
           .then(res => {
             commit("setToken", res.data.idToken);
-            localStorage.setItem("token", res.data.idToken);
+            localStorage.setItem("token", res.data.idToken * 1000);
             localStorage.setItem(
               "expirationDate",
               new Date().getTime() + +res.data.expiresIn
@@ -206,12 +210,12 @@ const createStore = () => {
             Cookie.set("jwt", res.data.idToken);
             Cookie.set(
               "expirationDate",
-              new Date().getTime() + +res.data.expiresIn
+              new Date().getTime() + +res.data.expiresIn * 1000
             );
           })
           .catch(err => console.log(err));
       },
-      initAuth({ commit }, req) {
+      initAuth({ commit, state }, req) {
         let token, expirationDate;
         if (req) {
           const jwtCookie = req.headers.cookie
@@ -229,7 +233,10 @@ const createStore = () => {
           token = localStorage.getItem("token");
           expirationDate = localStorage.getItem("expirationDate");
         }
-        if (new Date().getTime() > +expirationDate || !token) {
+        if (
+          (new Date().getTime() > +expirationDate && !state.active) ||
+          !token
+        ) {
           commit("clearToken");
           return;
         }
