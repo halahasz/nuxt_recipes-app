@@ -50,7 +50,7 @@ export default {
             "ingredient.json"
         )
         .then(() => {})
-        .catch(e => alert(e));
+        .catch(e => console.log(e));
     },
     onDeleted(deletedRecipe) {
       this.$store.dispatch("deleteRecipe", deletedRecipe).then(() => {

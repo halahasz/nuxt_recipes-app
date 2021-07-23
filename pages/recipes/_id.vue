@@ -232,7 +232,7 @@ export default {
         .then(() => {
           this.$store.commit("editRecipe", this.loadedRecipe);
         })
-        .catch(e => alert(e));
+        .catch(e => console.log(e));
     },
     onClick(e) {
       e.target.classList.toggle("ingredient-checked");

@@ -118,16 +118,7 @@
         />
       </div>
     </template>
-    <button
-      v-if="editedRecipe.ingredients.length < 10"
-      type="button"
-      class="btn-ingr btn-custom"
-      @click="addIngr"
-      rounded
-      color="#fff"
-    >
-      + Add ingredient
-    </button>
+    <Button text="+ Add ingredient" color="white" @click.native="addIngr" />
     <p class="ingredients-label">RECIPE</p>
     <textarea
       class="recipe-textarea"
@@ -138,13 +129,16 @@
       placeholder="Type your recipe..."
     ></textarea>
     <div class="add-recipe-container">
-      <button class="btn-save btn-custom" type="submit">Save</button>
-      <button type="button" class="btn-remove btn-custom" @click="onRemove">
+      <Button text="Save" type="submit" />
+      <Button text="Remove" color="red" @click.native="onRemove" />
+      <Button text="Cancel" color="white" @click.native="onCancel" />
+      <!-- <button class="btn-save btn-custom" type="submit">Save</button> -->
+      <!-- <button type="button" class="btn-remove btn-custom" @click="onRemove">
         Remove
-      </button>
-      <button type="button" class="btn-cancel btn-custom" @click="onCancel">
+      </button> -->
+      <!-- <button type="button" class="btn-cancel btn-custom" @click="onCancel">
         Cancel
-      </button>
+      </button> -->
     </div>
   </form>
 </template>
@@ -152,11 +146,13 @@
 <script>
 import { fb, db } from "@/store/firebase";
 import Input from "@/components/UI/Input";
+import Button from "@/components/UI/Button";
 
 export default {
   name: "AdminPostForm",
   components: {
-    Input
+    Input,
+    Button
   },
   data() {
     return {
@@ -378,17 +374,6 @@ export default {
     box-shadow: $box-shadow-light;
   }
 }
-.btn-ingr {
-  text-transform: none;
-  cursor: pointer;
-  box-shadow: $box-shadow;
-  color: $primary;
-  padding: 0 16px;
-  border-radius: 28px;
-  height: 36px;
-  margin-top: 20px;
-  letter-spacing: 1px;
-}
 .recipe-textarea {
   background-color: transparent;
   resize: vertical;
@@ -419,40 +404,5 @@ export default {
 .btns-container {
   display: flex;
   justify-content: space-around;
-}
-button.btn-custom {
-  text-transform: none;
-  cursor: pointer;
-  background-color: $white;
-  box-shadow: $box-shadow;
-  transition: all 0.3s ease-in-out;
-  color: $primary;
-  padding: 0 16px;
-  padding-bottom: 2px;
-  border-radius: 28px;
-  height: 36px;
-  margin-top: 20px;
-  letter-spacing: 1px;
-  margin-right: 15px;
-  &:hover {
-    box-shadow: $box-shadow-light;
-  }
-}
-button.btn-remove {
-  color: $white;
-  background-color: $red;
-  &:hover {
-    background-color: $red-dark;
-  }
-}
-button.btn-save {
-  color: $white;
-  background-color: $primary;
-  &:hover {
-    background-color: $primary-dark;
-  }
-}
-button.btn-cancel {
-  color: $grey;
 }
 </style>
