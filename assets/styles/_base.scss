@@ -27,6 +27,11 @@ select {
   }
 }
 
+button {
+  border: none;
+  background-color: transparent;
+}
+
 .container-bg {
   margin: 40px auto 0;
   min-height: calc(100vh - 40px);

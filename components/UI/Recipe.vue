@@ -1,6 +1,6 @@
 <template>
   <div class="recipe-container">
-    <nuxt-link class="recipe-card" :to="recipeLink">
+    <nuxt-link class="recipe-card" :to="'/recipes/' + this.id">
       <article
         class="recipe-preview"
         :style="{

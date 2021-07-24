@@ -10,7 +10,8 @@ const createStore = () => {
       loading: false,
       token: null,
       email: null,
-      password: null
+      password: null,
+      searchText: ""
     },
     mutations: {
       setRecipes(state, recipes) {
@@ -55,10 +56,17 @@ const createStore = () => {
       },
       clearToken(state) {
         state.token = null;
+      },
+      clearRecipes(state) {
+        state.loadedRecipes = [];
+      },
+      setSearchText(state, searchText) {
+        state.searchText = searchText;
       }
     },
     actions: {
       loadRecipes({ commit, state }, num) {
+        // commit("clearRecipes");
         commit("setLoading", true);
         const recipesNum = state.recipesNum + num;
         return axios
@@ -67,7 +75,7 @@ const createStore = () => {
               `recipes.json?orderBy="order"&limitToFirst=${recipesNum}`
           )
           .then(res => {
-            const arr = Object.entries(res.data);
+            var arr = Object.entries(res.data);
             if (
               arr.length === state.loadedRecipes.length &&
               arr.length != state.recipesNum
@@ -81,9 +89,12 @@ const createStore = () => {
 
             if (!this.$cookies.get("jwt")) {
               const arr = this.$cookies.get("likedRecipes");
-              recipesArray.map(el =>
-                arr.includes(el.id) ? (el.liked = true) : (el.liked = false)
-              );
+              if (arr) {
+                recipesArray.map(el =>
+                  arr.includes(el.id) ? (el.liked = true) : (el.liked = false)
+                );
+              }
+              recipesArray.map(el => (el.liked = false));
               const sortedArr = recipesArray.sort((a, b) => a.order - b.order);
               commit("setRecipesNum", recipesNum);
               commit("setRecipes", sortedArr);
@@ -179,27 +190,31 @@ const createStore = () => {
       setRecipes({ commit }, recipes) {
         commit("setRecipes", recipes);
       },
-      searchRecipes({ commit }, text) {
+      searchRecipes({ commit, state }, text) {
         if (text.length) {
-          const recipesArray = [];
-          for (let i = 0; i < 10; i++) {
-            return axios
+          commit("clearRecipes");
+          var recipesArray = [];
+          for (let i = 0; i < 12; i++) {
+            axios
               .get(
                 process.env.baseUrl +
                   `recipes.json?orderBy="ingredients/${i}/ingredient"&equalTo="${text}"`
               )
               .then(res => {
                 for (const key in res.data) {
-                  recipesArray.unshift({ ...res.data[key], id: key });
+                  commit("addRecipe", { ...res.data[key], id: key });
+                  // recipesArray.unshift({ ...res.data[key], id: key });
                 }
               });
           }
-          commit("setRecipes", recipesArray);
+          // console.log("recipesArray", recipesArray);
+          // commit("setRecipes", recipesArray);
+          // return recipesArray;
         } else {
           return axios
             .get(
               process.env.baseUrl +
-                'recipes.json?orderBy="order"&limitToFirst=6'
+                `recipes.json?orderBy="order"&limitToFirst=${state.recipesNum}`
             )
             .then(res => {
               const recipesArray = [];
@@ -207,6 +222,7 @@ const createStore = () => {
                 recipesArray.unshift({ ...res.data[key], id: key });
               }
               commit("setRecipes", recipesArray);
+              return recipesArray;
             })
             .catch(e => console.log(e));
         }

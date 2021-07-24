@@ -121,7 +121,7 @@
         </li>
       </ul>
       <div class="header-search">
-        <RecipeSearch @search-text="searchText" />
+        <RecipeSearch />
       </div>
     </div>
   </div>
@@ -141,15 +141,6 @@ export default {
     };
   },
   methods: {
-    searchText(text) {
-      this.$router.push("/");
-      if (text !== "") {
-        this.$store.commit("setAllRecipesLoaded", true);
-      } else {
-        this.$store.commit("setAllRecipesLoaded", false);
-      }
-      this.$store.dispatch("searchRecipes", text.toLowerCase());
-    },
     handleScroll() {
       window.scrollY > 50 ? (this.scrolled = true) : (this.scrolled = false);
     }

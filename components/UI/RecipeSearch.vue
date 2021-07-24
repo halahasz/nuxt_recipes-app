@@ -1,8 +1,13 @@
 <template>
   <div>
-    <form class="search-form" @submit.prevent="onSubmit">
+    <form class="search-form">
       <Input label="Search ingredient ..." v-model.trim="text" />
-      <button color="#fff" class="btn-add" fab @click.prevent="onSubmit">
+      <button
+        type="submit"
+        @click.prevent="onSubmit"
+        color="#fff"
+        class="btn-add"
+      >
         <svg
           id="Search"
           xmlns="http://www.w3.org/2000/svg"
@@ -40,7 +45,9 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.$emit("search-text", this.text.toLowerCase());
+      this.$store.commit("setSearchText", this.text);
+      this.$router.app.refresh();
+      this.$router.push("/");
     }
   }
 };
@@ -62,6 +69,8 @@ export default {
     margin: 0 auto 15px;
     display: block;
     right: -70px;
+    border: none;
+    cursor: pointer;
   }
 }
 </style>

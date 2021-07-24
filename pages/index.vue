@@ -7,7 +7,7 @@
         key="2"
         text="Load more"
         center
-        v-if="!allRecipesLoaded && !loading"
+        v-if="showButton"
         @click="loadRecipes(3)"
       />
     </transition-group>
@@ -18,14 +18,24 @@
 import RecipeList from "@/components/UI/RecipeList";
 import LoadingSpinner from "@/components/UI/LoadingSpinner";
 import Button from "@/components/UI/Button";
+import { mapState } from "vuex";
 
 export default {
   async asyncData({ store }) {
-    const loadedRecipes = await store.dispatch("loadRecipes", 0);
+    if (store.state.searchText === "") {
+      const loadedRecipes = await store.dispatch("loadRecipes", 0);
 
-    return {
-      loadedRecipes: loadedRecipes
-    };
+      return {
+        loadedRecipes: loadedRecipes
+      };
+    } else {
+      console.log("search");
+      await store.dispatch("searchRecipes", store.state.searchText);
+
+      return {
+        loadedRecipes: store.state.loadedRecipes
+      };
+    }
   },
   components: {
     RecipeList,
@@ -33,11 +43,19 @@ export default {
     Button
   },
   computed: {
-    allRecipesLoaded() {
-      return this.$store.state.allRecipesLoaded;
-    },
-    loading() {
-      return this.$store.state.loading;
+    ...mapState({
+      allRecipesLoaded: state => state.allRecipesLoaded,
+      loading: state => state.loading,
+      searchText: state => state.searchText
+    }),
+    // allRecipesLoaded() {
+    //   return this.$store.state.allRecipesLoaded;
+    // },
+    // loading() {
+    //   return this.$store.state.loading;
+    // },
+    showButton() {
+      return this.searchText === "" && !this.loading && !this.allRecipesLoaded;
     }
   },
   methods: {
