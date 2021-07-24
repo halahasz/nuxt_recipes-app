@@ -69,7 +69,10 @@
               target="_blank"
               >Link</a
             >
-            <button @click="$router.push('/edit-recipe/' + $route.params.id)">
+            <button
+              class="btn-edit"
+              @click="$router.push('/edit-recipe/' + $route.params.id)"
+            >
               <svg
                 height="484pt"
                 viewBox="-15 -15 484.00019 484"

@@ -14,7 +14,7 @@
       label
     }}</label>
     <p v-if="invalid" class="form__invalid">
-      Password length should be at least 6 characters
+      {{ errorMessage }}
     </p>
   </div>
 </template>
@@ -46,13 +46,15 @@ export default {
   data() {
     return {
       sort: this.type || "text",
-      invalid: false
+      invalid: false,
+      errorMessage: ""
     };
   },
   methods: {
     handleInput(e) {
       if (this.type === "password" && e.target.value.length < 6) {
         this.invalid = true;
+        this.errorMessage = "Password length should be at least 6 characters";
       } else {
         this.invalid = false;
       }

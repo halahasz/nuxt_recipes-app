@@ -234,8 +234,7 @@ const createStore = () => {
               "expirationDate",
               new Date().getTime() + +res.data.expiresIn * 1000
             );
-          })
-          .catch(err => console.log(err));
+          });
       },
       initAuth({ commit, dispatch, state }, req) {
         let token, expirationDate;

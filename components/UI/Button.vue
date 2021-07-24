@@ -40,10 +40,9 @@ export default {
   cursor: pointer;
   box-shadow: $box-shadow;
   transition: all 0.3s ease-in-out;
-  padding: 0 20px;
-  padding-bottom: 2px;
+  padding: 11px 20px 12px;
   border-radius: 28px;
-  height: 36px;
+  border: none;
   margin: 20px 10px;
   letter-spacing: 1px;
   margin-top: 20px;
