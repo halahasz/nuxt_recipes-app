@@ -9,7 +9,8 @@ const createStore = () => {
       allRecipesLoaded: false,
       loading: false,
       token: null,
-      active: true
+      email: null,
+      password: null
     },
     mutations: {
       setRecipes(state, recipes) {
@@ -46,11 +47,14 @@ const createStore = () => {
       setToken(state, token) {
         state.token = token;
       },
+      setEmail(state, email) {
+        state.email = email;
+      },
+      setPassword(state, password) {
+        state.password = password;
+      },
       clearToken(state) {
         state.token = null;
-      },
-      setActive(state, value) {
-        state.active = value;
       }
     },
     actions: {
@@ -64,7 +68,10 @@ const createStore = () => {
           )
           .then(res => {
             const arr = Object.entries(res.data);
-            if (arr.length === state.loadedRecipes.length) {
+            if (
+              arr.length === state.loadedRecipes.length &&
+              arr.length != state.recipesNum
+            ) {
               commit("setAllRecipesLoaded", true);
             }
             const recipesArray = [];
@@ -93,7 +100,10 @@ const createStore = () => {
       },
       loadLikedRecipes({ commit, state }, id) {
         return axios
-          .get(process.env.baseUrl + `recipes.json?orderBy="id"&equalTo=${id}`)
+          .get(
+            process.env.baseUrl +
+              `recipes.json?orderBy="id"&equalTo=${id}&auth=${state.token}`
+          )
           .then(res => {
             const recipesArray = [];
             for (const key in res.data) {
@@ -245,10 +255,7 @@ const createStore = () => {
           token = localStorage.getItem("token");
           expirationDate = localStorage.getItem("expirationDate");
         }
-        if (
-          (new Date().getTime() > +expirationDate && !state.active) ||
-          !token
-        ) {
+        if (new Date().getTime() > +expirationDate || !token) {
           dispatch("logout");
           return;
         }

@@ -3,14 +3,13 @@
     <RecipeList :recipes="loadedRecipes" />
     <transition-group tag="span" name="fade-group" mode="out-in">
       <LoadingSpinner key="1" v-if="loading" />
-      <button
+      <Button
         key="2"
-        class="btn-load"
+        text="Load more"
+        center
         v-if="!allRecipesLoaded && !loading"
         @click="loadRecipes(3)"
-      >
-        Load more
-      </button>
+      />
     </transition-group>
   </div>
 </template>
@@ -18,6 +17,7 @@
 <script>
 import RecipeList from "@/components/UI/RecipeList";
 import LoadingSpinner from "@/components/UI/LoadingSpinner";
+import Button from "@/components/UI/Button";
 
 export default {
   async asyncData({ store }) {
@@ -29,7 +29,8 @@ export default {
   },
   components: {
     RecipeList,
-    LoadingSpinner
+    LoadingSpinner,
+    Button
   },
   computed: {
     allRecipesLoaded() {

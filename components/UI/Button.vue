@@ -1,5 +1,9 @@
 <template>
-  <button @click="$emit('click')" :class="['btn', color]" :type="type">
+  <button
+    @click="$emit('click')"
+    :class="['btn', color, { center: center }]"
+    :type="type"
+  >
     {{ text }}
   </button>
 </template>
@@ -13,6 +17,10 @@ export default {
     },
     color: {
       type: String,
+      required: false
+    },
+    center: {
+      type: Boolean,
       required: false
     },
     type: {
@@ -56,6 +64,10 @@ export default {
     &:hover {
       background-color: $red-dark;
     }
+  }
+  &.center {
+    display: block;
+    margin: 20px auto 0;
   }
 }
 </style>

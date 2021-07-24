@@ -41,7 +41,11 @@ export default {
           email: this.email,
           password: this.password
         })
-        .then(() => this.$router.push("/admin"));
+        .then(() => {
+          this.$router.push("/admin");
+          this.$store.commit("setEmail", this.email);
+          this.$store.commit("setPassword", this.password);
+        });
     }
   }
 };

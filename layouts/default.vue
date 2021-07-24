@@ -16,16 +16,24 @@
 
 <script>
 import Header from "@/components/Section/Header";
+import { mapState } from "vuex";
+
 export default {
   components: {
     Header
   },
   data() {
     return {
-      logoutTimeout: null
+      logoutTimeout: null,
+      refreshInterval: null
     };
   },
   computed: {
+    ...mapState({
+      token: state => state.token,
+      email: state => state.email,
+      password: state => state.password
+    }),
     title() {
       if (this.$route.path === "/") {
         return "My recipes";
@@ -48,13 +56,38 @@ export default {
     if (this.logoutTimeout === null) {
       this.startLogoutInterval();
     }
+    // refresh token every 2 min.
+    this.refreshInterval = setInterval(
+      () => this.checkRefreshToken(),
+      1000 * 60 * 2
+    ); //2 min.
   },
   methods: {
+    // token expiration time is check every 2 min., it is refreshed if it's lower then 10 min.
+    async checkRefreshToken() {
+      let expDate = this.$cookies.get("expirationDate");
+      console.log(new Date(expDate));
+      let currDate = new Date().getTime();
+      let diff = Math.round(expDate - currDate);
+
+      if (diff <= 1000 * 60 * 10) {
+        try {
+          await this.$store.dispatch("authenticateUser", {
+            isLogin: true,
+            email: this.email,
+            password: this.password
+          });
+        } catch (error) {
+          console.log(error);
+          this.$store.dispatch("logout");
+        }
+      }
+    },
     // automatic logout after 15 minutes of inactivity
     startLogoutInterval() {
       clearTimeout(this.logoutTimeout);
       this.logoutTimeout = setTimeout(() => {
-        this.$store.commit("setActive", false);
+        this.$store.dispatch("logout");
         this.$router.push("/admin/auth");
       }, 1000 * 60 * 15);
     }
