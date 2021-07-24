@@ -2,7 +2,7 @@
   <div class="add-recipe-page">
     <section class="new-post-form">
       <RecipeForm v-if="isAdmin" @submit="onSubmitted" />
-      <h1 v-else>Please log in to add a recepe!</h1>
+      <h1 class="page-title" v-else>Please log in to add a recepe!</h1>
     </section>
   </div>
 </template>

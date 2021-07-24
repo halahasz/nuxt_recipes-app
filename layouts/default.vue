@@ -66,14 +66,13 @@ export default {
     // token expiration time is check every 2 min., it is refreshed if it's lower then 10 min.
     async checkRefreshToken() {
       let expDate = this.$cookies.get("expirationDate");
-      console.log(new Date(expDate));
       let currDate = new Date().getTime();
       let diff = Math.round(expDate - currDate);
 
       if (diff <= 1000 * 60 * 10) {
         try {
           await this.$store.dispatch("authenticateUser", {
-            isLogin: true,
+            isLogin: this.$store.getters.isAdmin,
             email: this.email,
             password: this.password
           });

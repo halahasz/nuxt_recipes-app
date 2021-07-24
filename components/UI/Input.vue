@@ -13,6 +13,9 @@
     <label :class="{ bold: bold }" :for="label" class="form__label">{{
       label
     }}</label>
+    <p v-if="invalid" class="form__invalid">
+      Password length should be at least 6 characters
+    </p>
   </div>
 </template>
 
@@ -42,11 +45,17 @@ export default {
   },
   data() {
     return {
-      sort: this.type || "text"
+      sort: this.type || "text",
+      invalid: false
     };
   },
   methods: {
     handleInput(e) {
+      if (this.type === "password" && e.target.value.length < 6) {
+        this.invalid = true;
+      } else {
+        this.invalid = false;
+      }
       this.$emit("input", e.target.value);
     }
   }
@@ -69,6 +78,7 @@ export default {
   background: transparent;
   transition: all 0.2s;
   color: $accent;
+
   &.bold {
     font-weight: 700;
   }
@@ -132,5 +142,15 @@ export default {
     box-shadow: none;
     background-color: transparent;
   }
+}
+.form__group {
+  position: relative;
+}
+.form__invalid {
+  position: absolute;
+  content: "";
+  left: 5px;
+  bottom: -15px;
+  color: $primary;
 }
 </style>

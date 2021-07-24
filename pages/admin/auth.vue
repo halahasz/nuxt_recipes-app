@@ -1,17 +1,20 @@
 <template>
   <div class="admin-auth-page">
     <div class="auth-container">
+      <h1 class="page-title">
+        Authentication
+      </h1>
       <form @submit.prevent="onSubmit">
-        <Input type="email" v-model="email" label="E-Mail Address" />
-        <Input type="password" v-model="password" label="Password" />
-        <button type="submit">{{ isLogin ? "Login" : "Signup" }}</button>
-        <button
-          type="button"
-          style="margin-left: 10px"
-          @click="isLogin = !isLogin"
-        >
-          Switch to {{ isLogin ? "Signup" : "Login" }}
-        </button>
+        <Input required type="email" v-model="email" label="E-Mail Address" />
+        <Input required type="password" v-model="password" label="Password" />
+        <div class="btn-container">
+          <Button type="submit" :text="isLogin ? 'Login' : 'Signup'" />
+          <Button
+            color="white"
+            @click="isLogin = !isLogin"
+            :text="isLogin ? 'Switch to Signup' : 'Switch to Login'"
+          />
+        </div>
       </form>
     </div>
   </div>
@@ -19,12 +22,14 @@
 
 <script>
 import Input from "@/components/UI/Input";
+import Button from "@/components/UI/Button";
 
 export default {
   name: "AdminAuthPage",
   layout: "admin",
   components: {
-    Input
+    Input,
+    Button
   },
   data() {
     return {
@@ -51,8 +56,8 @@ export default {
 };
 </script>
 
-<style scoped>
-.admin-auth-page {
+<style lang="scss" scoped>
+/* .admin-auth-page {
   padding: 20px;
 }
 
@@ -64,5 +69,10 @@ export default {
   margin: auto;
   padding: 10px;
   box-sizing: border-box;
+} */
+.auth-container {
+  width: 60%;
+  padding: 0px 30px 0;
+  margin-left: 20%;
 }
 </style>

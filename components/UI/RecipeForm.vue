@@ -128,7 +128,7 @@
       rows="10"
       placeholder="Type your recipe..."
     ></textarea>
-    <div class="add-recipe-container">
+    <div class="btn-container">
       <Button text="Save" type="submit" />
       <Button text="Remove" color="red" @click="onRemove" />
       <Button text="Cancel" color="white" @click="onCancel" />
@@ -253,17 +253,6 @@ export default {
   width: 60%;
   padding: 0px 30px 0;
   margin-left: 20%;
-  @media (max-width: 1000px) {
-    width: calc(100% - 60px);
-    margin: 0px 30px 120px;
-  }
-}
-.add-recipe-container {
-  margin-top: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
 }
 .recipe-thumbnail {
   max-width: 200px;
