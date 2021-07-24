@@ -118,7 +118,7 @@
         />
       </div>
     </template>
-    <Button text="+ Add ingredient" color="white" @click.native="addIngr" />
+    <Button text="+ Add ingredient" color="white" @click="addIngr" />
     <p class="ingredients-label">RECIPE</p>
     <textarea
       class="recipe-textarea"
@@ -130,15 +130,8 @@
     ></textarea>
     <div class="add-recipe-container">
       <Button text="Save" type="submit" />
-      <Button text="Remove" color="red" @click.native="onRemove" />
-      <Button text="Cancel" color="white" @click.native="onCancel" />
-      <!-- <button class="btn-save btn-custom" type="submit">Save</button> -->
-      <!-- <button type="button" class="btn-remove btn-custom" @click="onRemove">
-        Remove
-      </button> -->
-      <!-- <button type="button" class="btn-cancel btn-custom" @click="onCancel">
-        Cancel
-      </button> -->
+      <Button text="Remove" color="red" @click="onRemove" />
+      <Button text="Cancel" color="white" @click="onCancel" />
     </div>
   </form>
 </template>
@@ -258,7 +251,7 @@ export default {
 
 .recipe-form {
   width: 60%;
-  padding: 0px 30px 120px;
+  padding: 0px 30px 0;
   margin-left: 20%;
   @media (max-width: 1000px) {
     width: calc(100% - 60px);

@@ -202,10 +202,10 @@ const createStore = () => {
           })
           .then(res => {
             commit("setToken", res.data.idToken);
-            localStorage.setItem("token", res.data.idToken * 1000);
+            localStorage.setItem("token", res.data.idToken);
             localStorage.setItem(
               "expirationDate",
-              new Date().getTime() + +res.data.expiresIn
+              new Date().getTime() + +res.data.expiresIn * 1000
             );
             Cookie.set("jwt", res.data.idToken);
             Cookie.set(
@@ -215,7 +215,7 @@ const createStore = () => {
           })
           .catch(err => console.log(err));
       },
-      initAuth({ commit, state }, req) {
+      initAuth({ commit, dispatch, state }, req) {
         let token, expirationDate;
         if (req) {
           const jwtCookie = req.headers.cookie
@@ -237,11 +237,20 @@ const createStore = () => {
           (new Date().getTime() > +expirationDate && !state.active) ||
           !token
         ) {
-          commit("clearToken");
+          dispatch("logout");
           return;
         }
 
         commit("setToken", token);
+      },
+      logout({ commit }) {
+        commit("clearToken");
+        Cookie.remove("jwt");
+        Cookie.remove("expirationDate");
+        if (process.client) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("expirationDate");
+        }
       }
     },
     getters: {
@@ -253,7 +262,7 @@ const createStore = () => {
           ? state.loadedRecipes.filter(a => a.liked === true)
           : [];
       },
-      isAuthenticated(state) {
+      isAdmin(state) {
         return state.token != null;
       }
     }

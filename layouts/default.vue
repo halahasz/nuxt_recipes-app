@@ -50,7 +50,7 @@ export default {
     }
   },
   methods: {
-    // automatic logout after 15 minutes with no activity
+    // automatic logout after 15 minutes of inactivity
     startLogoutInterval() {
       clearTimeout(this.logoutTimeout);
       this.logoutTimeout = setTimeout(() => {

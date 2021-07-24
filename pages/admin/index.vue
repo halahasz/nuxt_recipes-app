@@ -4,6 +4,8 @@
       <!-- <AppButton @click="$router.push('/admin/new-recipe')"
         >Create recipe</AppButton
       >-->
+      <Button text="Add recipe" @click="$router.push('/add-recipe')" />
+      <Button text="Log out" color="white" @click="onLogout" />
     </section>
     <section class="existing-recipes">
       <p class="recipes-number">
@@ -17,10 +19,19 @@
 
 <script>
 import RecipeList from "@/components/UI/RecipeList";
+import Button from "@/components/UI/Button";
+
 export default {
   middleware: ["check-auth", "auth"],
   components: {
-    RecipeList
+    RecipeList,
+    Button
+  },
+  methods: {
+    onLogout() {
+      this.$store.dispatch("logout");
+      this.$router.push("/admin/auth");
+    }
   }
 };
 </script>
