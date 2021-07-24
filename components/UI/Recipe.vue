@@ -51,18 +51,6 @@
         fill="#fff"
       />
     </svg>
-    <!-- <img
-      class="recipe-heart"
-      v-if="liked"
-      @click.stop="onSubmitted"
-      src="~assets/img/heart_selected.svg"
-    />
-    <img
-      class="recipe-heart"
-      v-else
-      @click.stop="onSubmitted"
-      src="~assets/img/heart_white.svg"
-    /> -->
   </div>
 </template>
 
@@ -76,10 +64,6 @@ export default {
     id: {
       type: String,
       required: false
-    },
-    isAdmin: {
-      type: Boolean,
-      requred: true
     },
     title: {
       type: String,
@@ -138,6 +122,9 @@ export default {
     }),
     recipeLink() {
       return this.isAdmin ? "/admin/" + this.id : "/recipes/" + this.id;
+    },
+    isAdmin() {
+      return this.$store.getters.isAdmin;
     }
   },
   methods: {
@@ -146,67 +133,61 @@ export default {
         recipe => recipe.id === this.id
       )[0];
       editedRecipe.liked = !editedRecipe.liked;
+      if (!this.isAdmin) {
+        // Save liked recipes in cookies
+        if (editedRecipe.liked) {
+          if (!this.$cookies.get("likedRecipes")) {
+            const arr = [];
+            arr.push(this.id);
 
-      // Save liked recipes in cookies
-      if (editedRecipe.liked) {
-        if (!this.$cookies.get("likedRecipes")) {
-          const arr = [];
-          arr.push(this.id);
-
-          this.$cookies.set("likedRecipes", arr, {
-            maxAge: 60 * 60 * 24 * 7
-          });
+            this.$cookies.set("likedRecipes", arr, {
+              maxAge: 60 * 60 * 24 * 7
+            });
+          } else {
+            const arr = this.$cookies.get("likedRecipes");
+            arr.push(this.id);
+            this.$cookies.remove("likedRecipes");
+            this.$cookies.set("likedRecipes", arr, {
+              maxAge: 60 * 60 * 24 * 7
+            });
+          }
         } else {
-          const arr = this.$cookies.get("likedRecipes");
-          arr.push(this.id);
-          this.$cookies.remove("likedRecipes");
-          this.$cookies.set("likedRecipes", arr, {
-            maxAge: 60 * 60 * 24 * 7
-          });
+          if (!this.$cookies.get("likedRecipes")) {
+            return;
+          } else {
+            const arr = this.$cookies.get("likedRecipes");
+            const filteredArr = arr.filter(el => el != this.id);
+            this.$cookies.remove("likedRecipes");
+            this.$cookies.set("likedRecipes", filteredArr, {
+              maxAge: 60 * 60 * 24 * 7
+            });
+          }
         }
       } else {
-        if (!this.$cookies.get("likedRecipes")) {
-          return;
-        } else {
-          const arr = this.$cookies.get("likedRecipes");
-          const filteredArr = arr.filter(el => el != this.id);
-          this.$cookies.remove("likedRecipes");
-          this.$cookies.set("likedRecipes", filteredArr, {
-            maxAge: 60 * 60 * 24 * 7
-          });
-        }
+        console.log("admin");
+        this.$store.dispatch("editLikedRecipe", {
+          id: this.id,
+          title: this.title,
+          keywards: this.keywards,
+          photo: this.photo,
+          link: this.link,
+          time: this.time,
+          author: this.author,
+          portions: this.portions,
+          recipe: this.recipe,
+          ingredients: this.ingredients,
+          liked: !this.liked,
+          date: `${new Date().getFullYear()}-${
+            new Date().getMonth() + 1 < 10
+              ? "0" + (new Date().getMonth() + 1)
+              : new Date().getMonth()
+          }-${
+            new Date().getDate() < 10
+              ? "0" + new Date().getDate()
+              : new Date().getDate()
+          }`
+        });
       }
-
-      axios
-        .put(
-          "https://recipes-6f5e0.firebaseio.com/recipes/" + this.id + ".json",
-          {
-            id: this.id,
-            title: this.title,
-            keywards: this.keywards,
-            photo: this.photo,
-            link: this.link,
-            time: this.time,
-            author: this.author,
-            portions: this.portions,
-            recipe: this.recipe,
-            ingredients: this.ingredients,
-            liked: !this.liked,
-            date: `${new Date().getFullYear()}-${
-              new Date().getMonth() + 1 < 10
-                ? "0" + (new Date().getMonth() + 1)
-                : new Date().getMonth()
-            }-${
-              new Date().getDate() < 10
-                ? "0" + new Date().getDate()
-                : new Date().getDate()
-            }`
-          }
-        )
-        .then(() => {
-          this.$store.commit("editLikedRecipe", this.id, editedRecipe);
-        })
-        .catch(e => console.log(e));
     }
   }
 };

@@ -20,19 +20,18 @@ import RecipeList from "@/components/UI/RecipeList";
 import LoadingSpinner from "@/components/UI/LoadingSpinner";
 
 export default {
+  async asyncData({ store }) {
+    const loadedRecipes = await store.dispatch("loadRecipes", 0);
+
+    return {
+      loadedRecipes: loadedRecipes
+    };
+  },
   components: {
     RecipeList,
     LoadingSpinner
   },
   computed: {
-    loadedRecipes: {
-      get() {
-        return this.$store.getters.loadedRecipes;
-      },
-      set(value) {
-        this.$store.commit("setRecipes", value);
-      }
-    },
     allRecipesLoaded() {
       return this.$store.state.allRecipesLoaded;
     },
@@ -42,7 +41,9 @@ export default {
   },
   methods: {
     loadRecipes(num) {
-      this.$store.dispatch("loadRecipes", num);
+      this.$store
+        .dispatch("loadRecipes", num)
+        .then(res => (this.loadedRecipes = res));
     }
   }
 };

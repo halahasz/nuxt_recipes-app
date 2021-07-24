@@ -9,15 +9,20 @@ import RecipeList from "@/components/UI/RecipeList";
 import LoadingSpinner from "@/components/UI/LoadingSpinner";
 
 export default {
+  async asyncData({ store }) {
+    const loadedRecipes = await store.dispatch("loadRecipes", 0);
+
+    return {
+      loadedRecipes: loadedRecipes
+    };
+  },
   components: {
     RecipeList,
     LoadingSpinner
   },
   computed: {
     likedRecipes() {
-      return this.$store.getters.loadedRecipes.filter(
-        recipe => recipe.liked === true
-      );
+      return this.loadedRecipes.filter(recipe => recipe.liked === true);
     },
     loading() {
       return this.$store.state.loading;

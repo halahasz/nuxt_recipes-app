@@ -1,6 +1,5 @@
 import Vuex from "vuex";
 import axios from "axios";
-import Cookie from "js-cookie";
 
 const createStore = () => {
   return new Vuex.Store({
@@ -55,21 +54,6 @@ const createStore = () => {
       }
     },
     actions: {
-      nuxtServerInit({ commit, state }) {
-        return axios
-          .get(
-            process.env.baseUrl +
-              `recipes.json?orderBy="order"&limitToFirst=${state.recipesNum}`
-          )
-          .then(res => {
-            const recipesArray = [];
-            for (const key in res.data) {
-              recipesArray.unshift({ ...res.data[key], id: key });
-            }
-            commit("setRecipes", recipesArray);
-          })
-          .catch(e => console.log(e));
-      },
       loadRecipes({ commit, state }, num) {
         commit("setLoading", true);
         const recipesNum = state.recipesNum + num;
@@ -87,10 +71,23 @@ const createStore = () => {
             for (const key in res.data) {
               recipesArray.unshift({ ...res.data[key], id: key });
             }
-            const sorted = recipesArray.sort((a, b) => a.order - b.order);
+
+            if (!this.$cookies.get("jwt")) {
+              const arr = this.$cookies.get("likedRecipes");
+              recipesArray.map(el =>
+                arr.includes(el.id) ? (el.liked = true) : (el.liked = false)
+              );
+              const sortedArr = recipesArray.sort((a, b) => a.order - b.order);
+              commit("setRecipesNum", recipesNum);
+              commit("setRecipes", sortedArr);
+              commit("setLoading", false);
+              return sortedArr;
+            }
+            const sortedArr = recipesArray.sort((a, b) => a.order - b.order);
             commit("setRecipesNum", recipesNum);
-            commit("setRecipes", sorted);
+            commit("setRecipes", sortedArr);
             commit("setLoading", false);
+            return sortedArr;
           })
           .catch(e => console.log(e));
       },
@@ -154,6 +151,21 @@ const createStore = () => {
           })
           .catch(e => console.log(e));
       },
+      editLikedRecipe({ commit, state }, editedRecipe) {
+        return axios
+          .put(
+            process.env.baseUrl +
+              "recipes/" +
+              editedRecipe.id +
+              ".json?auth=" +
+              state.token,
+            editedRecipe
+          )
+          .then(res => {
+            commit("editLikedRecipe", this.id, editedRecipe);
+          })
+          .catch(e => console.log(e));
+      },
       setRecipes({ commit }, recipes) {
         commit("setRecipes", recipes);
       },
@@ -207,8 +219,8 @@ const createStore = () => {
               "expirationDate",
               new Date().getTime() + +res.data.expiresIn * 1000
             );
-            Cookie.set("jwt", res.data.idToken);
-            Cookie.set(
+            this.$cookies.set("jwt", res.data.idToken);
+            this.$cookies.set(
               "expirationDate",
               new Date().getTime() + +res.data.expiresIn * 1000
             );
@@ -245,8 +257,8 @@ const createStore = () => {
       },
       logout({ commit }) {
         commit("clearToken");
-        Cookie.remove("jwt");
-        Cookie.remove("expirationDate");
+        this.$cookies.remove("jwt");
+        this.$cookies.remove("expirationDate");
         if (process.client) {
           localStorage.removeItem("token");
           localStorage.removeItem("expirationDate");

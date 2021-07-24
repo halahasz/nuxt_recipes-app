@@ -4,7 +4,6 @@
       v-for="recipe in recipes"
       :key="recipe.id"
       :id="recipe.id"
-      :is-admin="isAdmin"
       :photo="recipe.photo"
       :title="recipe.title"
       :author="recipe.author"
@@ -27,10 +26,6 @@ export default {
     Recipe
   },
   props: {
-    isAdmin: {
-      type: Boolean,
-      default: false
-    },
     recipes: {
       type: Array,
       required: false
