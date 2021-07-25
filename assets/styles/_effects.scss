@@ -30,13 +30,13 @@
 .fade-group-leave-active {
   transition-delay: 0.5s;
   transition: $transition;
-  max-height: 1000px;
+  // max-height: 1000px;
 }
 
 .fade-group-enter,
 .fade-group-leave-to {
   opacity: 0;
-  max-height: 0px;
+  // max-height: 0px;
 }
 
 .fade-group-leave-active {

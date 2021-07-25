@@ -192,8 +192,7 @@ export default {
       this.$emit("del-recipe", this.editedRecipe);
     },
     removeIngr(index) {
-      const rmIngr = this.editedRecipe.ingredients.splice(index, 1).id;
-      this.$emit("del-ingr", rmIngr);
+      this.editedRecipe.ingredients.splice(index, 1);
     },
     onCancel() {
       this.$router.push("/recipes/" + this.$route.params.editId);

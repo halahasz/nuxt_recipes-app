@@ -4,7 +4,6 @@
       <RecipeForm
         :recipe="loadedRecipe"
         @del-recipe="onDeleted"
-        @del-ingr="onIngrDeleted"
         @submit="onSubmitted"
       />
     </section>
@@ -32,18 +31,6 @@ export default {
       this.$store.dispatch("editRecipe", editedRecipe).then(() => {
         this.$router.push("/recipes/" + this.$route.params.editId);
       });
-    },
-    onIngrDeleted(rmIngr) {
-      axios
-        .delete(
-          "https://recipes-6f5e0.firebaseio.com/recipes/" +
-            this.$route.params.editId +
-            "/ingredients/" +
-            rmIngr +
-            "ingredient.json"
-        )
-        .then(() => {})
-        .catch(e => console.log(e));
     },
     onDeleted(deletedRecipe) {
       this.$store.dispatch("deleteRecipe", deletedRecipe).then(() => {

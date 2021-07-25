@@ -162,7 +162,7 @@
         </section>
         <section
           key="2"
-          else
+          v-if="!isIngredients"
           :class="['recipe-recipe', { active: !isIngredients }]"
         >
           <div v-html="loadedRecipe.recipe.replace(/\n/g, '<br />')"></div>
