@@ -15,9 +15,11 @@
 @import "@/assets/styles/_variables";
 
 .lds-roller {
-  margin: 0px auto 0;
+  margin: 0 auto;
   transform: scale(0.6);
-  position: relative;
+  position: absolute;
+  left: 0;
+  right: 0;
   width: 80px;
   height: 80px;
 }

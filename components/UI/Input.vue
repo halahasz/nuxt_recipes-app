@@ -1,7 +1,7 @@
 <template>
   <div class="form__group">
     <input
-      @input="handleInput"
+      @change="handleInput"
       :value="value"
       :type="sort"
       class="form__field"
@@ -50,6 +50,11 @@ export default {
       errorMessage: ""
     };
   },
+  computed: {
+    content() {
+      return this.value;
+    }
+  },
   methods: {
     handleInput(e) {
       if (this.type === "password" && e.target.value.length < 6) {
@@ -57,8 +62,8 @@ export default {
         this.errorMessage = "Password length should be at least 6 characters";
       } else {
         this.invalid = false;
+        this.$emit("input", e.target.value);
       }
-      this.$emit("input", e.target.value);
     }
   }
 };
