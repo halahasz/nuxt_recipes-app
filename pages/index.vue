@@ -5,6 +5,7 @@
       <LoadingSpinner key="1" v-if="loading" />
       <Button
         key="2"
+        class="btn-absolute"
         text="Load more"
         center
         v-if="showButton"
@@ -29,7 +30,6 @@ export default {
         loadedRecipes: loadedRecipes
       };
     } else {
-      console.log("search");
       await store.dispatch("searchRecipes", store.state.searchText);
 
       return {

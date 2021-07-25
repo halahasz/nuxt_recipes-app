@@ -1,6 +1,8 @@
 <template>
   <div @click="startLogoutInterval">
-    <Header :title="title" />
+    <transition name="slide-fade">
+      <Header :title="title" v-if="loaded" />
+    </transition>
     <div class="container-base">
       <!-- Menu Mobile -->
       <!-- <transition name="slide-fade">
@@ -17,13 +19,15 @@ import Header from "@/components/Section/Header";
 import { mapState } from "vuex";
 
 export default {
+  transition: "page",
   components: {
     Header
   },
   data() {
     return {
       logoutTimeout: null,
-      refreshInterval: null
+      refreshInterval: null,
+      loaded: false
     };
   },
   computed: {
@@ -50,6 +54,7 @@ export default {
     }
   },
   mounted() {
+    this.loaded = true;
     // checking user activity
     if (this.logoutTimeout === null) {
       this.startLogoutInterval();

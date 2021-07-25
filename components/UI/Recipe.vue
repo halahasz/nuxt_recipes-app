@@ -163,7 +163,6 @@ export default {
           }
         }
       } else {
-        console.log("admin");
         this.$store.dispatch("editLikedRecipe", {
           id: this.id,
           title: this.title,

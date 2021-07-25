@@ -21,19 +21,11 @@ export default {
   components: {
     RecipeForm
   },
-  asyncData(context) {
-    return axios
-      .get(
-        "https://recipes-6f5e0.firebaseio.com/recipes/" +
-          context.params.editId +
-          ".json"
-      )
-      .then(res => {
-        return {
-          loadedRecipe: { ...res.data, id: context.params.editId }
-        };
-      })
-      .catch(e => context.error());
+  async asyncData({ store, params }) {
+    const recipe = await store.dispatch("loadRecipe", params.editId);
+    return {
+      loadedRecipe: recipe
+    };
   },
   methods: {
     onSubmitted(editedRecipe) {

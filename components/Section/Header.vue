@@ -1,7 +1,10 @@
 <template>
   <div class="header" :class="{ scrolled: scrolled }">
     <div class="header-wrapper">
-      <h1 class="header-title">{{ title }}</h1>
+      <h1 class="header-title">
+        {{ title }}
+      </h1>
+
       <ul class="nav">
         <li class="nav-item">
           <nuxt-link :to="'/'" exact>
@@ -121,7 +124,7 @@
         </li>
       </ul>
       <div class="header-search">
-        <RecipeSearch />
+        <RecipeSearch :loaded="loaded" />
       </div>
     </div>
   </div>
@@ -137,13 +140,17 @@ export default {
   props: ["title"],
   data() {
     return {
-      scrolled: false
+      scrolled: false,
+      loaded: false
     };
   },
   methods: {
     handleScroll() {
       window.scrollY > 50 ? (this.scrolled = true) : (this.scrolled = false);
     }
+  },
+  mounted() {
+    this.loaded = true;
   },
   beforeMount() {
     window.addEventListener("scroll", this.handleScroll);

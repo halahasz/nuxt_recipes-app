@@ -86,7 +86,7 @@ const createStore = () => {
               recipesArray.unshift({ ...res.data[key], id: key });
             }
 
-            if (!this.$cookies.get("jwt")) {
+            if (!this.$cookies.get("token")) {
               const arr = this.$cookies.get("likedRecipes");
               if (arr) {
                 recipesArray.map(el =>
@@ -109,12 +109,29 @@ const createStore = () => {
           })
           .catch(e => console.log(e));
       },
+      loadRecipe({ commit, state }, id) {
+        return axios
+          .get(process.env.baseUrl + `recipes/${id}.json`)
+          .then(res => {
+            if (!this.$cookies.get("token")) {
+              const arr = this.$cookies.get("likedRecipes");
+              if (arr) {
+                if (arr.includes(id)) {
+                  res.data.liked = true;
+                  return { ...res.data, id: id };
+                }
+              } else {
+                res.data.liked = false;
+                return { ...res.data, id: id };
+              }
+            }
+            return { ...res.data, id: id };
+          })
+          .catch(e => console.log(e));
+      },
       loadLikedRecipes({ commit, state }, id) {
         return axios
-          .get(
-            process.env.baseUrl +
-              `recipes.json?orderBy="id"&equalTo=${id}&auth=${state.token}`
-          )
+          .get(process.env.baseUrl + `recipes.json?orderBy="id"&equalTo=${id}`)
           .then(res => {
             const recipesArray = [];
             for (const key in res.data) {
@@ -130,9 +147,14 @@ const createStore = () => {
           ...recipe
         };
         return axios
-          .post(process.env.baseUrl + "recipes.json?auth=" + state.token, {
-            ...createdRecipe
-          })
+          .post(
+            process.env.baseUrl +
+              "recipes.json?auth=" +
+              this.$cookies.get("token"),
+            {
+              ...createdRecipe
+            }
+          )
           .then(result => {
             createdRecipe.id = result.data.name;
             commit("addRecipe", {
@@ -148,7 +170,7 @@ const createStore = () => {
               "recipes/" +
               deletedRecipe.id +
               ".json?auth=" +
-              state.token,
+              this.$cookies.get("token"),
             deletedRecipe
           )
           .then(result => {
@@ -164,7 +186,7 @@ const createStore = () => {
               "recipes/" +
               editedRecipe.id +
               ".json?auth=" +
-              state.token,
+              this.$cookies.get("token"),
             editedRecipe
           )
           .then(res => {
@@ -179,11 +201,11 @@ const createStore = () => {
               "recipes/" +
               editedRecipe.id +
               ".json?auth=" +
-              state.token,
+              this.$cookies.get("token"),
             editedRecipe
           )
           .then(res => {
-            commit("editLikedRecipe", this.id, editedRecipe);
+            commit("editLikedRecipe", editedRecipe.id, editedRecipe);
           })
           .catch(e => console.log(e));
       },
@@ -260,7 +282,6 @@ const createStore = () => {
             )}`
           )
           .then(res => {
-            alert("token", res.data.id_token);
             commit("setToken", res.data.id_token);
             localStorage.setItem("token", res.data.id_token);
             localStorage.setItem("refreshToken", res.data.refresh_token);
@@ -281,7 +302,7 @@ const createStore = () => {
         if (req) {
           const jwtCookie = req.headers.cookie
             .split(";")
-            .find(c => c.trim().startsWith("jwt="));
+            .find(c => c.trim().startsWith("token="));
           if (!jwtCookie) {
             return;
           }
@@ -303,10 +324,12 @@ const createStore = () => {
       },
       logout({ commit }) {
         commit("clearToken");
-        this.$cookies.remove("jwt");
+        this.$cookies.remove("token");
+        this.$cookies.remove("refreshToken");
         this.$cookies.remove("expirationDate");
         if (process.client) {
           localStorage.removeItem("token");
+          localStorage.removeItem("refreshToken");
           localStorage.removeItem("expirationDate");
         }
       }

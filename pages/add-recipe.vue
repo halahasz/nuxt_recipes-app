@@ -10,13 +10,12 @@
 <script>
 import RecipeForm from "@/components/UI/RecipeForm";
 export default {
-  middleware: ["check-auth", "auth"],
   components: {
     RecipeForm
   },
   computed: {
     isAdmin() {
-      return this.$store.getters.isAdmin;
+      return this.$cookies.get("token");
     }
   },
   methods: {

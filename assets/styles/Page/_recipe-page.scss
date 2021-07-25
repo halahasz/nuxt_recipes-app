@@ -100,10 +100,12 @@
   position: relative;
   z-index: 10;
   margin-top: 48vh;
+  height: fit-content;
   min-height: calc(59vh - 100px);
   background-color: #fff;
   position: relative;
   background-color: $recipe-bg;
+  transition: height 2s ease-in-out;
   &__headlines {
     @include mQuery(desktop) {
       width: 50%;
@@ -113,7 +115,27 @@
     button {
       font-size: 2rem;
       font-weight: 700;
-      padding: 40px 0 25px;
+      padding: 40px 0 15px;
+      color: $accent;
+      cursor: pointer;
+      &:nth-child(2) {
+        &:before {
+          right: 0;
+        }
+      }
+    }
+    .button-active {
+      color: $black;
+      outline: none;
+      position: relative;
+      &:before {
+        content: "";
+        position: absolute;
+        height: 1px;
+        width: 80%;
+        background-color: $primary;
+        bottom: 5px;
+      }
     }
   }
 }
@@ -121,6 +143,7 @@
 .recipe-ingredients,
 .recipe-recipe {
   width: 100%;
+  position: relative;
   @include mQuery(mobile) {
     width: 400px;
     margin: 0 auto;
@@ -165,18 +188,5 @@
     width: 25px;
     height: 30px;
     padding: 7px;
-  }
-}
-.button-active {
-  color: $black;
-  outline: none;
-  position: relative;
-  &:before {
-    content: "";
-    position: absolute;
-    height: 1px;
-    width: 80%;
-    background-color: $primary;
-    bottom: -4px;
   }
 }

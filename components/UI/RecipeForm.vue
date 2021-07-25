@@ -96,7 +96,7 @@
       <div
         class="recipe-ingredient-container"
         v-for="(ingredient, index) in editedRecipe.ingredients"
-        :key="ingredient.ingredient"
+        :key="`${ingredient.ingredient}-${index}`"
       >
         <Input
           :label="'Ingredient ' + (index + 1)"

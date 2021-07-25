@@ -93,75 +93,81 @@
       <div class="recipe-content__headlines">
         <button
           :class="{ 'button-active': isIngredients }"
-          @click="
-            isIngredients = true;
-            isRecipe = false;
-          "
+          @click="isIngredients = true"
         >
           Ingredients
         </button>
         <button
-          :class="{ 'button-active': isRecipe }"
-          @click="
-            isRecipe = true;
-            isIngredients = false;
-          "
+          :class="{ 'button-active': !isIngredients }"
+          @click="isIngredients = false"
         >
           Recipe
         </button>
       </div>
-      <section v-if="isIngredients" class="recipe-ingredients">
-        <div class="recipe-ingredients__header">
-          <div class="recipe-ingredients__clock">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="14.778"
-              height="14.778"
-              viewBox="0 0 14.778 14.778"
-            >
-              <g
-                id="Group_37"
-                data-name="Group 37"
-                transform="translate(-4.5 -4.5)"
+      <transition-group tag="div" name="fade-group" mode="out-in">
+        <section
+          key="1"
+          v-if="isIngredients"
+          :class="['recipe-ingredients', { active: isIngredients }]"
+        >
+          <div class="recipe-ingredients__header">
+            <div class="recipe-ingredients__clock">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14.778"
+                height="14.778"
+                viewBox="0 0 14.778 14.778"
               >
                 <g
-                  id="Group_36"
-                  data-name="Group 36"
-                  transform="translate(4.5 4.5)"
+                  id="Group_37"
+                  data-name="Group 37"
+                  transform="translate(-4.5 -4.5)"
                 >
-                  <path
-                    id="Path_16628"
-                    data-name="Path 16628"
-                    d="M13.145,6a7.145,7.145,0,1,0,7.145,7.145A7.15,7.15,0,0,0,13.145,6Zm0,.65a6.5,6.5,0,1,1-6.5,6.5A6.491,6.491,0,0,1,13.145,6.65ZM13.11,8.431a.325.325,0,0,0-.289.33v4.385a.325.325,0,0,0,.1.228l3.1,3.1a.325.325,0,0,0,.466-.453l-.009-.009-3-3V8.761a.325.325,0,0,0-.318-.332Z"
-                    transform="translate(-5.756 -5.756)"
-                    fill="#f86600"
-                  />
-                  <path
-                    id="Path_16629"
-                    data-name="Path 16629"
-                    d="M11.889,19.278a7.389,7.389,0,1,1,7.389-7.389A7.4,7.4,0,0,1,11.889,19.278Zm0-14.291a6.9,6.9,0,1,0,6.9,6.9A6.909,6.909,0,0,0,11.889,4.987Zm0,13.641a6.739,6.739,0,1,1,6.739-6.739A6.747,6.747,0,0,1,11.889,18.628Zm0-12.991a6.252,6.252,0,1,0,6.252,6.252A6.259,6.259,0,0,0,11.889,5.637Zm3.105,9.923a.567.567,0,0,1-.408-.172l-3.1-3.1a.564.564,0,0,1-.168-.4V7.5a.564.564,0,0,1,.506-.572h0a.644.644,0,0,1,.075,0,.569.569,0,0,1,.556.58v4.142l2.933,2.933a.573.573,0,0,1,.172.416.568.568,0,0,1-.568.56Zm-3.1-8.144H11.88a.081.081,0,0,0-.072.082v4.39a.08.08,0,0,0,.024.055l3.1,3.1a.082.082,0,0,0,.117,0,.081.081,0,0,0,0-.115L11.97,11.853V7.5A.083.083,0,0,0,11.891,7.416Z"
-                    transform="translate(-4.5 -4.5)"
-                    fill="#f86600"
-                  />
+                  <g
+                    id="Group_36"
+                    data-name="Group 36"
+                    transform="translate(4.5 4.5)"
+                  >
+                    <path
+                      id="Path_16628"
+                      data-name="Path 16628"
+                      d="M13.145,6a7.145,7.145,0,1,0,7.145,7.145A7.15,7.15,0,0,0,13.145,6Zm0,.65a6.5,6.5,0,1,1-6.5,6.5A6.491,6.491,0,0,1,13.145,6.65ZM13.11,8.431a.325.325,0,0,0-.289.33v4.385a.325.325,0,0,0,.1.228l3.1,3.1a.325.325,0,0,0,.466-.453l-.009-.009-3-3V8.761a.325.325,0,0,0-.318-.332Z"
+                      transform="translate(-5.756 -5.756)"
+                      fill="#f86600"
+                    />
+                    <path
+                      id="Path_16629"
+                      data-name="Path 16629"
+                      d="M11.889,19.278a7.389,7.389,0,1,1,7.389-7.389A7.4,7.4,0,0,1,11.889,19.278Zm0-14.291a6.9,6.9,0,1,0,6.9,6.9A6.909,6.909,0,0,0,11.889,4.987Zm0,13.641a6.739,6.739,0,1,1,6.739-6.739A6.747,6.747,0,0,1,11.889,18.628Zm0-12.991a6.252,6.252,0,1,0,6.252,6.252A6.259,6.259,0,0,0,11.889,5.637Zm3.105,9.923a.567.567,0,0,1-.408-.172l-3.1-3.1a.564.564,0,0,1-.168-.4V7.5a.564.564,0,0,1,.506-.572h0a.644.644,0,0,1,.075,0,.569.569,0,0,1,.556.58v4.142l2.933,2.933a.573.573,0,0,1,.172.416.568.568,0,0,1-.568.56Zm-3.1-8.144H11.88a.081.081,0,0,0-.072.082v4.39a.08.08,0,0,0,.024.055l3.1,3.1a.082.082,0,0,0,.117,0,.081.081,0,0,0,0-.115L11.97,11.853V7.5A.083.083,0,0,0,11.891,7.416Z"
+                      transform="translate(-4.5 -4.5)"
+                      fill="#f86600"
+                    />
+                  </g>
                 </g>
-              </g>
-            </svg>
-            <p>{{ loadedRecipe.time }}</p>
+              </svg>
+              <p>{{ loadedRecipe.time }}</p>
+            </div>
+            <p>{{ loadedRecipe.portions }} portions</p>
           </div>
-          <p>{{ loadedRecipe.portions }} portions</p>
-        </div>
-        <div
-          class="recipe-ingredients__ingredients"
-          v-for="ingredient in loadedRecipe.ingredients"
-          :key="ingredient.ingredient"
+          <div
+            class="recipe-ingredients__ingredients"
+            v-for="(ingredient, index) in loadedRecipe.ingredients"
+            :key="`${ingredient.ingredient}-${index}`"
+          >
+            <p class="ingredient" @click="onClick">
+              {{ ingredient.ingredient }}
+            </p>
+            <p>{{ ingredient.amount }}</p>
+          </div>
+        </section>
+        <section
+          key="2"
+          else
+          :class="['recipe-recipe', { active: !isIngredients }]"
         >
-          <p class="ingredient" @click="onClick">{{ ingredient.ingredient }}</p>
-          <p>{{ ingredient.amount }}</p>
-        </div>
-      </section>
-      <section v-if="isRecipe" class="recipe-recipe">
-        <div v-html="loadedRecipe.recipe.replace(/\n/g, '<br />')"></div>
-      </section>
+          <div v-html="loadedRecipe.recipe.replace(/\n/g, '<br />')"></div>
+        </section>
+      </transition-group>
     </section>
   </div>
 </template>
@@ -170,16 +176,14 @@
 export default {
   data() {
     return {
-      isIngredients: true,
-      isRecipe: false
+      isIngredients: true
     };
   },
-  computed: {
-    loadedRecipe() {
-      return this.$store.getters.loadedRecipes.filter(
-        recipe => recipe.id === this.$route.path.split("/")[2]
-      )[0];
-    }
+  async asyncData({ store, params }) {
+    const recipe = await store.dispatch("loadRecipe", params.id);
+    return {
+      loadedRecipe: recipe
+    };
   },
   methods: {
     onSubmitted() {

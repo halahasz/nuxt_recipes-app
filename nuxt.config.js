@@ -51,14 +51,9 @@ export default {
     baseUrl: "https://recipes-6f5e0.firebaseio.com/",
     fbAPIKey: "AIzaSyB7w290E1E2wWvkzqChlblUK68TBEbuvpU"
   },
-  // modules: ["@nuxtjs/axios", "@nuxtjs/proxy"],
-  // proxy: {
-  //   "/recipes.json": {
-  //     target: "https://recipes-app-2d021.firebaseio.com",
-  //     pathRewrite: {
-  //       "^/recipes.json": "/"
-  //     }
-  //   }
+  // layoutTransition: {
+  //   name: "page",
+  //   mode: "out-in"
   // },
   /*
    ** vuetify module configuration
