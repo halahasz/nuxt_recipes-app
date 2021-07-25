@@ -1,14 +1,12 @@
 <template>
-  <div class="container-bg" @click="startLogoutInterval">
+  <div @click="startLogoutInterval">
     <Header :title="title" />
     <div class="container-base">
       <!-- Menu Mobile -->
       <!-- <transition name="slide-fade">
       <MenuMobile v-if="showMenuMobile === true" />
     </transition> -->
-      <div class="wrapper-base">
-        <nuxt />
-      </div>
+      <nuxt />
       <!-- <Footer /> -->
     </div>
   </div>
@@ -71,11 +69,7 @@ export default {
 
       if (diff <= 1000 * 60 * 10) {
         try {
-          await this.$store.dispatch("authenticateUser", {
-            isLogin: this.$store.getters.isAdmin,
-            email: this.email,
-            password: this.password
-          });
+          await this.$store.dispatch("refreshToken");
         } catch (error) {
           console.log(error);
           this.$store.dispatch("logout");
@@ -93,6 +87,7 @@ export default {
   },
   beforeDestroy() {
     clearTimeout(this.logoutTimeout);
+    clearTimeout(this.refreshInterval);
   }
 };
 </script>

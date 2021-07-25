@@ -11,7 +11,7 @@
       <div class="recipe-photo__content">
         <svg
           class="heart"
-          @click.stop="onSubmitted"
+          @click.prevent="onSubmitted"
           v-if="loadedRecipe.liked"
           xmlns="http://www.w3.org/2000/svg"
           width="26.211"
@@ -35,7 +35,7 @@
         <svg
           class="heart"
           v-else
-          @click.stop="onSubmitted"
+          @click.prevent="onSubmitted"
           xmlns="http://www.w3.org/2000/svg"
           width="26.211"
           height="23.432"
@@ -167,8 +167,6 @@
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   data() {
     return {
@@ -215,30 +213,7 @@ export default {
           });
         }
       }
-
-      axios
-        .put(
-          "https://recipes-6f5e0.firebaseio.com/recipes/" +
-            this.loadedRecipe.id +
-            ".json",
-          {
-            id: this.loadedRecipe.id,
-            title: this.loadedRecipe.title,
-            photo: this.loadedRecipe.photo,
-            link: this.loadedRecipe.link,
-            time: this.loadedRecipe.time,
-            author: this.loadedRecipe.author,
-            portions: this.loadedRecipe.portions,
-            recipe: this.loadedRecipe.recipe,
-            ingredients: this.loadedRecipe.ingredients,
-            liked: this.loadedRecipe.liked,
-            date: this.loadedRecipe.date
-          }
-        )
-        .then(() => {
-          this.$store.commit("editRecipe", this.loadedRecipe);
-        })
-        .catch(e => console.log(e));
+      this.$store.dispatch("editRecipe", this.loadedRecipe);
     },
     onClick(e) {
       e.target.classList.toggle("ingredient-checked");

@@ -82,22 +82,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/* .admin-auth-page {
-  padding: 20px;
-}
-
 .auth-container {
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0 2px 2px #ccc;
-  width: 300px;
-  margin: auto;
-  padding: 10px;
-  box-sizing: border-box;
-} */
-.auth-container {
-  width: 60%;
+  width: 40%;
   padding: 0px 30px 0;
-  margin-left: 20%;
+  margin-left: 30%;
 }
 </style>

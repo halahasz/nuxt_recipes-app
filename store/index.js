@@ -66,7 +66,6 @@ const createStore = () => {
     },
     actions: {
       loadRecipes({ commit, state }, num) {
-        // commit("clearRecipes");
         commit("setLoading", true);
         const recipesNum = state.recipesNum + num;
         return axios
@@ -82,7 +81,7 @@ const createStore = () => {
             ) {
               commit("setAllRecipesLoaded", true);
             }
-            const recipesArray = [];
+            var recipesArray = [];
             for (const key in res.data) {
               recipesArray.unshift({ ...res.data[key], id: key });
             }
@@ -93,8 +92,9 @@ const createStore = () => {
                 recipesArray.map(el =>
                   arr.includes(el.id) ? (el.liked = true) : (el.liked = false)
                 );
+              } else {
+                recipesArray.map(el => (el.liked = false));
               }
-              recipesArray.map(el => (el.liked = false));
               const sortedArr = recipesArray.sort((a, b) => a.order - b.order);
               commit("setRecipesNum", recipesNum);
               commit("setRecipes", sortedArr);
@@ -203,13 +203,9 @@ const createStore = () => {
               .then(res => {
                 for (const key in res.data) {
                   commit("addRecipe", { ...res.data[key], id: key });
-                  // recipesArray.unshift({ ...res.data[key], id: key });
                 }
               });
           }
-          // console.log("recipesArray", recipesArray);
-          // commit("setRecipes", recipesArray);
-          // return recipesArray;
         } else {
           return axios
             .get(
@@ -241,14 +237,42 @@ const createStore = () => {
           .then(res => {
             commit("setToken", res.data.idToken);
             localStorage.setItem("token", res.data.idToken);
+            localStorage.setItem("refreshToken", res.data.refreshToken);
             localStorage.setItem(
               "expirationDate",
               new Date().getTime() + +res.data.expiresIn * 1000
             );
-            this.$cookies.set("jwt", res.data.idToken);
+            this.$cookies.set("token", res.data.idToken);
+            this.$cookies.set("refreshToken", res.data.refreshToken);
             this.$cookies.set(
               "expirationDate",
               new Date().getTime() + +res.data.expiresIn * 1000
+            );
+          });
+      },
+      refreshToken({ commit, state }) {
+        return axios
+          .post(
+            `https://securetoken.googleapis.com/v1/token?key=${
+              process.env.fbAPIKey
+            }&grant_type=refresh_token&refresh_token=${this.$cookies.get(
+              "refreshToken"
+            )}`
+          )
+          .then(res => {
+            alert("token", res.data.id_token);
+            commit("setToken", res.data.id_token);
+            localStorage.setItem("token", res.data.id_token);
+            localStorage.setItem("refreshToken", res.data.refresh_token);
+            localStorage.setItem(
+              "expirationDate",
+              new Date().getTime() + +res.data.expires_in * 1000
+            );
+            this.$cookies.set("token", res.data.id_token);
+            this.$cookies.set("refreshToken", res.data.refresh_token);
+            this.$cookies.set(
+              "expirationDate",
+              new Date().getTime() + +res.data.expires_in * 1000
             );
           });
       },

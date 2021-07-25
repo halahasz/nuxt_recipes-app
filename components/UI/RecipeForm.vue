@@ -3,10 +3,9 @@
     <div class="add-recipe-container">
       <img class="recipe-thumbnail" :src="editedRecipe.photo" />
       <button
-        :class="{ right: this.editedRecipe.photo }"
         title="Pick file"
         type="button"
-        class="btn-add"
+        :class="['btn-add', { right: editedRecipe.photo }]"
         @click="onPickFile"
       >
         <svg
@@ -97,7 +96,7 @@
       <div
         class="recipe-ingredient-container"
         v-for="(ingredient, index) in editedRecipe.ingredients"
-        :key="index"
+        :key="ingredient.ingredient"
       >
         <Input
           :label="'Ingredient ' + (index + 1)"
@@ -232,12 +231,10 @@ export default {
         var storageRef = fb.storage().ref("edit-recipe/" + file.name);
         let uploadTask = storageRef.put(file);
 
-        uploadTask.on("state_changed", function(snapshot) {
-          uploadTask.snapshot.ref
-            .getDownloadURL()
-            .then(function(getDownloadURL) {
-              this.editedRecipe.photo = getDownloadURL;
-            });
+        uploadTask.on("state_changed", snapshot => {
+          uploadTask.snapshot.ref.getDownloadURL().then(getDownloadURL => {
+            this.editedRecipe.photo = getDownloadURL;
+          });
         });
       }
     }
@@ -260,6 +257,10 @@ export default {
   border-radius: 30px;
   margin: 30px 0px 20px 0;
   position: relative;
+}
+.add-recipe-container {
+  position: relative;
+  text-align: center;
 }
 .btn-add {
   position: absolute;

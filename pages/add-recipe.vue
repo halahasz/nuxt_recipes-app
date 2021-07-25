@@ -10,6 +10,7 @@
 <script>
 import RecipeForm from "@/components/UI/RecipeForm";
 export default {
+  middleware: ["check-auth", "auth"],
   components: {
     RecipeForm
   },

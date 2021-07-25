@@ -173,11 +173,16 @@ export default {
   transition: $transition;
   &.scrolled {
     height: 60px;
+    .form_group {
+      padding: 12px 0 0;
+    }
     .header-title {
       font-size: 25px;
+      padding-bottom: 6px;
       &:before {
         content: "";
         width: 100px;
+        bottom: 0;
       }
     }
     .btn-add {

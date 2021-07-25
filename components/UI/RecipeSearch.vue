@@ -71,6 +71,10 @@ export default {
     right: -70px;
     border: none;
     cursor: pointer;
+    box-shadow: $box-shadow-search;
+    &:hover {
+      box-shadow: $box-shadow-searchDark;
+    }
   }
 }
 </style>

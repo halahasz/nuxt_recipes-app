@@ -5,6 +5,9 @@
     height: auto;
   }
 }
+.ingredient {
+  cursor: pointer;
+}
 .ingredient-checked {
   position: relative;
   &:before {
@@ -96,7 +99,7 @@
   border-radius: 30px;
   position: relative;
   z-index: 10;
-  margin-top: 41vh;
+  margin-top: 48vh;
   min-height: calc(59vh - 100px);
   background-color: #fff;
   position: relative;

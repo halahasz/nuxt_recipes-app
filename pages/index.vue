@@ -48,12 +48,6 @@ export default {
       loading: state => state.loading,
       searchText: state => state.searchText
     }),
-    // allRecipesLoaded() {
-    //   return this.$store.state.allRecipesLoaded;
-    // },
-    // loading() {
-    //   return this.$store.state.loading;
-    // },
     showButton() {
       return this.searchText === "" && !this.loading && !this.allRecipesLoaded;
     }
