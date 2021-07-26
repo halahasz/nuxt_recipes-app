@@ -1,6 +1,9 @@
 <template>
   <div class="favourites-page">
-    <RecipeList :recipes="likedRecipes" />
+    <transition-group tag="span" name="fade-group" mode="out-in">
+      <RecipeList key="1" v-if="likedRecipes.length" :recipes="likedRecipes" />
+      <h1 key="2" class="page-title" v-else>There is no favourite recipes!</h1>
+    </transition-group>
   </div>
 </template>
 

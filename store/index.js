@@ -57,8 +57,8 @@ const createStore = () => {
       clearRecipes(state) {
         state.loadedRecipes = [];
       },
-      setSearchText(state, searchText) {
-        state.searchText = searchText;
+      setSearchText(state, text) {
+        state.searchText = text;
       }
     },
     actions: {

@@ -34,11 +34,14 @@ export default {
     ...mapState({
       token: state => state.token,
       email: state => state.email,
-      password: state => state.password
+      password: state => state.password,
+      searchText: state => state.searchText
     }),
     title() {
-      if (this.$route.path === "/") {
+      if (this.$route.path === "/" && this.searchText == "") {
         return "My recipes";
+      } else if (this.$route.path === "/" && this.searchText != "") {
+        return "My search results";
       } else {
         return (
           this.$route.path

@@ -1,6 +1,13 @@
 <template>
   <div class="recipes-page">
-    <RecipeList :recipes="loadedRecipes" />
+    <transition-group tag="span" name="fade-group" mode="out-in">
+      <RecipeList
+        key="1"
+        v-if="loadedRecipes.length"
+        :recipes="loadedRecipes"
+      />
+      <h1 key="2" class="page-title" v-else>There is no recipes!</h1>
+    </transition-group>
     <transition-group tag="span" name="fade-group" mode="out-in">
       <LoadingSpinner key="1" v-if="loading" />
       <Button
