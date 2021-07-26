@@ -217,7 +217,9 @@ export default {
           });
         }
       }
-      this.$store.dispatch("editRecipe", this.loadedRecipe);
+      if (this.$cookies.get("token")) {
+        this.$store.dispatch("editRecipe", this.loadedRecipe);
+      }
     },
     onClick(e) {
       e.target.classList.toggle("ingredient-checked");

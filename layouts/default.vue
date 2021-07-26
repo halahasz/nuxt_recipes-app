@@ -85,7 +85,7 @@ export default {
     startLogoutInterval() {
       clearTimeout(this.logoutTimeout);
       this.logoutTimeout = setTimeout(() => {
-        this.$store.dispatch("logout");
+        this.$$cookies.remove("token");
         this.$router.push("/admin/auth");
       }, 1000 * 60 * 15);
     }

@@ -132,7 +132,7 @@ export default {
         recipe => recipe.id === this.id
       )[0];
       editedRecipe.liked = !editedRecipe.liked;
-      if (!this.isAdmin) {
+      if (!this.$cookies.get("token")) {
         // Save liked recipes in cookies
         if (editedRecipe.liked) {
           if (!this.$cookies.get("likedRecipes")) {
@@ -163,7 +163,7 @@ export default {
           }
         }
       } else {
-        this.$store.dispatch("editLikedRecipe", {
+        this.$store.dispatch("editRecipe", {
           id: this.id,
           title: this.title,
           keywards: this.keywards,

@@ -35,9 +35,6 @@ const createStore = () => {
         );
         state.loadedRecipes[postIndex] = editedRecipe;
       },
-      editLikedRecipe(state, id, editedRecipe) {
-        state.loadedRecipes[id] = editedRecipe;
-      },
       deleteRecipe(state, deletedRecipe) {
         const recipeIndex = state.loadedRecipes.findIndex(
           recipe => recipe.id == deletedRecipe.id
@@ -116,13 +113,11 @@ const createStore = () => {
             if (!this.$cookies.get("token")) {
               const arr = this.$cookies.get("likedRecipes");
               if (arr) {
-                if (arr.includes(id)) {
-                  res.data.liked = true;
-                  return { ...res.data, id: id };
-                }
+                arr.includes(id)
+                  ? (res.data.liked = true)
+                  : (res.data.liked = false);
               } else {
                 res.data.liked = false;
-                return { ...res.data, id: id };
               }
             }
             return { ...res.data, id: id };
@@ -194,28 +189,12 @@ const createStore = () => {
           })
           .catch(e => console.log(e));
       },
-      editLikedRecipe({ commit, state }, editedRecipe) {
-        return axios
-          .put(
-            process.env.baseUrl +
-              "recipes/" +
-              editedRecipe.id +
-              ".json?auth=" +
-              this.$cookies.get("token"),
-            editedRecipe
-          )
-          .then(res => {
-            commit("editLikedRecipe", editedRecipe.id, editedRecipe);
-          })
-          .catch(e => console.log(e));
-      },
       setRecipes({ commit }, recipes) {
         commit("setRecipes", recipes);
       },
-      searchRecipes({ commit, state }, text) {
+      searchRecipes({ commit, dispatch }, text) {
         if (text.length) {
           commit("clearRecipes");
-          var recipesArray = [];
           for (let i = 0; i < 12; i++) {
             axios
               .get(
@@ -224,25 +203,23 @@ const createStore = () => {
               )
               .then(res => {
                 for (const key in res.data) {
+                  if (!this.$cookies.get("token")) {
+                    const arr = this.$cookies.get("likedRecipes");
+                    if (arr) {
+                      arr.includes(key)
+                        ? (res.data[key].liked = true)
+                        : (res.data[key].liked = false);
+                    } else {
+                      res.data.liked = false;
+                    }
+                  }
+
                   commit("addRecipe", { ...res.data[key], id: key });
                 }
               });
           }
         } else {
-          return axios
-            .get(
-              process.env.baseUrl +
-                `recipes.json?orderBy="order"&limitToFirst=${state.recipesNum}`
-            )
-            .then(res => {
-              const recipesArray = [];
-              for (const key in res.data) {
-                recipesArray.unshift({ ...res.data[key], id: key });
-              }
-              commit("setRecipes", recipesArray);
-              return recipesArray;
-            })
-            .catch(e => console.log(e));
+          dispatch("loadRecipes", 0);
         }
       },
       authenticateUser({ commit }, authData) {
