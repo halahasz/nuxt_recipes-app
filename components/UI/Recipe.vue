@@ -177,6 +177,7 @@ export default {
           recipe: this.recipe,
           ingredients: this.ingredients,
           liked: !this.liked,
+          order: !this.order,
           date: `${new Date().getFullYear()}-${
             new Date().getMonth() + 1 < 10
               ? "0" + (new Date().getMonth() + 1)

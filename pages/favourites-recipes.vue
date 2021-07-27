@@ -1,7 +1,11 @@
 <template>
   <div class="favourites-page">
     <transition-group tag="span" name="fade-group" mode="out-in">
-      <RecipeList key="1" v-if="likedRecipes.length" :recipes="likedRecipes" />
+      <RecipeList
+        key="1"
+        v-if="loadedRecipes.length"
+        :recipes="loadedRecipes"
+      />
       <h1 key="2" class="page-title" v-else>There is no favourite recipes!</h1>
     </transition-group>
   </div>
@@ -12,26 +16,17 @@ import RecipeList from "@/components/UI/RecipeList";
 import LoadingSpinner from "@/components/UI/LoadingSpinner";
 
 export default {
-  asyncData({ store }) {
-    return store.dispatch("loadLikedRecipes");
-    // return {
-    //   loadedRecipes: loadedRecipes
-    // };
+  async asyncData({ store }) {
+    await store.dispatch("loadLikedRecipes");
   },
   components: {
     RecipeList,
     LoadingSpinner
   },
   computed: {
-    // likedRecipes() {
-    //   return this.loadedRecipes.filter(recipe => recipe.liked === true);
-    // },
-    likedRecipes() {
+    loadedRecipes() {
       return this.$store.state.loadedRecipes;
     }
-    // loading() {
-    //   return this.$store.state.loading;
-    // }
   },
   methods: {
     loadLikedRecipes() {

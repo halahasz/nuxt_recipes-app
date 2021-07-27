@@ -13,6 +13,7 @@
       :portions="recipe.portions"
       :ingredients="recipe.ingredients"
       :liked="recipe.liked"
+      :order="recipe.order"
       :date="recipe.date"
     />
   </div>

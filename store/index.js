@@ -128,26 +128,22 @@ const createStore = () => {
           })
           .catch(e => console.log(e));
       },
-      loadLikedRecipes({ commit, state }) {
+      async loadLikedRecipes({ commit, state }) {
         if (!this.$cookies.get("token")) {
           let arr = this.$cookies.get("likedRecipes");
           if (arr) {
-            console.log("arr", arr);
             var recipesArray = [];
-            arr.forEach(el => {
-              return axios
-                .get(process.env.baseUrl + `recipes/${el}.json`)
-                .then(res => {
-                  console.log("res", res);
-                  res.data.liked = true;
-                  recipesArray.unshift({ ...res.data });
-                })
-                .catch(e => console.log(e));
-            });
-            commit("setRecipes", recipesArray);
+            for (let key of arr) {
+              let res = await axios.get(
+                process.env.baseUrl + `recipes/${key}.json`
+              );
+              res.data.liked = true;
+              recipesArray.unshift({ ...res.data });
+            }
+            const sortedArr = recipesArray.sort((a, b) => a.order - b.order);
+            commit("setRecipes", sortedArr);
             return state.loadedRecipes;
           } else {
-            console.log("return");
             commit("setRecipes", []);
             return [];
           }
@@ -161,8 +157,9 @@ const createStore = () => {
               for (const key in res.data) {
                 recipesArray.unshift({ ...res.data[key], id: key });
               }
-              const sorted = recipesArray.sort((a, b) => a.order - b.order);
-              commit("setRecipes", sorted);
+              const sortedArr = recipesArray.sort((a, b) => a.order - b.order);
+              commit("setRecipes", sortedArr);
+              return state.loadedRecipes;
             })
             .catch(e => console.log(e));
         }
