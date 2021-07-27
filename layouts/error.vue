@@ -12,6 +12,7 @@
 
 <script>
 import Button from "@/components/UI/Button";
+
 export default {
   layout: "empty",
   components: {

@@ -148,6 +148,7 @@ const createStore = () => {
             commit("setRecipes", []);
             return [];
           }
+
         } else {
           return axios
             .get(
