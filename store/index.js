@@ -106,6 +106,10 @@ const createStore = () => {
           })
           .catch(e => console.log(e));
       },
+      filterRecipes({ commit, state }, id) {
+        const filteredRecipes = state.loadedRecipes.filter(el => el.id != id);
+        commit("setRecipes", filteredRecipes);
+      },
       loadRecipe({ commit, state }, id) {
         return axios
           .get(process.env.baseUrl + `recipes/${id}.json`)
@@ -124,18 +128,44 @@ const createStore = () => {
           })
           .catch(e => console.log(e));
       },
-      loadLikedRecipes({ commit, state }, id) {
-        return axios
-          .get(process.env.baseUrl + `recipes.json?orderBy="id"&equalTo=${id}`)
-          .then(res => {
-            const recipesArray = [];
-            for (const key in res.data) {
-              recipesArray.unshift({ ...res.data[key], id: key });
-            }
-            const sorted = recipesArray.sort((a, b) => a.order - b.order);
-            commit("setRecipes", sorted);
-          })
-          .catch(e => console.log(e));
+      loadLikedRecipes({ commit, state }) {
+        if (!this.$cookies.get("token")) {
+          let arr = this.$cookies.get("likedRecipes");
+          if (arr) {
+            console.log("arr", arr);
+            var recipesArray = [];
+            arr.forEach(el => {
+              return axios
+                .get(process.env.baseUrl + `recipes/${el}.json`)
+                .then(res => {
+                  console.log("res", res);
+                  res.data.liked = true;
+                  recipesArray.unshift({ ...res.data });
+                })
+                .catch(e => console.log(e));
+            });
+            commit("setRecipes", recipesArray);
+            return state.loadedRecipes;
+          } else {
+            console.log("return");
+            commit("setRecipes", []);
+            return [];
+          }
+        } else {
+          return axios
+            .get(
+              process.env.baseUrl + `recipes.json?orderBy="liked"&equalTo=true`
+            )
+            .then(res => {
+              const recipesArray = [];
+              for (const key in res.data) {
+                recipesArray.unshift({ ...res.data[key], id: key });
+              }
+              const sorted = recipesArray.sort((a, b) => a.order - b.order);
+              commit("setRecipes", sorted);
+            })
+            .catch(e => console.log(e));
+        }
       },
       addRecipe({ commit, state }, recipe) {
         const createdRecipe = {

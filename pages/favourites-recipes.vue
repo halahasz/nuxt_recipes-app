@@ -12,24 +12,26 @@ import RecipeList from "@/components/UI/RecipeList";
 import LoadingSpinner from "@/components/UI/LoadingSpinner";
 
 export default {
-  async asyncData({ store }) {
-    const loadedRecipes = await store.dispatch("loadRecipes", 0);
-
-    return {
-      loadedRecipes: loadedRecipes
-    };
+  asyncData({ store }) {
+    return store.dispatch("loadLikedRecipes");
+    // return {
+    //   loadedRecipes: loadedRecipes
+    // };
   },
   components: {
     RecipeList,
     LoadingSpinner
   },
   computed: {
+    // likedRecipes() {
+    //   return this.loadedRecipes.filter(recipe => recipe.liked === true);
+    // },
     likedRecipes() {
-      return this.loadedRecipes.filter(recipe => recipe.liked === true);
-    },
-    loading() {
-      return this.$store.state.loading;
+      return this.$store.state.loadedRecipes;
     }
+    // loading() {
+    //   return this.$store.state.loading;
+    // }
   },
   methods: {
     loadLikedRecipes() {

@@ -160,9 +160,11 @@ export default {
             this.$cookies.set("likedRecipes", filteredArr, {
               maxAge: 60 * 60 * 24 * 7
             });
+            this.$store.dispatch("filterRecipes", this.id);
           }
         }
       } else {
+        this.$store.dispatch("filterRecipes", this.id);
         this.$store.dispatch("editRecipe", {
           id: this.id,
           title: this.title,
