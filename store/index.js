@@ -73,7 +73,8 @@ const createStore = () => {
           .then(res => {
             var arr = Object.entries(res.data);
             if (
-              arr.length === state.loadedRecipes.length &&
+              arr.length + num >= state.loadedRecipes.length &&
+              arr.length % num !== 0 &&
               arr.length != state.recipesNum
             ) {
               commit("setAllRecipesLoaded", true);
