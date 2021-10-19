@@ -91,7 +91,7 @@
       <Input label="Time" v-model="editedRecipe.time" />
       <Input label="Portions" type="number" v-model="editedRecipe.portions" />
     </div>
-    <p class="ingredients-label">INGREDIENTS <span>(1-10)</span></p>
+    <p class="ingredients-label">INGREDIENTS</p>
     <template v-if="editedRecipe.ingredients">
       <div
         class="recipe-ingredient-container"
@@ -117,7 +117,14 @@
         />
       </div>
     </template>
-    <Button text="+ Add ingredient" color="white" @click="addIngr" />
+    <transition name="fade">
+      <Button
+        v-if="this.editedRecipe.ingredients.length < 10"
+        text="+ Add ingredient"
+        color="white"
+        @click="addIngr"
+      />
+    </transition>
     <p class="ingredients-label">RECIPE</p>
     <textarea
       class="recipe-textarea"
@@ -264,14 +271,15 @@ export default {
 .btn-add {
   position: absolute;
   content: "";
-  top: -4px;
+  top: 0;
   background: #fff;
   right: calc(50% - 28px);
-  width: 56px;
-  height: 56px;
+  width: 50px;
+  height: 50px;
   border-radius: 30px;
   transition: $transition;
   box-shadow: $box-shadow;
+  cursor: pointer;
   &.right {
     right: 40%;
   }
@@ -285,8 +293,7 @@ export default {
     }
   }
   svg {
-    width: 27px;
-    height: 30px;
+    height: 25px;
     transition: $transition;
     path,
     circle {
@@ -331,10 +338,10 @@ export default {
   position: relative;
   margin: 17px auto 20px;
   .form__group {
-    width: 77%;
+    width: 71%;
     margin: 0;
     &--amount {
-      width: 19%;
+      width: 25%;
     }
   }
 }
@@ -364,17 +371,19 @@ export default {
   font-weight: 600;
   font-size: 15px;
   font-size: 1.4rem;
-  height: 240px;
+  height: 180px;
   width: 100%;
   line-height: 21px;
   padding: 15px;
   border-color: $grey;
   font-family: "Open Sans", sans-serif;
-  border: 1px solid $grey;
+  border: none;
+  border-bottom: 1px solid $grey;
   font-weight: 100;
   &:focus {
-    outline: 1px solid $primary;
+    outline: none;
     border: none;
+    border-bottom: 1px solid $primary;
   }
   &::placeholder {
     font-family: "Open Sans", sans-serif;

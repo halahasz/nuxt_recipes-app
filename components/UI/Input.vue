@@ -81,7 +81,7 @@ export default {
   border-bottom: 1px solid $grey;
   outline: 0;
   font-size: 1.4rem;
-  padding: 7px 0 7px 5px;
+  padding: 7px 30px 7px 15px;
   background: transparent;
   transition: all 0.2s;
   color: $accent;
@@ -94,7 +94,7 @@ export default {
     border-bottom: 1px solid $primary;
   }
   &:focus ~ .form__label {
-    left: 5px;
+    left: 15px;
   }
   &:active {
     background-color: transparent;
@@ -109,7 +109,7 @@ export default {
     font-size: 1.3rem;
     cursor: text;
     top: 25px;
-    left: 5px;
+    left: 15px;
     @include mQuery(desktop) {
       font-size: 1.4rem;
       top: 15px;
@@ -119,7 +119,7 @@ export default {
 .form__label {
   position: absolute;
   top: 0;
-  left: 5px;
+  left: 15px;
   display: block;
   transition: 0.2s;
   font-size: 1rem;

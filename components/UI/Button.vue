@@ -43,17 +43,15 @@ export default {
   padding: 11px 20px 12px;
   border-radius: 28px;
   border: none;
-  margin: 20px 10px;
+  margin: 20px auto;
   letter-spacing: 1px;
-  margin-top: 20px;
   display: block;
   color: $white;
   background-color: $primary;
   &-absolute {
     position: absolute;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
+    left: 50%;
+    transform: translate(-50%, 0);
   }
   &:hover {
     box-shadow: $box-shadow-light;

@@ -192,15 +192,13 @@ export default {
         bottom: 0;
       }
     }
-    .btn-add {
+    .btn-search {
       width: 40px;
       height: 40px;
       right: -60px;
       top: 4px;
       svg {
-        width: 20px;
-        height: 20px;
-        padding: 3px;
+        transform: scale(0.9);
       }
     }
   }
@@ -218,7 +216,7 @@ export default {
     .header-search {
       display: flex;
       justify-content: flex-end;
-      padding-right: 60px;
+      padding-right: 40px;
     }
   }
   &-title {
