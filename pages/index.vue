@@ -6,7 +6,9 @@
         v-if="loadedRecipes.length"
         :recipes="loadedRecipes"
       />
-      <h1 key="2" class="page-title" v-else>There is no recipes!</h1>
+      <h1 key="2" class="page-title" v-else>
+        There is no recipes!
+      </h1>
     </transition-group>
     <transition-group tag="span" name="fade-group" mode="out-in">
       <LoadingSpinner key="1" v-if="loading" />
@@ -51,7 +53,7 @@ export default {
   },
   computed: {
     ...mapState({
-      allRecipesLoaded: state => state.allRecipesLoaded,
+      isRecipesLoaded: state => state.allRecipesLoaded,
       loading: state => state.loading,
       searchText: state => state.searchText
     }),

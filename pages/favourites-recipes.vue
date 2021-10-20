@@ -1,13 +1,12 @@
 <template>
   <div class="favourites-page">
-    <transition-group tag="span" name="fade-group" mode="out-in">
-      <RecipeList
-        key="1"
-        v-if="loadedRecipes.length"
-        :recipes="loadedRecipes"
-      />
-      <h1 key="2" class="page-title" v-else>There is no favourite recipes!</h1>
-    </transition-group>
+    <transition name="fade" mode="out-in">
+      <RecipeList key="1" v-if="likedRecipes.length" :recipes="likedRecipes" />
+      <h1 key="2" class="page-title" v-else>
+        There is no favourite recipes! <br />
+        Please lik some!
+      </h1>
+    </transition>
   </div>
 </template>
 
@@ -24,8 +23,8 @@ export default {
     LoadingSpinner
   },
   computed: {
-    loadedRecipes() {
-      return this.$store.state.loadedRecipes;
+    likedRecipes() {
+      return this.$store.state.likedRecipes;
     }
   },
   methods: {

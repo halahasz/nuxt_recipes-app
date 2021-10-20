@@ -5,8 +5,9 @@ const createStore = () => {
   return new Vuex.Store({
     state: {
       loadedRecipes: [],
+      likedRecipes: [],
       recipesNum: 6,
-      allRecipesLoaded: false,
+      isRecipesLoaded: false,
       loading: false,
       token: null,
       email: null,
@@ -16,6 +17,9 @@ const createStore = () => {
     mutations: {
       setRecipes(state, recipes) {
         state.loadedRecipes = recipes;
+      },
+      setLikedRecipes(state, recipes) {
+        state.likedRecipes = recipes;
       },
       setLoading(state, value) {
         state.loading = value;
@@ -108,8 +112,8 @@ const createStore = () => {
           .catch(e => console.log(e));
       },
       filterRecipes({ commit, state }, id) {
-        const filteredRecipes = state.loadedRecipes.filter(el => el.id != id);
-        commit("setRecipes", filteredRecipes);
+        const filteredRecipes = state.likedRecipes.filter(el => el.id != id);
+        commit("setLikedRecipes", filteredRecipes);
       },
       loadRecipe({ commit, state }, id) {
         return axios
@@ -142,13 +146,12 @@ const createStore = () => {
               recipesArray.unshift({ ...res.data });
             }
             const sortedArr = recipesArray.sort((a, b) => a.order - b.order);
-            commit("setRecipes", sortedArr);
+            commit("setLikedRecipes", sortedArr);
             return state.loadedRecipes;
           } else {
-            commit("setRecipes", []);
+            commit("setLikedRecipes", []);
             return [];
           }
-
         } else {
           return axios
             .get(

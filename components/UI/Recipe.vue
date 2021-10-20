@@ -14,7 +14,7 @@
     <svg
       class="recipe-heart"
       v-if="liked"
-      @click.stop="onSubmitted"
+      @click.stop="onLikeClick"
       xmlns="http://www.w3.org/2000/svg"
       width="26.211"
       height="23.432"
@@ -37,7 +37,7 @@
     <svg
       class="recipe-heart"
       v-else
-      @click.stop="onSubmitted"
+      @click.stop="onLikeClick"
       xmlns="http://www.w3.org/2000/svg"
       width="26.211"
       height="23.432"
@@ -127,13 +127,13 @@ export default {
     }
   },
   methods: {
-    onSubmitted() {
+    onLikeClick() {
       const editedRecipe = this.loadedRecipes.filter(
         recipe => recipe.id === this.id
       )[0];
       editedRecipe.liked = !editedRecipe.liked;
       if (!this.$cookies.get("token")) {
-        // Save liked recipes in cookies
+        // Save liked recipes in cookies for unlogged users
         if (editedRecipe.liked) {
           if (!this.$cookies.get("likedRecipes")) {
             const arr = [];

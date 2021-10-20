@@ -39,7 +39,8 @@
   // max-height: 0px;
 }
 
-.fade-group-leave-active {
+.fade-group-leave-active,
+.fade-group-move {
   position: absolute;
   left: 0;
   right: 0;
