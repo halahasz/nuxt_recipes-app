@@ -279,6 +279,7 @@ const createStore = () => {
               "expirationDate",
               new Date().getTime() + +res.data.expiresIn * 1000
             );
+            this.$cookies.remove("likedRecipes");
           });
       },
       refreshToken({ commit, state }) {

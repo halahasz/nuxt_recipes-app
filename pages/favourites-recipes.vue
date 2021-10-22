@@ -1,7 +1,11 @@
 <template>
   <div class="favourites-page">
     <transition name="fade" mode="out-in">
-      <RecipeList key="1" v-if="likedRecipes.length" :recipes="likedRecipes" />
+      <RecipeList
+        key="1"
+        v-if="likedRecipes.length || (loadedRecipes.length && isLogged)"
+        :recipes="isLogged ? loadedRecipes : likedRecipes"
+      />
       <h1 key="2" class="page-title" v-else>
         There is no favourite recipes! <br />
         Please lik some!
@@ -13,6 +17,7 @@
 <script>
 import RecipeList from "@/components/UI/RecipeList";
 import LoadingSpinner from "@/components/UI/LoadingSpinner";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   async asyncData({ store }) {
@@ -23,8 +28,9 @@ export default {
     LoadingSpinner
   },
   computed: {
-    likedRecipes() {
-      return this.$store.state.likedRecipes;
+    ...mapState(["likedRecipes", "loadedRecipes", "token"]),
+    isLogged() {
+      return this.$cookies.get("token");
     }
   },
   methods: {
