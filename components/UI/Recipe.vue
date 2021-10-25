@@ -218,8 +218,10 @@ export default {
   z-index: 10;
 }
 .recipe-preview {
-  filter: brightness(1.3);
+  // filter: brightness(1.3);
   width: 100%;
+  box-sizing: border-box;
+  background: none;
   margin: 0 auto;
   margin: 15px 0;
   height: 320px;
@@ -230,19 +232,54 @@ export default {
     0px 1px 18px 0px rgba(158, 116, 88, 0.12);
   border-radius: 30px;
   position: relative;
+  border: 0;
+  transition: color 0.25s;
   @media (max-width: 480px) {
     height: 400px;
   }
-  &:before {
+  &:before,
+  &:after {
     content: "";
-    left: 0;
+    box-sizing: inherit;
+    left: 0px;
     top: 0;
     height: 100%;
     width: 100%;
-    background: linear-gradient(rgba(0, 0, 0, 0.4) 40%, rgba(0, 0, 0, 0.8));
+    // background: linear-gradient(rgba(0, 0, 0, 0.4) 40%, rgba(0, 0, 0, 0.8));
     position: absolute;
     z-index: 1;
     border-radius: 30px;
+    border: 2px solid transparent;
+    width: 0;
+    height: 0;
+  }
+  &:before {
+    top: 0;
+    left: 0px;
+  }
+  &:after {
+    bottom: 0;
+    right: 0;
+    height: 100%;
+  }
+  &:hover {
+    color: #0eb7da;
+  }
+  &:hover::before,
+  &:hover::after {
+    width: 100%;
+    height: 100%;
+  }
+  &:hover::before {
+    border-top-color: #0eb7da;
+    border-right-color: #0eb7da;
+    transition: width 0.25s ease-out, height 0.25s ease-out 0.25s;
+  }
+  &:hover::after {
+    border-bottom-color: #0eb7da;
+    border-left-color: #0eb7da;
+    transition: border-color 0s ease-out 0.5s, width 0.25s ease-out 0.5s,
+      height 0.25s ease-out 0.75s;
   }
   h2 {
     width: 100%;
