@@ -9,12 +9,15 @@
         }"
       >
         <h2>{{ title }}</h2>
+        <!-- <div class="black-cover"></div> -->
       </article>
     </nuxt-link>
     <svg
       class="recipe-heart"
       v-if="liked"
       @click.stop="onLikeClick"
+      @mouseover="onHover"
+      @mouseleave="onMouseLeave"
       xmlns="http://www.w3.org/2000/svg"
       width="26.211"
       height="23.432"
@@ -38,6 +41,8 @@
       class="recipe-heart"
       v-else
       @click.stop="onLikeClick"
+      @mouseover="onHover"
+      @mouseleave="onMouseLeave"
       xmlns="http://www.w3.org/2000/svg"
       width="26.211"
       height="23.432"
@@ -189,12 +194,21 @@ export default {
           }`
         });
       }
+    },
+    onHover() {
+      this.$vnode.elm.querySelector(".recipe-preview").classList.add("hovered");
+    },
+    onMouseLeave() {
+      this.$vnode.elm
+        .querySelector(".recipe-preview")
+        .classList.remove("hovered");
     }
   }
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+@import "@/assets/styles/_variables";
 .recipe-container {
   position: relative;
   width: 33.333%;
@@ -217,11 +231,19 @@ export default {
   right: 40px;
   z-index: 10;
 }
+// .black-cover {
+//   position: absolute;
+//   content: "";
+//   width: 100%;
+//   height: 100%;
+//   top: 0;
+//   background: linear-gradient(rgba(0, 0, 0, 0.4) 40%, rgba(0, 0, 0, 0.8));
+//   transition: all 1s cubic-bezier(0.5, 0, 0.5, 1);
+// }
 .recipe-preview {
-  // filter: brightness(1.3);
+  filter: brightness(1.3);
   width: 100%;
   box-sizing: border-box;
-  background: none;
   margin: 0 auto;
   margin: 15px 0;
   height: 320px;
@@ -231,64 +253,94 @@ export default {
     0px 6px 10px 0px rgba(158, 116, 88, 0.14),
     0px 1px 18px 0px rgba(158, 116, 88, 0.12);
   border-radius: 30px;
+  overflow: hidden;
   position: relative;
   border: 0;
-  transition: color 0.25s;
+  transition: color 0.25s cubic-bezier(0.5, 0, 0.5, 1),
+    transform 0.25s cubic-bezier(0.5, 0, 0.5, 1),
+    background 0.25s cubic-bezier(0.5, 0, 0.5, 1);
   @media (max-width: 480px) {
     height: 400px;
   }
-  &:before,
-  &:after {
-    content: "";
-    box-sizing: inherit;
-    left: 0px;
-    top: 0;
-    height: 100%;
-    width: 100%;
-    // background: linear-gradient(rgba(0, 0, 0, 0.4) 40%, rgba(0, 0, 0, 0.8));
-    position: absolute;
-    z-index: 1;
-    border-radius: 30px;
-    border: 2px solid transparent;
-    width: 0;
-    height: 0;
-  }
   &:before {
-    top: 0;
-    left: 0px;
-  }
-  &:after {
-    bottom: 0;
-    right: 0;
-    height: 100%;
-  }
-  &:hover {
-    color: #0eb7da;
-  }
-  &:hover::before,
-  &:hover::after {
+    position: absolute;
+    content: "";
     width: 100%;
     height: 100%;
+    top: 0;
+    background: linear-gradient(rgba(0, 0, 0, 0.4) 40%, rgba(0, 0, 0, 0.8));
+    transition: all 1s cubic-bezier(0.5, 0, 0.5, 1);
   }
-  &:hover::before {
-    border-top-color: #0eb7da;
-    border-right-color: #0eb7da;
-    transition: width 0.25s ease-out, height 0.25s ease-out 0.25s;
+  // &:before,
+  // &.hovered:before,
+  // &:after,
+  // &.hovered:after {
+  //   content: "";
+  //   box-sizing: inherit;
+  //   position: absolute;
+  //   z-index: 1;
+  //   border-radius: 30px;
+  //   border: 2px solid transparent;
+  //   width: 0;
+  //   height: 0;
+  // }
+  // &:before,
+  // &.hovered:before {
+  //   top: 0;
+  //   left: 0px;
+  //   z-index: 3;
+  // }
+  // &:after,
+  // &.hovered:after {
+  //   bottom: 0;
+  //   right: 0;
+  //   z-index: 2;
+  // }
+  // &:hover,
+  // &.hovered {
+  //   color: $primary;
+  // }
+  &:hover,
+  &.hovered {
+    transform: scale(1.05);
+    filter: brightness(0.9);
+    &:before {
+      background: linear-gradient(
+        rgba($primary, 0.3) 40%,
+        rgba(211, 116, 7, 0.6)
+      );
+    }
   }
-  &:hover::after {
-    border-bottom-color: #0eb7da;
-    border-left-color: #0eb7da;
-    transition: border-color 0s ease-out 0.5s, width 0.25s ease-out 0.5s,
-      height 0.25s ease-out 0.75s;
-  }
+  // &:hover::before,
+  // &.hovered:before,
+  // &:hover::after,
+  // &.hovered:after {
+  //   width: 100%;
+  //   height: 100%;
+  //   border-radius: 30px;
+  // }
+  // &:hover::before,
+  // &.hovered:before {
+  //   border-top-color: $primary;
+  //   border-right-color: $primary;
+  //   transition: width 0.15s ease-out, height 0.15s ease-out 0.15s;
+  // }
+  // &:hover::after,
+  // &.hovered:after {
+  //   border-bottom-color: $primary;
+  //   border-left-color: $primary;
+  //   transition: border-color 0s ease-out 0.3s, width 0.15s ease-out 0.3s,
+  //     height 0.15s ease-out 0.45s;
+  // }
   h2 {
     width: 100%;
     margin: 0 auto;
     color: rgba(255, 255, 255, 0.9);
     font-size: 23px;
     position: relative;
-    z-index: 1;
+    z-index: 5;
     padding: 0px 30px;
+    font-weight: 600;
     top: 240px;
     @media (max-width: 480px) {
       top: 300px;
