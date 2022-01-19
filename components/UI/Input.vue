@@ -1,16 +1,15 @@
 <template>
   <div class="form__group">
     <input
-      @change="handleInput"
+      @input="handleInput"
       :value="value"
       :type="sort"
-      class="form__field"
-      :class="{ bold: bold }"
+      :class="['form__field', { bold: bold }]"
       :placeholder="label"
       :name="label"
       :required="required"
     />
-    <label :class="{ bold: bold }" :for="label" class="form__label">{{
+    <label :class="['form__label', { bold: bold }]" :for="label">{{
       label
     }}</label>
     <p v-if="invalid" class="form__invalid">
@@ -21,6 +20,7 @@
 
 <script>
 export default {
+  emits: ["validation"],
   props: {
     label: {
       type: String,
@@ -60,9 +60,11 @@ export default {
       if (this.type === "password" && e.target.value.length < 6) {
         this.invalid = true;
         this.errorMessage = "Password length should be at least 6 characters";
+        this.$emit("validation", false);
       } else {
         this.invalid = false;
         this.$emit("input", e.target.value);
+        this.$emit("validation", true);
       }
     }
   }

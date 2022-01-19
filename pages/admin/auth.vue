@@ -18,6 +18,7 @@
           type="password"
           v-model="password"
           label="Password"
+          @validation="onValidation"
         />
         <div class="btn-container">
           <Button type="submit" :text="isLogin ? 'Login' : 'Signup'" />
@@ -47,6 +48,7 @@ export default {
   },
   data() {
     return {
+      formValid: false,
       email: "",
       password: "",
       isLogin: false,
@@ -56,26 +58,36 @@ export default {
       snackVisibilityDuration: 2000
     };
   },
+  watch: {},
   methods: {
+    onValidation(value) {
+      if (value) {
+        this.formValid = true;
+      } else {
+        this.formValid = false;
+      }
+    },
     onSubmit() {
-      this.error = false;
-      this.showSnackbar = false;
-      this.$store
-        .dispatch("authenticateUser", {
-          isLogin: this.isLogin,
-          email: this.email,
-          password: this.password
-        })
-        .then(() => {
-          this.$router.push("/admin");
-          this.$store.commit("setEmail", this.email);
-          this.$store.commit("setPassword", this.password);
-        })
-        .catch(() => {
-          this.error = true;
-          this.showSnackbar = true;
-          this.snackbarMessage = "Invalid email or password!";
-        });
+      if (this.formValid) {
+        this.error = false;
+        this.showSnackbar = false;
+        this.$store
+          .dispatch("authenticateUser", {
+            isLogin: this.isLogin,
+            email: this.email,
+            password: this.password
+          })
+          .then(() => {
+            this.$router.push("/admin");
+            this.$store.commit("setEmail", this.email);
+            this.$store.commit("setPassword", this.password);
+          })
+          .catch(() => {
+            this.error = true;
+            this.showSnackbar = true;
+            this.snackbarMessage = "Invalid email or password!";
+          });
+      }
     }
   }
 };
