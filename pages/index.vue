@@ -53,7 +53,7 @@ export default {
   },
   computed: {
     ...mapState({
-      isRecipesLoaded: state => state.allRecipesLoaded,
+      allRecipesLoaded: state => state.allRecipesLoaded,
       loading: state => state.loading,
       searchText: state => state.searchText
     }),

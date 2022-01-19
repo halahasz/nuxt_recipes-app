@@ -50,8 +50,9 @@ export default {
   background-color: $primary;
   &-absolute {
     position: absolute;
-    left: 50%;
-    transform: translate(-50%, 0);
+    left: 0;
+    right: 0;
+    margin: 0 auto;
   }
   &:hover {
     box-shadow: $box-shadow-light;

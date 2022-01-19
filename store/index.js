@@ -7,7 +7,7 @@ const createStore = () => {
       loadedRecipes: [],
       likedRecipes: [],
       recipesNum: 6,
-      isRecipesLoaded: false,
+      allRecipesLoaded: false,
       loading: false,
       token: null,
       email: null,
@@ -76,6 +76,7 @@ const createStore = () => {
           )
           .then(res => {
             var arr = Object.entries(res.data);
+            console.log(arr);
             if (
               arr.length + num >= state.loadedRecipes.length &&
               arr.length % num !== 0 &&
