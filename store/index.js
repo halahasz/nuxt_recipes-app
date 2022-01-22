@@ -87,7 +87,7 @@ const createStore = () => {
             for (const key in res.data) {
               recipesArray.unshift({ ...res.data[key], id: key });
             }
-
+            // Set liked recipes for unlogged users based on cookies
             if (!this.$cookies.get("token")) {
               const arr = this.$cookies.get("likedRecipes");
               if (arr) {
@@ -97,11 +97,6 @@ const createStore = () => {
               } else {
                 recipesArray.map(el => (el.liked = false));
               }
-              const sortedArr = recipesArray.sort((a, b) => a.order - b.order);
-              commit("setRecipesNum", recipesNum);
-              commit("setRecipes", sortedArr);
-              commit("setLoading", false);
-              return sortedArr;
             }
             const sortedArr = recipesArray.sort((a, b) => a.order - b.order);
             commit("setRecipesNum", recipesNum);
@@ -110,6 +105,36 @@ const createStore = () => {
             return sortedArr;
           })
           .catch(e => console.log(e));
+      },
+      searchRecipes({ commit, dispatch }, text) {
+        if (text.length) {
+          commit("clearRecipes");
+          for (let i = 0; i < 11; i++) {
+            axios
+              .get(
+                process.env.baseUrl +
+                  `recipes.json?orderBy="ingredients/${i}/ingredient"&equalTo="${text}"`
+              )
+              .then(res => {
+                for (const key in res.data) {
+                  // Set liked recipes for unlogged users based on cookies
+                  if (!this.$cookies.get("token")) {
+                    const arr = this.$cookies.get("likedRecipes");
+                    if (arr) {
+                      arr.includes(key)
+                        ? (res.data[key].liked = true)
+                        : (res.data[key].liked = false);
+                    } else {
+                      res.data.liked = false;
+                    }
+                  }
+                  commit("addRecipe", { ...res.data[key], id: key });
+                }
+              });
+          }
+        } else {
+          dispatch("loadRecipes", 0);
+        }
       },
       filterRecipes({ commit, state }, id) {
         const filteredRecipes = state.likedRecipes.filter(el => el.id != id);
@@ -224,36 +249,7 @@ const createStore = () => {
       setRecipes({ commit }, recipes) {
         commit("setRecipes", recipes);
       },
-      searchRecipes({ commit, dispatch }, text) {
-        if (text.length) {
-          commit("clearRecipes");
-          for (let i = 0; i < 12; i++) {
-            axios
-              .get(
-                process.env.baseUrl +
-                  `recipes.json?orderBy="ingredients/${i}/ingredient"&equalTo="${text}"`
-              )
-              .then(res => {
-                for (const key in res.data) {
-                  if (!this.$cookies.get("token")) {
-                    const arr = this.$cookies.get("likedRecipes");
-                    if (arr) {
-                      arr.includes(key)
-                        ? (res.data[key].liked = true)
-                        : (res.data[key].liked = false);
-                    } else {
-                      res.data.liked = false;
-                    }
-                  }
 
-                  commit("addRecipe", { ...res.data[key], id: key });
-                }
-              });
-          }
-        } else {
-          dispatch("loadRecipes", 0);
-        }
-      },
       authenticateUser({ commit }, authData) {
         let authUrl = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.fbAPIKey}`;
         if (!authData.isLogin) {

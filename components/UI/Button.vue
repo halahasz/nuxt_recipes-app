@@ -48,10 +48,12 @@ export default {
   display: block;
   color: $white;
   background-color: $primary;
-  position: absolute;
-  transform: translateX(-50%);
-  left: 50%;
-  right: 0;
+  &--absolute {
+    position: absolute;
+    transform: translateX(-50%);
+    left: 50%;
+    right: 0;
+  }
   &:hover {
     box-shadow: $box-shadow-light;
     background-color: $primary-light;

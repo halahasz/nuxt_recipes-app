@@ -8,7 +8,7 @@
       />
       <h1 key="2" class="page-title" v-else>
         There is no favourite recipes! <br />
-        Please lik some!
+        Please like some!
       </h1>
     </transition>
   </div>
@@ -32,6 +32,9 @@ export default {
     isLogged() {
       return this.$cookies.get("token");
     }
+  },
+  mounted() {
+    this.loadLikedRecipes();
   },
   methods: {
     loadLikedRecipes() {

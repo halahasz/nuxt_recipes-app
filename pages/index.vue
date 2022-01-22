@@ -14,7 +14,7 @@
       <LoadingSpinner key="1" v-if="loading" />
       <Button
         key="2"
-        class="btn-absolute"
+        class="btn--absolute"
         text="Load more"
         center
         v-if="showButton"
@@ -34,13 +34,11 @@ export default {
   async asyncData({ store }) {
     if (store.state.searchText === "") {
       const loadedRecipes = await store.dispatch("loadRecipes", 0);
-
       return {
         loadedRecipes: loadedRecipes
       };
     } else {
       await store.dispatch("searchRecipes", store.state.searchText);
-
       return {
         loadedRecipes: store.state.loadedRecipes
       };

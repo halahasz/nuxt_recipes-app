@@ -9,7 +9,6 @@
         }"
       >
         <h2>{{ title }}</h2>
-        <!-- <div class="black-cover"></div> -->
       </article>
     </nuxt-link>
     <svg
@@ -133,9 +132,9 @@ export default {
   },
   methods: {
     onLikeClick() {
-      const editedRecipe = this.loadedRecipes.filter(
+      const editedRecipe = this.loadedRecipes.find(
         recipe => recipe.id === this.id
-      )[0];
+      );
       editedRecipe.liked = !editedRecipe.liked;
       if (!this.$cookies.get("token")) {
         // Save liked recipes in cookies for unlogged users
