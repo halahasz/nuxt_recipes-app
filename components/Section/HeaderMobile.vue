@@ -15,7 +15,7 @@
       </nuxt-link>
     </li>
     <li class="nav-item">
-      <nuxt-link :to="'/favourites'">
+      <nuxt-link :to="'/liked'">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="26.211"

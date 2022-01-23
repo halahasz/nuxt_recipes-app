@@ -9,7 +9,7 @@
           <nuxt-link :to="'/'" exact> <HomeIcon /></nuxt-link>
         </li>
         <li class="nav-item">
-          <nuxt-link :to="'/favourites-recipes'"><LikeIcon /> </nuxt-link>
+          <nuxt-link :to="'/liked-recipes'"><LikeIcon /> </nuxt-link>
         </li>
         <li class="nav-item">
           <nuxt-link :to="'/add-recipe'">
