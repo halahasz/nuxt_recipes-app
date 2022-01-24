@@ -115,6 +115,7 @@ export default {
             this.$cookies.set("likedRecipes", filteredArr, {
               maxAge: 60 * 60 * 24 * 7
             });
+            this.$store.commit("setUnlikeClicked", true);
             this.$store.dispatch("filterRecipes", this.recipe.id);
           }
         }

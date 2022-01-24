@@ -6,6 +6,7 @@ const createStore = () => {
     state: {
       loadedRecipes: [],
       likedRecipes: [],
+      unlikeClicked: false,
       recipesNum: 6,
       allRecipesLoaded: false,
       loading: false,
@@ -17,6 +18,9 @@ const createStore = () => {
     mutations: {
       setRecipes(state, recipes) {
         state.loadedRecipes = recipes;
+      },
+      setUnlikeClicked(state, value) {
+        state.unlikeClicked = value;
       },
       setLikedRecipes(state, recipes) {
         state.likedRecipes = recipes;
@@ -136,27 +140,29 @@ const createStore = () => {
           dispatch("loadRecipes", 0);
         }
       },
-      loadLikedRecipes({ commit, state }) {
+      async loadLikedRecipes({ commit, state }) {
         if (!state.isAdmin) {
           let arr = this.$cookies.get("likedRecipes");
           if (arr.length) {
-            var recipesArray = [];
-            for (let key of arr) {
-              return axios
-                .get(process.env.baseUrl + `recipes/${key}.json`)
-                .then(res => {
-                  res.data.liked = true;
-                  recipesArray.unshift({ ...res.data });
-                  const sortedArr = recipesArray.sort(
-                    (a, b) => a.order - b.order
-                  );
-                  commit("setLikedRecipes", sortedArr);
-                  return sortedArr;
-                })
-                .catch(e => console.log(e));
+            try {
+              var recipesArray = [];
+              for (let key of arr) {
+                let res = await axios.get(
+                  process.env.baseUrl + `recipes/${key}.json`
+                );
+                res.data.liked = true;
+                recipesArray.unshift({ ...res.data });
+              }
+              const sortedArr = recipesArray.sort((a, b) => a.order - b.order);
+              commit("setLikedRecipes", sortedArr);
+              commit("setRecipes", sortedArr);
+              return sortedArr;
+            } catch (err) {
+              console.log(err);
             }
           } else {
             commit("setLikedRecipes", []);
+            commit("setRecipes", []);
             return [];
           }
         } else {
@@ -346,14 +352,14 @@ const createStore = () => {
       }
     },
     getters: {
-      loadedRecipes(state) {
-        return state.loadedRecipes;
-      },
-      likedRecipes(state) {
-        return state.loadedRecipes
-          ? state.loadedRecipes.filter(a => a.liked === true)
-          : [];
-      },
+      // loadedRecipes(state) {
+      //   return state.loadedRecipes;
+      // },
+      // likedRecipes(state) {
+      //   return state.loadedRecipes
+      //     ? state.loadedRecipes.filter(a => a.liked === true)
+      //     : [];
+      // },
       isAdmin(state) {
         return state.token != null;
       }
