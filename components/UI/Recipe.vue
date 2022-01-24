@@ -1,22 +1,21 @@
 <template>
   <div class="recipe-container">
-    <nuxt-link class="recipe-card" :to="'/recipes/' + this.id">
+    <nuxt-link class="recipe-card" :to="'/recipes/' + recipe.id">
       <article
         class="recipe-preview"
         :style="{
-          'background-image': `url(${photo ||
-            require(`@/assets/img/food-placeholder-${title.length % 5}.jpg`)})`
+          'background-image': `url(${recipe.photo ||
+            require(`@/assets/img/food-placeholder-${recipe.title.length %
+              5}.jpg`)})`
         }"
       >
-        <h2>{{ title }}</h2>
+        <h2>{{ recipe.title }}</h2>
       </article>
     </nuxt-link>
     <svg
       class="recipe-heart"
-      v-if="liked"
+      v-if="recipe.liked"
       @click.stop="onLikeClick"
-      @mouseover="onHover"
-      @mouseleave="onMouseLeave"
       xmlns="http://www.w3.org/2000/svg"
       width="26.211"
       height="23.432"
@@ -40,8 +39,6 @@
       class="recipe-heart"
       v-else
       @click.stop="onLikeClick"
-      @mouseover="onHover"
-      @mouseleave="onMouseLeave"
       xmlns="http://www.w3.org/2000/svg"
       width="26.211"
       height="23.432"
@@ -59,96 +56,50 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   name: "Recipe",
   props: {
-    id: {
-      type: String,
-      required: false
-    },
-    title: {
-      type: String,
-      required: true
-    },
-    liked: {
-      type: Boolean,
-      required: false
-    },
-    photo: {
-      required: true
-    },
-    time: {
-      required: false
-    },
-    author: {
-      type: String,
-      required: false
-    },
-    portions: {
-      type: String,
-      required: false
-    },
     recipe: {
-      required: false
-    },
-    ingredients: {
-      required: false
-    },
-    date: {
-      required: false
+      type: Object,
+      required: true
     }
   },
-  data() {
-    return {
-      favouriteRecipe: this.recipe
-        ? { ...this.recipe }
-        : {
-            title: "",
-            id: this.$route.params.id,
-            photo: "",
-            link: "",
-            time: "",
-            author: "",
-            portions: "",
-            recipe: "",
-            ingredients: [{ ingredient: "", amount: "" }],
-            liked: false,
-            date: null
-          }
-    };
+  mounted() {
+    console.log(this.loadedRecipe);
   },
   computed: {
-    ...mapState({
-      loadedRecipes: state => state.loadedRecipes
-    }),
-    recipeLink() {
-      return this.isAdmin ? "/admin/" + this.id : "/recipes/" + this.id;
-    },
-    isAdmin() {
-      return this.$store.getters.isAdmin;
-    }
+    ...mapState(["loadedRecipes"]),
+    ...mapGetters(["isAdmin"])
+    // loadedRecipe() {
+    //   return this.loadedRecipes.find(recipe => recipe.id === this.recipe.id);
+    // }
+    // recipeLink() {
+    //   return this.isAdmin ? "/admin/" + this.id : "/recipes/" + this.id;
+    // },
+    // isAdmin() {
+    //   return this.$store.getters.isAdmin;
+    // }
   },
   methods: {
     onLikeClick() {
-      const editedRecipe = this.loadedRecipes.find(
-        recipe => recipe.id === this.id
+      const loadedRecipe = this.loadedRecipes.find(
+        recipe => recipe.id === this.recipe.id
       );
-      editedRecipe.liked = !editedRecipe.liked;
-      if (!this.$cookies.get("token")) {
+      loadedRecipe.liked = !loadedRecipe.liked;
+      if (!this.isAdmin) {
         // Save liked recipes in cookies for unlogged users
-        if (editedRecipe.liked) {
+        if (loadedRecipe.liked) {
           if (!this.$cookies.get("likedRecipes")) {
             const arr = [];
-            arr.push(this.id);
-
+            arr.push(this.recipe.id);
             this.$cookies.set("likedRecipes", arr, {
               maxAge: 60 * 60 * 24 * 7
             });
           } else {
             const arr = this.$cookies.get("likedRecipes");
-            arr.push(this.id);
+            arr.push(this.recipe.id);
             this.$cookies.remove("likedRecipes");
             this.$cookies.set("likedRecipes", arr, {
               maxAge: 60 * 60 * 24 * 7
@@ -159,12 +110,12 @@ export default {
             return;
           } else {
             const arr = this.$cookies.get("likedRecipes");
-            const filteredArr = arr.filter(el => el != this.id);
+            const filteredArr = arr.filter(el => el != this.recipe.id);
             this.$cookies.remove("likedRecipes");
             this.$cookies.set("likedRecipes", filteredArr, {
               maxAge: 60 * 60 * 24 * 7
             });
-            this.$store.dispatch("filterRecipes", this.id);
+            this.$store.dispatch("filterRecipes", this.recipe.id);
           }
         }
       } else {
@@ -181,7 +132,7 @@ export default {
           recipe: this.recipe,
           ingredients: this.ingredients,
           liked: !this.liked,
-          order: !this.order,
+          order: this.order,
           date: `${new Date().getFullYear()}-${
             new Date().getMonth() + 1 < 10
               ? "0" + (new Date().getMonth() + 1)
@@ -193,14 +144,6 @@ export default {
           }`
         });
       }
-    },
-    onHover() {
-      this.$vnode.elm.querySelector(".recipe-preview").classList.add("hovered");
-    },
-    onMouseLeave() {
-      this.$vnode.elm
-        .querySelector(".recipe-preview")
-        .classList.remove("hovered");
     }
   }
 };

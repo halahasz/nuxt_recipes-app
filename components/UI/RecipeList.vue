@@ -1,21 +1,6 @@
 <template>
   <div class="recipes-list">
-    <Recipe
-      v-for="recipe in recipes"
-      :key="recipe.id"
-      :id="recipe.id"
-      :photo="recipe.photo"
-      :title="recipe.title"
-      :author="recipe.author"
-      :recipe="recipe.recipe"
-      :keywards="recipe.keywards"
-      :time="recipe.time"
-      :portions="recipe.portions"
-      :ingredients="recipe.ingredients"
-      :liked="recipe.liked"
-      :order="recipe.order"
-      :date="recipe.date"
-    />
+    <Recipe v-for="recipe in recipes" :key="recipe.id" :recipe="recipe" />
   </div>
 </template>
 

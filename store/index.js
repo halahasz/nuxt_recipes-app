@@ -137,7 +137,7 @@ const createStore = () => {
         }
       },
       loadLikedRecipes({ commit, state }) {
-        if (!this.$cookies.get("token")) {
+        if (!state.isAdmin) {
           let arr = this.$cookies.get("likedRecipes");
           if (arr.length) {
             var recipesArray = [];
