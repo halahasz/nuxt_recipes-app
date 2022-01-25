@@ -1,6 +1,10 @@
 <template>
   <div class="recipes-list">
-    <Recipe v-for="recipe in recipes" :key="recipe.id" :recipe="recipe" />
+    <transition-group tag="div" name="fade-group">
+      <div class="recipe" v-for="recipe in recipes" :key="recipe.id">
+        <Recipe :recipe="recipe" />
+      </div>
+    </transition-group>
   </div>
 </template>
 
@@ -20,11 +24,11 @@ export default {
 };
 </script>
 
-<style scoped>
-.recipes-list {
-  margin-top: 20px;
-  position: relative;
+<style lang="scss">
+@import "@/assets/styles/_variables";
+.recipes-list div {
   display: flex;
   flex-wrap: wrap;
+  transition: $transition;
 }
 </style>

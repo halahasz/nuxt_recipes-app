@@ -152,9 +152,9 @@ export default {
 
 <style lang="scss">
 @import "@/assets/styles/_variables";
-.recipe-container {
-  position: relative;
-  width: 33.333%;
+.recipe {
+  transition: $transition;
+  flex-basis: 33.3333%;
   padding: 0 15px;
   @media (max-width: 1300px) {
     width: 50%;
@@ -164,8 +164,14 @@ export default {
     padding: 0;
   }
 }
+.recipe-container {
+  position: relative;
+  width: 100%;
+}
 .recipe-card {
   text-decoration: none;
+  width: 100%;
+  display: block;
 }
 .recipe-heart {
   cursor: pointer;
