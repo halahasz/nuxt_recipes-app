@@ -12,13 +12,13 @@
         <h2>{{ recipe.title }}</h2>
       </article>
     </nuxt-link>
-    <FilledHeart
+    <FilledHeartIcon
       v-if="recipe.liked"
       @click.native.stop="onLikeClick"
       @mouseover.native="onHover"
       @mouseleave.native="onMouseLeave"
     />
-    <EmptyHeart
+    <EmptyHeartIcon
       v-else
       @click.native.stop="onLikeClick"
       @mouseover.native="onHover"
@@ -29,13 +29,13 @@
 
 <script>
 import { mapState, mapGetters } from "vuex";
-import FilledHeart from "@/components/UI/Icons/FilledHeart";
-import EmptyHeart from "@/components/UI/Icons/EmptyHeart";
+import FilledHeartIcon from "@/components/UI/Icons/FilledHeart";
+import EmptyHeartIcon from "@/components/UI/Icons/EmptyHeart";
 
 export default {
   components: {
-    FilledHeart,
-    EmptyHeart
+    FilledHeartIcon,
+    EmptyHeartIcon
   },
   props: {
     recipe: {

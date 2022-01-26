@@ -26,6 +26,21 @@
   opacity: 0;
 }
 
+// =========== fade-title transition
+
+.fade-title-enter-active,
+.fade-title-leave-active {
+  transition: opacity 1s;
+}
+
+.fade-title-enter,
+.fade-title-leave-to {
+  opacity: 0;
+}
+.fade-title-leave-active {
+  position: absolute;
+}
+
 // =========== fade-group transition
 
 .fade-group-enter-active,

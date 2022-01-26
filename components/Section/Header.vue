@@ -1,9 +1,13 @@
 <template>
   <div class="header" :class="{ scrolled: scrolled }">
     <div class="header-wrapper">
-      <h1 class="header-title">
-        {{ title }}
-      </h1>
+      <transition name="fade-title">
+        <div :key="title" class="header-title">
+          <h1>
+            {{ title }}
+          </h1>
+        </div>
+      </transition>
       <ul class="nav">
         <li class="nav-item">
           <nuxt-link :to="'/'" exact> <HomeIcon /></nuxt-link>
@@ -91,7 +95,7 @@ export default {
     .form_group {
       padding: 12px 0 0;
     }
-    .header-title {
+    .header-title h1 {
       font-size: 25px;
       padding-bottom: 6px;
       &:before {
@@ -127,7 +131,7 @@ export default {
       padding-right: 40px;
     }
   }
-  &-title {
+  &-title h1 {
     font-size: 30px;
     transition: $transition;
     color: $white;
