@@ -12,19 +12,19 @@
         Number of recipes:
         <strong>{{ this.$store.state.loadedRecipes.length }}</strong>
       </p>
-      <RecipeList isAdmin />
+      <RecipesList isAdmin />
     </section>
   </div>
 </template>
 
 <script>
-import RecipeList from "@/components/UI/RecipeList";
+import RecipesList from "@/components/Section/RecipesList";
 import Button from "@/components/UI/Button";
 
 export default {
   middleware: ["check-auth", "auth"],
   components: {
-    RecipeList,
+    RecipesList,
     Button
   },
   methods: {

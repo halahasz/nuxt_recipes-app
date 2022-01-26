@@ -34,7 +34,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/assets/styles/_variables";
-
+// TODO: add gradient on hover
 .btn {
   text-transform: none;
   cursor: pointer;

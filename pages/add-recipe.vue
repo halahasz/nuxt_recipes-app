@@ -1,24 +1,15 @@
 <template>
   <div class="add-recipe-page">
-    <section class="new-post-form">
-      <RecipeForm v-if="isAdmin" @submit="onSubmitted" />
-      <h1 class="page-title" v-else>
-        Please register or log in to add a recipe!
-      </h1>
-    </section>
+    <AddRecipeForm @submit="onSubmitted" />
   </div>
 </template>
 
 <script>
-import RecipeForm from "@/components/UI/RecipeForm";
+import AddRecipeForm from "@/components/Section/AddRecipeForm";
+
 export default {
   components: {
-    RecipeForm
-  },
-  computed: {
-    isAdmin() {
-      return this.$cookies.get("token");
-    }
+    AddRecipeForm
   },
   methods: {
     onSubmitted(recipeData) {

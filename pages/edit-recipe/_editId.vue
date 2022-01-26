@@ -1,7 +1,7 @@
 <template>
   <div class="admin-post-page">
     <section class="update-form">
-      <RecipeForm
+      <AddRecipeForm
         :recipe="loadedRecipe"
         @del-recipe="onDeleted"
         @submit="onSubmitted"
@@ -11,14 +11,14 @@
 </template>
 
 <script>
-import RecipeForm from "@/components/UI/RecipeForm";
+import AddRecipeForm from "@/components/Section/AddRecipeForm";
 import axios from "axios";
 
 export default {
   layout: "admin",
   middleware: ["check-auth", "auth"],
   components: {
-    RecipeForm
+    AddRecipeForm
   },
   async asyncData({ store, params }) {
     const recipe = await store.dispatch("loadRecipe", params.editId);

@@ -1,7 +1,7 @@
 <template>
   <div class="recipes-page">
     <transition-group tag="span" name="fade-group" mode="out-in">
-      <RecipeList
+      <RecipesList
         key="1"
         v-if="loadedRecipes.length"
         :recipes="loadedRecipes"
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import RecipeList from "@/components/UI/RecipeList";
+import RecipesList from "@/components/Section/RecipesList";
 import LoadingSpinner from "@/components/UI/LoadingSpinner";
 import Button from "@/components/UI/Button";
 import { mapState } from "vuex";
@@ -45,7 +45,7 @@ export default {
     }
   },
   components: {
-    RecipeList,
+    RecipesList,
     LoadingSpinner,
     Button
   },

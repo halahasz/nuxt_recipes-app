@@ -1,6 +1,6 @@
 <template>
   <div class="search-page">
-    <RecipeSearch @search-text="searchText" />
+    <RecipeSearchForm @search-text="searchText" />
     <!-- <transition-group name="list-animation"> -->
     <Recipe
       v-for="recipe in recipes"
@@ -30,13 +30,13 @@
 <script>
 import axios from "axios";
 import Recipe from "@/components/UI/Recipe";
-import RecipeSearch from "@/components/UI/RecipeSearch";
+import RecipeSearchForm from "@/components/UI/RecipeSearchForm";
 const url = "https://recipes-6f5e0.firebaseio.com/recipes.json";
 
 export default {
   components: {
     Recipe,
-    RecipeSearch
+    RecipeSearchForm
   },
   data() {
     return {

@@ -21,7 +21,7 @@ import Input from "@/components/UI/Input";
 import SearchIcon from "@/components/UI/Icons/SearchIcon";
 
 export default {
-  name: "RecipeSearch",
+  name: "RecipeSearchForm",
   emits: ["search-text"],
   components: {
     Input,

@@ -11,7 +11,7 @@
 <script>
 import Recipe from "@/components/UI/Recipe";
 export default {
-  name: "RecipeList",
+  name: "RecipesList",
   components: {
     Recipe
   },

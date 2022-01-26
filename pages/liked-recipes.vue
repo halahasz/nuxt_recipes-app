@@ -1,7 +1,7 @@
 <template>
   <div class="liked-page">
     <transition name="fade" mode="out-in">
-      <RecipeList
+      <RecipesList
         key="1"
         v-if="likedRecipes.length"
         :recipes="unlikeClicked ? likedRecipes : initRecipes"
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import RecipeList from "@/components/UI/RecipeList";
+import RecipesList from "@/components/Section/RecipesList";
 import { mapState } from "vuex";
 
 export default {
@@ -26,7 +26,7 @@ export default {
     };
   },
   components: {
-    RecipeList
+    RecipesList
   },
   computed: {
     ...mapState(["unlikeClicked", "likedRecipes"])
