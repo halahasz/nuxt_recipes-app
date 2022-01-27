@@ -13,12 +13,14 @@
       </article>
     </nuxt-link>
     <FilledHeartIcon
+      class="recipe-heart"
       v-if="recipe.liked"
       @click.native.stop="onLikeClick"
       @mouseover.native="onHover"
       @mouseleave.native="onMouseLeave"
     />
     <EmptyHeartIcon
+      class="recipe-heart"
       v-else
       @click.native.stop="onLikeClick"
       @mouseover.native="onHover"

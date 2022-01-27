@@ -5,20 +5,6 @@
     height: auto;
   }
 }
-.ingredient {
-  cursor: pointer;
-}
-.ingredient-checked {
-  position: relative;
-  &:before {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 2px;
-    top: 10px;
-    background: #fa6a18;
-  }
-}
 .recipe-photo {
   height: 100vh;
   top: 0;
@@ -37,60 +23,65 @@
     position: absolute;
     z-index: 1;
   }
-  &__link {
-    color: #fa6a18;
-    padding: 5px;
-    margin-left: 7px;
-    text-decoration: none;
-  }
   &__content {
-    @include mQuery(desktop) {
-      width: 50%;
-      margin-left: 25%;
-    }
     width: 90%;
     margin-left: 5%;
     padding: 0 25px;
     position: fixed;
     z-index: 3;
     top: 31vh;
-    h1 {
-      font-size: 23px;
-      color: rgba(255, 255, 255, 0.9);
-      font-weight: normal;
-      margin-left: 0;
-      margin-bottom: 20px;
-      font-weight: 700;
+    @include mQuery(desktop) {
+      width: 50%;
+      margin-left: 25%;
     }
-
-    .heart {
-      top: 10px;
-      right: 30px;
-      margin-right: 5px;
-      position: absolute;
-      cursor: pointer;
-    }
+  }
+  &__title {
+    font-size: 23px;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: normal;
+    margin-left: 0;
+    margin-bottom: 20px;
+    font-weight: 700;
   }
   &__details {
     display: flex;
     justify-content: space-between;
     font-size: 14px;
-    &-data {
+    &--data {
       color: #fa6a18;
       p {
-        margin-bottom: 9px;
+        margin-bottom: 12px;
         margin-top: 3px;
       }
       span {
         color: #fff;
       }
     }
-  }
-  &__details-links {
-    display: flex;
-    flex-direction: column;
-    button {
-      margin-top: 10px;
+    &--links {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      button {
+        color: $accent;
+        height: 40px;
+        background: none;
+        cursor: pointer;
+        border: none;
+        outline: none;
+        margin-top: 5px;
+      }
+      svg {
+        box-sizing: content-box;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+      }
+      a {
+        color: #fa6a18;
+        padding: 5px;
+        margin-left: 7px;
+        text-decoration: none;
+      }
     }
   }
 }
@@ -138,55 +129,52 @@
       }
     }
   }
-}
-
-.recipe-ingredients,
-.recipe-recipe {
-  width: 100%;
-  // position: relative;
-  @include mQuery(mobile) {
-    width: 400px;
-    margin: 0 auto;
+  &__ingredients,
+  &__recipe-recipe {
+    width: 100%;
+    transition: $transition;
+    padding: 0 25px 115px;
+    @include mQuery(mobile) {
+      width: 400px;
+      margin: 0 auto;
+    }
   }
-
-  padding: 0 25px 115px;
-}
-.recipe-recipe {
-  padding-top: 30px;
-}
-.recipe-ingredients__header {
-  display: flex;
-  justify-content: space-between;
-  color: #fa6a18;
-  margin-top: 30px;
-  margin-bottom: 25px;
-}
-.recipe-ingredients__clock {
-  display: flex;
-  svg {
-    margin-top: 3px;
-  }
-  p {
-    margin-left: 8px;
-  }
-}
-.recipe-ingredients__ingredients {
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 1px solid $accent;
-  padding: 10px 15px;
-}
-.btn-edit {
-  color: $accent;
-  height: 50px;
-  background: none;
-  cursor: pointer;
-  border: none;
-  outline: none;
-  svg {
-    box-sizing: content-box;
-    width: 25px;
-    height: 30px;
-    padding: 7px;
+  &__ingredients {
+    &-header {
+      display: flex;
+      justify-content: space-between;
+      color: #fa6a18;
+      margin-top: 30px;
+      margin-bottom: 25px;
+    }
+    &-clock {
+      display: flex;
+      svg {
+        margin-top: 3px;
+      }
+      p {
+        margin-left: 8px;
+      }
+    }
+    &-ingredient {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid $accent;
+      padding: 10px 15px;
+    }
+    &-ingredient-el {
+      cursor: pointer;
+      &.ingredient-checked {
+        position: relative;
+        &:before {
+          content: "";
+          position: absolute;
+          width: 100%;
+          height: 2px;
+          top: 10px;
+          background: #fa6a18;
+        }
+      }
+    }
   }
 }

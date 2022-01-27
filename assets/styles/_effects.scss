@@ -42,7 +42,7 @@
 }
 
 // =========== fade-group transition
-
+// TODO: height animation
 .fade-group-enter-active,
 .fade-group-leave-active {
   // transition-delay: 0.5s;
@@ -57,6 +57,27 @@
 
 .fade-group-leave-active {
   position: absolute;
+}
+
+// =========== switch-group transition
+
+.switch-group-enter-active,
+.switch-group-leave-active {
+  // transition-delay: 0.5s;
+  transition: $transition;
+}
+
+.switch-group-enter,
+.switch-group-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.switch-group-leave-active {
+  position: absolute;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
 }
 
 // =========== page transition
