@@ -29,10 +29,15 @@
               >Link</a
             >
             <FilledHeartIcon
-              v-if="loadedRecipe.liked"
-              @click.native.prevent="onSubmitted"
+              v-if="like"
+              :recipe="loadedRecipe"
+              @onDislike="like = false"
             />
-            <EmptyHeartIcon v-else @click.native.prevent="onSubmitted" />
+            <EmptyHeartIcon
+              v-else
+              :recipe="loadedRecipe"
+              @onLike="like = true"
+            />
             <button @click="$router.push('/edit-recipe/' + $route.params.id)">
               <EditIcon />
             </button>
@@ -109,6 +114,17 @@ export default {
       isActive: true
     };
   },
+  computed: {
+    like: {
+      get() {
+        return this.loadedRecipe.liked;
+      },
+      set(value) {
+        this.loadedRecipe.liked = value;
+        return value;
+      }
+    }
+  },
   async asyncData({ store, params }) {
     const recipe = await store.dispatch("loadRecipe", params.id);
     return {
@@ -116,41 +132,6 @@ export default {
     };
   },
   methods: {
-    onSubmitted() {
-      this.loadedRecipe.liked = !this.loadedRecipe.liked;
-
-      // Save liked recipes in cookies
-      if (this.loadedRecipe.liked) {
-        if (!this.$cookies.get("likedRecipes")) {
-          const arr = [];
-          arr.push(this.loadedRecipe.id);
-          this.$cookies.set("likedRecipes", arr, {
-            maxAge: 60 * 60 * 24 * 7
-          });
-        } else {
-          const arr = this.$cookies.get("likedRecipes");
-          arr.push(this.loadedRecipe.id);
-          this.$cookies.remove("likedRecipes");
-          this.$cookies.set("likedRecipes", arr, {
-            maxAge: 60 * 60 * 24 * 7
-          });
-        }
-      } else {
-        if (!this.$cookies.get("likedRecipes")) {
-          return;
-        } else {
-          const arr = this.$cookies.get("likedRecipes");
-          const filteredArr = arr.filter(el => el != this.loadedRecipe.id);
-          this.$cookies.remove("likedRecipes");
-          this.$cookies.set("likedRecipes", filteredArr, {
-            maxAge: 60 * 60 * 24 * 7
-          });
-        }
-      }
-      if (this.$cookies.get("token")) {
-        this.$store.dispatch("editRecipe", this.loadedRecipe);
-      }
-    },
     onClick(e) {
       e.target.classList.toggle("ingredient-checked");
     }

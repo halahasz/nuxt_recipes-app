@@ -193,25 +193,14 @@ const createStore = () => {
         const filteredRecipes = state.likedRecipes.filter(el => el.id != id);
         commit("setLikedRecipes", filteredRecipes);
       },
-      loadRecipe({ commit, state }, id) {
+      loadRecipe(context, id) {
         return axios
           .get(process.env.baseUrl + `recipes/${id}.json`)
           .then(res => {
-            if (!this.$cookies.get("token")) {
-              const arr = this.$cookies.get("likedRecipes");
-              if (arr) {
-                arr.includes(id)
-                  ? (res.data.liked = true)
-                  : (res.data.liked = false);
-              } else {
-                res.data.liked = false;
-              }
-            }
-            return { ...res.data, id: id };
+            return { ...res.data };
           })
           .catch(e => console.log(e));
       },
-
       addRecipe({ commit, state }, recipe) {
         const createdRecipe = {
           ...recipe
