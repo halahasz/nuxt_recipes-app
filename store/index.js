@@ -183,10 +183,6 @@ const createStore = () => {
           .catch(e => console.log(e));
         // }
       },
-      getRecipe({ state }, id) {
-        const recipe = state.loadedRecipes.find(recipe => recipe.id === id);
-        return recipe;
-      },
       editRecipe({ commit }, editedRecipe) {
         commit("setEditedRecipe", editedRecipe);
         return axios

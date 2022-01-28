@@ -37,6 +37,7 @@ export default {
         liked: false
       });
       this.$emit("onDislike", false);
+      this.$store.dispatch("filterRecipes", this.recipe.id);
     }
   }
 };

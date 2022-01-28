@@ -16,10 +16,7 @@ import RecipesList from "@/components/Section/RecipesList";
 
 export default {
   async asyncData({ store }) {
-    let recipes = await store.dispatch("loadLikedRecipes");
-    return {
-      likedRecipes: recipes
-    };
+    await store.dispatch("loadLikedRecipes");
   },
   components: {
     RecipesList
