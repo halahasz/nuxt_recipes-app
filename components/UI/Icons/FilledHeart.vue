@@ -4,6 +4,7 @@
     width="26.211"
     height="23.432"
     viewBox="0 0 26.211 23.432"
+    @click="onDislike"
   >
     <g
       id="Group_74"
@@ -20,3 +21,23 @@
     </g>
   </svg>
 </template>
+
+<script>
+export default {
+  props: {
+    recipe: {
+      type: Object,
+      required: true
+    }
+  },
+  methods: {
+    onDislike() {
+      this.$store.dispatch("editRecipe", {
+        ...this.recipe,
+        liked: false
+      });
+      this.$emit("onDislike", false);
+    }
+  }
+};
+</script>

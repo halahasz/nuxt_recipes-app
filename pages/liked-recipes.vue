@@ -1,11 +1,7 @@
 <template>
   <div class="liked-page">
     <transition name="fade" mode="out-in">
-      <RecipesList
-        key="1"
-        v-if="likedRecipes.length"
-        :recipes="unlikeClicked ? likedRecipes : initRecipes"
-      />
+      <RecipesList key="1" v-if="likedRecipes.length" :recipes="likedRecipes" />
       <h1 key="2" class="page-title" v-else>
         There is no favourite recipes! <br />
         Please like some!
@@ -15,21 +11,21 @@
 </template>
 
 <script>
-import RecipesList from "@/components/Section/RecipesList";
 import { mapState } from "vuex";
+import RecipesList from "@/components/Section/RecipesList";
 
 export default {
   async asyncData({ store }) {
-    const likedRecipes = await store.dispatch("loadLikedRecipes");
+    let recipes = await store.dispatch("loadLikedRecipes");
     return {
-      initRecipes: likedRecipes
+      likedRecipes: recipes
     };
   },
   components: {
     RecipesList
   },
   computed: {
-    ...mapState(["unlikeClicked", "likedRecipes"])
+    ...mapState(["likedRecipes"])
   }
 };
 </script>

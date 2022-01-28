@@ -14,15 +14,17 @@
     </nuxt-link>
     <FilledHeartIcon
       class="recipe-heart"
-      v-if="recipe.liked"
-      @click.native.stop="onLikeClick"
+      v-if="like"
+      :recipe="recipe"
+      @onDislike="like = false"
       @mouseover.native="onHover"
       @mouseleave.native="onMouseLeave"
     />
     <EmptyHeartIcon
       class="recipe-heart"
       v-else
-      @click.native.stop="onLikeClick"
+      :recipe="recipe"
+      @onLike="like = true"
       @mouseover.native="onHover"
       @mouseleave.native="onMouseLeave"
     />
@@ -39,14 +41,16 @@ export default {
     FilledHeartIcon,
     EmptyHeartIcon
   },
+  data() {
+    return {
+      like: this.recipe.liked
+    };
+  },
   props: {
     recipe: {
       type: Object,
       required: true
     }
-  },
-  mounted() {
-    console.log(this.loadedRecipe);
   },
   computed: {
     ...mapState(["loadedRecipes"]),
@@ -100,29 +104,6 @@ export default {
         }
       } else {
         this.$store.dispatch("filterRecipes", this.id);
-        this.$store.dispatch("editRecipe", {
-          id: this.id,
-          title: this.title,
-          keywards: this.keywards,
-          photo: this.photo,
-          link: this.link,
-          time: this.time,
-          author: this.author,
-          portions: this.portions,
-          recipe: this.recipe,
-          ingredients: this.ingredients,
-          liked: !this.liked,
-          order: this.order,
-          date: `${new Date().getFullYear()}-${
-            new Date().getMonth() + 1 < 10
-              ? "0" + (new Date().getMonth() + 1)
-              : new Date().getMonth()
-          }-${
-            new Date().getDate() < 10
-              ? "0" + new Date().getDate()
-              : new Date().getDate()
-          }`
-        });
       }
     },
     onHover() {

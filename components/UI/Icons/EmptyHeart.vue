@@ -4,6 +4,7 @@
     width="26.211"
     height="23.432"
     viewBox="0 0 26.211 23.432"
+    @click="onLike"
   >
     <path
       id="Path_3"
@@ -14,3 +15,23 @@
     />
   </svg>
 </template>
+
+<script>
+export default {
+  props: {
+    recipe: {
+      type: Object,
+      required: true
+    }
+  },
+  methods: {
+    onLike() {
+      this.$store.dispatch("editRecipe", {
+        ...this.recipe,
+        liked: true
+      });
+      this.$emit("onLike", true);
+    }
+  }
+};
+</script>

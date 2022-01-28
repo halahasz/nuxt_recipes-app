@@ -15,7 +15,9 @@
   "private": true,
   "dependencies": {
     "@nuxt/core": "^2.0.0",
-    "cookie-universal-nuxt": "^2.1.5"
+    "cookie-universal-nuxt": "^2.1.5",
+    "lodash": "^4.17.21",
+    "vue-lodash": "^2.1.2"
   },
   "devDependencies": {
     "@layer0/cli": "^3.16.2",

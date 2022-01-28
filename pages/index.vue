@@ -33,14 +33,14 @@ import { mapState } from "vuex";
 export default {
   async asyncData({ store }) {
     if (store.state.searchText === "") {
-      const loadedRecipes = await store.dispatch("loadRecipes", 0);
+      let recipes = await store.dispatch("loadRecipes", 0);
       return {
-        loadedRecipes: loadedRecipes
+        loadedRecipes: recipes
       };
     } else {
-      await store.dispatch("searchRecipes", store.state.searchText);
+      await store.dispatch("searchRecipes", this.$store.state.searchText);
       return {
-        loadedRecipes: store.state.loadedRecipes
+        loadedRecipes: recipes
       };
     }
   },
@@ -50,20 +50,14 @@ export default {
     Button
   },
   computed: {
-    ...mapState({
-      allRecipesLoaded: state => state.allRecipesLoaded,
-      loading: state => state.loading,
-      searchText: state => state.searchText
-    }),
+    ...mapState(["allRecipesLoaded", "loading", "searchText"]),
     showButton() {
       return this.searchText === "" && !this.loading && !this.allRecipesLoaded;
     }
   },
   methods: {
     loadRecipes(num) {
-      this.$store
-        .dispatch("loadRecipes", num)
-        .then(res => (this.loadedRecipes = res));
+      this.$store.dispatch("loadRecipes", num);
     }
   }
 };

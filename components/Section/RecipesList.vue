@@ -10,6 +10,7 @@
 
 <script>
 import Recipe from "@/components/UI/Recipe";
+
 export default {
   name: "RecipesList",
   components: {
