@@ -55,57 +55,8 @@ export default {
   computed: {
     ...mapState(["loadedRecipes"]),
     ...mapGetters(["isAdmin"])
-    // loadedRecipe() {
-    //   return this.loadedRecipes.find(recipe => recipe.id === this.recipe.id);
-    // }
-    // recipeLink() {
-    //   return this.isAdmin ? "/admin/" + this.id : "/recipes/" + this.id;
-    // },
-    // isAdmin() {
-    //   return this.$store.getters.isAdmin;
-    // }
   },
   methods: {
-    onLikeClick() {
-      const loadedRecipe = this.loadedRecipes.find(
-        recipe => recipe.id === this.recipe.id
-      );
-      loadedRecipe.liked = !loadedRecipe.liked;
-      if (!this.isAdmin) {
-        // Save liked recipes in cookies for unlogged users
-        if (loadedRecipe.liked) {
-          if (!this.$cookies.get("likedRecipes")) {
-            const arr = [];
-            arr.push(this.recipe.id);
-            this.$cookies.set("likedRecipes", arr, {
-              maxAge: 60 * 60 * 24 * 7
-            });
-          } else {
-            const arr = this.$cookies.get("likedRecipes");
-            arr.push(this.recipe.id);
-            this.$cookies.remove("likedRecipes");
-            this.$cookies.set("likedRecipes", arr, {
-              maxAge: 60 * 60 * 24 * 7
-            });
-          }
-        } else {
-          if (!this.$cookies.get("likedRecipes")) {
-            return;
-          } else {
-            const arr = this.$cookies.get("likedRecipes");
-            const filteredArr = arr.filter(el => el != this.recipe.id);
-            this.$cookies.remove("likedRecipes");
-            this.$cookies.set("likedRecipes", filteredArr, {
-              maxAge: 60 * 60 * 24 * 7
-            });
-            this.$store.commit("setUnlikeClicked", true);
-            this.$store.dispatch("filterRecipes", this.recipe.id);
-          }
-        }
-      } else {
-        this.$store.dispatch("filterRecipes", this.id);
-      }
-    },
     onHover() {
       this.$vnode.elm.querySelector(".recipe-preview").classList.add("hovered");
     },

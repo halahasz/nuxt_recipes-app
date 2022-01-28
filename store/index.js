@@ -6,21 +6,17 @@ const createStore = () => {
     state: {
       loadedRecipes: [],
       likedRecipes: [],
-      unlikeClicked: false,
       recipesNum: 6,
-      allRecipesLoaded: false,
+      isAllRecipesLoaded: false,
+      searchText: "",
       loading: false,
       token: null,
       email: null,
-      password: null,
-      searchText: ""
+      password: null
     },
     mutations: {
       setRecipes(state, recipes) {
         state.loadedRecipes = recipes;
-      },
-      setUnlikeClicked(state, value) {
-        state.unlikeClicked = value;
       },
       setLikedRecipes(state, recipes) {
         state.likedRecipes = recipes;
@@ -29,7 +25,7 @@ const createStore = () => {
         state.loading = value;
       },
       setAllRecipesLoaded(state, value) {
-        state.allRecipesLoaded = value;
+        state.isAllRecipesLoaded = value;
       },
       setRecipesNum(state, num) {
         state.recipesNum = num;
