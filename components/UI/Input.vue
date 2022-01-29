@@ -1,18 +1,18 @@
 <template>
-  <div class="form__group">
+  <div class="input">
     <input
       @input="handleInput"
       :value="value"
-      :type="sort"
-      :class="['form__field', { bold: bold }]"
+      :type="type"
+      :class="['input__field', { bold: bold }]"
       :placeholder="label"
       :name="label"
       :required="required"
     />
-    <label :class="['form__label', { bold: bold }]" :for="label">{{
+    <label :class="['input__label', { bold: bold }]" :for="label">{{
       label
     }}</label>
-    <p v-if="invalid" class="form__invalid">
+    <p v-if="invalid" class="input__invalid">
       {{ errorMessage }}
     </p>
   </div>
@@ -32,7 +32,8 @@ export default {
     },
     type: {
       type: String,
-      required: false
+      required: false,
+      default: "text"
     },
     bold: {
       type: Boolean,
@@ -75,7 +76,15 @@ export default {
 @import "@/assets/styles/_variables";
 @import "@/assets/styles/_mixins";
 
-.form__field {
+.input {
+  position: relative;
+  position: relative;
+  padding: 15px 0 0;
+  margin: 17px auto 20px;
+  width: 100%;
+  background-color: transparent;
+}
+.input__field {
   font-family: inherit;
   width: 100%;
   border: 0;
@@ -95,19 +104,19 @@ export default {
     background-color: transparent;
     border-bottom: 1px solid $primary;
   }
-  &:focus ~ .form__label {
+  &:focus ~ .input__label {
     left: 15px;
   }
   &:active {
     background-color: transparent;
-    border-bottom: 2px solid $primary;
+    border-bottom: 1px solid $primary;
   }
 
   &::placeholder {
     color: transparent;
   }
 
-  &:placeholder-shown ~ .form__label {
+  &:placeholder-shown ~ .input__label {
     font-size: 1.3rem;
     cursor: text;
     top: 25px;
@@ -118,7 +127,7 @@ export default {
     }
   }
 }
-.form__label {
+.input__label {
   position: absolute;
   top: 0;
   left: 15px;
@@ -133,8 +142,8 @@ export default {
   }
 }
 
-.form__field:focus {
-  ~ .form__label {
+.input__field:focus {
+  ~ .input__label {
     position: absolute;
     top: 0;
     display: block;
@@ -142,20 +151,15 @@ export default {
     font-size: 1rem;
     color: $primary;
   }
-  padding-bottom: 6px;
 }
-/* reset input */
-.form__field {
+.input__field {
   &:required,
   &:invalid {
     box-shadow: none;
     background-color: transparent;
   }
 }
-.form__group {
-  position: relative;
-}
-.form__invalid {
+.input__invalid {
   position: absolute;
   content: "";
   left: 5px;

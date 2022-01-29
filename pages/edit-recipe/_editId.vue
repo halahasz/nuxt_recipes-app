@@ -12,11 +12,10 @@
 
 <script>
 import AddRecipeForm from "@/components/Section/AddRecipeForm";
-import axios from "axios";
 
 export default {
-  layout: "admin",
-  middleware: ["check-auth", "auth"],
+  // layout: "admin",
+  // middleware: ["check-auth", "auth"],
   components: {
     AddRecipeForm
   },

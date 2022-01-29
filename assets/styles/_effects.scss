@@ -42,7 +42,7 @@
 }
 
 // =========== fade-group transition
-// TODO: height animation
+
 .fade-group-enter-active,
 .fade-group-leave-active {
   // transition-delay: 0.5s;
@@ -78,6 +78,33 @@
   margin: 0 auto;
   left: 0;
   right: 0;
+}
+
+// =========== fade-ingredients transition
+
+.fade-ingredients-enter-active,
+.fade-ingredients-leave-active {
+  // transition-delay: 0.5s;
+  transition: $transition;
+}
+
+.fade-ingredients-enter,
+.fade-ingredients-leave-to {
+  opacity: 0;
+  transform: translate(0, 30px);
+}
+
+.fade-ingredients-leave-active {
+  position: absolute;
+  margin: 0 auto;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 660px;
+  height: 45px;
+  &.btn {
+    width: auto;
+    height: auto;
+  }
 }
 
 // =========== page transition
