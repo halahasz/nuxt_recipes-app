@@ -25,19 +25,22 @@
       <Input label="Time" v-model="editedRecipe.time" />
       <Input label="Portions" type="number" v-model="editedRecipe.portions" />
     </div>
-    <p class="form-ingredients__label">INGREDIENTS</p>
+    <p class="form__label">INGREDIENTS</p>
     <div class="form-ingredients" v-if="editedRecipe.ingredients.length">
-      <transition-group name="fade-ingredients">
+      <transition-group tag="div" name="fade-ingredients">
         <div
-          v-for="(ingredient, index) in editedRecipe.ingredients"
-          :key="`${ingredient.ingredient}-${index}`"
+          v-for="(ingr, index) in editedRecipe.ingredients"
+          :key="`${ingr.product}-${index}`"
           class="form-ingredients__ingredient"
         >
           <div>
+            <!-- TODO: fix input transition bug -->
             <Input
               :label="'Ingredient ' + (index + 1)"
-              v-model.trim="ingredient.ingredient"
+              v-model="ingr.product"
+              :key="ingr.id"
             />
+            <Input class="amount" label="Amount" v-model.trim="ingr.amount" />
             <button
               type="button"
               v-if="editedRecipe.ingredients.length > 1"
@@ -46,15 +49,10 @@
             >
               -
             </button>
-            <Input
-              class="amount"
-              label="Amount"
-              v-model.trim="ingredient.amount"
-            />
           </div>
         </div>
         <Button
-          v-if="this.editedRecipe.ingredients.length < 10"
+          v-if="editedRecipe.ingredients.length < 10"
           text="+ Add ingredient"
           color="white"
           @click="addIngr"
@@ -62,19 +60,16 @@
         />
       </transition-group>
     </div>
-    <!-- <transition name="fade">
-      
-    </transition> -->
-    <p class="ingredients-label">RECIPE</p>
+    <p class="form__label">RECIPE</p>
     <textarea
-      class="recipe-textarea"
+      class="form__textarea"
       name="input-7-1"
       v-model="editedRecipe.recipe"
       cols="30"
       rows="10"
       placeholder="Type your recipe..."
     ></textarea>
-    <div class="btn-container">
+    <div class="form-btns">
       <Button text="Save" type="submit" />
       <Button text="Remove" color="red" @click="onRemove" />
       <Button text="Cancel" color="white" @click="onCancel" />
@@ -98,7 +93,7 @@ export default {
   data() {
     return {
       editedRecipe: this.recipe
-        ? { ...this.recipe }
+        ? { ...this.recipe, id: this.$route.params.editId }
         : {
             title: "",
             photo: "",
@@ -108,7 +103,7 @@ export default {
             author: "",
             portions: "",
             recipe: "",
-            ingredients: [],
+            ingredients: [{ id: 0, ingredient: "", amount: "" }],
             liked: false,
             order: -new Date().getTime(),
             date: `${new Date().getFullYear()}-${
@@ -124,12 +119,9 @@ export default {
     };
   },
   props: {
-    isAdmin: {
-      type: Boolean,
-      default: true
-    },
     recipe: {
-      type: Object
+      type: Object,
+      required: false
     }
   },
   methods: {
@@ -161,7 +153,8 @@ export default {
       this.$refs.fileInput.click();
     },
     onFilePicked(e) {
-      const files = event.target.files;
+      const files = e.target.files;
+      console.log(files);
       if (files[0]) {
         let fileName = files[0].name;
         if (fileName.lastIndexOf(".") <= 0) {
@@ -171,6 +164,7 @@ export default {
         fileReader.addEventListener("load", () => {
           this.editedRecipe.photo = fileReader.result;
         });
+        console.log(this.editedRecipe.photo);
         fileReader.readAsDataURL(files[0]);
 
         let file = e.target.files[0];
@@ -197,6 +191,41 @@ export default {
   width: 60%;
   padding: 0px 30px 0;
   margin-left: 20%;
+  &__label {
+    margin-bottom: 20px;
+    margin-top: 40px;
+    font-weight: bold;
+    font-size: 1.6rem;
+  }
+  &__textarea {
+    background-color: transparent;
+    resize: vertical;
+    color: $accent;
+    margin-top: 10px;
+    font-weight: 600;
+    font-size: 15px;
+    font-size: 1.4rem;
+    height: 180px;
+    width: 100%;
+    line-height: 21px;
+    padding: 15px;
+    border-color: $grey;
+    font-family: "Open Sans", sans-serif;
+    border: none;
+    border-bottom: 1px solid $grey;
+    font-weight: 400;
+    &:focus {
+      outline: none;
+      border: none;
+      border-bottom: 1px solid $primary;
+    }
+    &::placeholder {
+      font-family: "Open Sans", sans-serif;
+      color: $grey;
+      font-size: 1.4rem;
+      font-weight: 400;
+    }
+  }
 }
 .form-photo {
   position: relative;
@@ -254,15 +283,6 @@ export default {
   .btn {
     transition: $transition;
   }
-  &__label {
-    margin-bottom: 20px;
-    margin-top: 40px;
-    font-weight: bold;
-    font-size: 1.6rem;
-    span {
-      font-weight: normal;
-    }
-  }
   &__ingredient {
     transition: $transition;
     div {
@@ -279,7 +299,6 @@ export default {
       }
     }
   }
-
   &__btn {
     font-size: 2.2rem;
     cursor: pointer;
@@ -299,48 +318,13 @@ export default {
       box-shadow: $box-shadow-light;
     }
   }
-}
-
-/* 
-.form__group {
-  &.title {
-    .form__field {
-      font-size: 1.4rem;
-      font-weight: 700;
-    }
-  }
-} */
-
-.recipe-textarea {
-  background-color: transparent;
-  resize: vertical;
-  color: $accent;
-  margin-top: 10px;
-  font-weight: 600;
-  font-size: 15px;
-  font-size: 1.4rem;
-  height: 180px;
-  width: 100%;
-  line-height: 21px;
-  padding: 15px;
-  border-color: $grey;
-  font-family: "Open Sans", sans-serif;
-  border: none;
-  border-bottom: 1px solid $grey;
-  font-weight: 100;
-  &:focus {
-    outline: none;
-    border: none;
-    border-bottom: 1px solid $primary;
-  }
-  &::placeholder {
-    font-family: "Open Sans", sans-serif;
-    color: $grey;
-    font-size: 1.4rem;
-    font-weight: 100;
+  .btn {
+    margin-top: 30px;
   }
 }
-.btns-container {
+.form-btns {
+  max-width: 350px;
+  margin: 30px auto;
   display: flex;
   justify-content: space-around;
 }

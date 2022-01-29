@@ -1,7 +1,7 @@
 <template>
   <div class="input">
     <input
-      @input="handleInput"
+      @change="handleInput"
       :value="value"
       :type="type"
       :class="['input__field', { bold: bold }]"
@@ -51,11 +51,6 @@ export default {
       errorMessage: ""
     };
   },
-  computed: {
-    content() {
-      return this.value;
-    }
-  },
   methods: {
     handleInput(e) {
       if (this.type === "password" && e.target.value.length < 6) {
@@ -65,6 +60,7 @@ export default {
       } else {
         this.invalid = false;
         this.$emit("input", e.target.value);
+        document.querySelector("*").classList.add("remove-transition");
         this.$emit("validation", true);
       }
     }

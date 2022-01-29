@@ -1,15 +1,15 @@
 <template>
   <div class="add-recipe-page">
-    <AddRecipeForm @submit="onSubmitted" />
+    <RecipeForm @submit="onSubmitted" />
   </div>
 </template>
 
 <script>
-import AddRecipeForm from "@/components/Section/AddRecipeForm";
+import RecipeForm from "@/components/Section/RecipeForm";
 
 export default {
   components: {
-    AddRecipeForm
+    RecipeForm
   },
   methods: {
     onSubmitted(recipeData) {

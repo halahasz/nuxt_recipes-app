@@ -39,12 +39,12 @@ const createStore = () => {
         );
         state.loadedRecipes[recipeIndex] = editedRecipe;
       },
-      deleteRecipe(state, deletedRecipe) {
+      setDeletedRecipe(state, deletedRecipe) {
         const recipeIndex = state.loadedRecipes.findIndex(
           recipe => recipe.id == deletedRecipe.id
         );
-        state.loadedRecipes.splice(recipeIndex, 1);
-        return state.loadedRecipes;
+        let newArr = state.loadedRecipes.splice(recipeIndex, 1);
+        state.loadedRecipes = newArr;
       },
       setToken(state, token) {
         state.token = token;
@@ -87,17 +87,6 @@ const createStore = () => {
             for (const key in res.data) {
               recipesArray.unshift({ ...res.data[key], id: key });
             }
-            // // Set liked recipes for unlogged users based on cookies
-            // if (state.token == null) {
-            //   const arr = this.$cookies.get("likedRecipes");
-            //   if (arr) {
-            //     recipesArray.map(el =>
-            //       arr.includes(el.id) ? (el.liked = true) : (el.liked = false)
-            //     );
-            //   } else {
-            //     recipesArray.map(el => (el.liked = false));
-            //   }
-            // }
             const sortedArr = recipesArray.sort((a, b) => a.order - b.order);
             commit("setRecipesNum", recipesNum);
             commit("setRecipes", sortedArr);
@@ -137,32 +126,6 @@ const createStore = () => {
         }
       },
       loadLikedRecipes({ commit, state }) {
-        // if (state.token == null) {
-        //   let arr = this.$cookies.get("likedRecipes");
-        //   if (arr.length) {
-        //     try {
-        //       var recipesArray = [];
-        //       for (let key of arr) {
-        //         let res = await axios.get(
-        //           process.env.baseUrl + `recipes/${key}.json`
-        //         );
-        //         let data = JSON.parse(JSON.stringify(res.data));
-        //         data.liked = true;
-        //         recipesArray.unshift({ ...res.data });
-        //       }
-        //       const sortedArr = recipesArray.sort((a, b) => a.order - b.order);
-        //       commit("setLikedRecipes", sortedArr);
-        //       commit("setRecipes", sortedArr);
-        //       return sortedArr;
-        //     } catch (err) {
-        //       console.log(err);
-        //     }
-        //   } else {
-        //     commit("setLikedRecipes", []);
-        //     commit("setRecipes", []);
-        //     return [];
-        //   }
-        // } else {
         return axios
           .get(
             process.env.baseUrl + `recipes.json?orderBy="liked"&equalTo=true`
@@ -177,7 +140,6 @@ const createStore = () => {
             return sortedArr;
           })
           .catch(e => console.log(e));
-        // }
       },
       editRecipe({ commit }, editedRecipe) {
         commit("setEditedRecipe", editedRecipe);
@@ -206,14 +168,9 @@ const createStore = () => {
           ...recipe
         };
         return axios
-          .post(
-            process.env.baseUrl +
-              "recipes.json?auth=" +
-              this.$cookies.get("token"),
-            {
-              ...createdRecipe
-            }
-          )
+          .post(process.env.baseUrl + "recipes.json", {
+            ...recipe
+          })
           .then(result => {
             createdRecipe.id = result.data.name;
             commit("addRecipe", {
@@ -225,24 +182,15 @@ const createStore = () => {
       deleteRecipe({ commit, state }, deletedRecipe) {
         return axios
           .delete(
-            process.env.baseUrl +
-              "recipes/" +
-              deletedRecipe.id +
-              ".json?auth=" +
-              this.$cookies.get("token"),
+            process.env.baseUrl + "recipes/" + deletedRecipe.id + ".json",
             deletedRecipe
           )
           .then(result => {
             deletedRecipe.id = result.config.id;
-            commit("deleteRecipe", deletedRecipe);
+            commit("setDeletedRecipe", deletedRecipe);
           })
           .catch(e => console.log(e));
       },
-
-      setRecipes({ commit }, recipes) {
-        commit("setRecipes", recipes);
-      },
-
       authenticateUser({ commit }, authData) {
         let authUrl = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.fbAPIKey}`;
         if (!authData.isLogin) {
