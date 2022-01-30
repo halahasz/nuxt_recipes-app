@@ -4,7 +4,7 @@ import "firebase/firebase-auth";
 import "firebase/storage";
 
 // Your web app's Firebase configuration
-var firebaseConfig = {
+const firebaseConfig = {
   apiKey:
     "AAAAtIyPpwI:APA91bFK9WunEi0swT2QTniZ6v1Bcm3ZIv1_IequO_PNgwpyc8MdVEeCiB13WrnbeXYmD5UWEJBPxzrx1dm4qRU9Ujv3fzupvbuolGJICcqsrrLk0UlfqAHMXrUaeOarky-svZKOMywP",
   authDomain: "recipes-6f5e0.firebaseapp.com",
@@ -14,9 +14,5 @@ var firebaseConfig = {
   messagingSenderId: "775452337922",
   appId: "1:775452337922:web:2cef4245555fc0b9f4441b"
 };
-// Initialize Firebase
-const fb = firebase.initializeApp(firebaseConfig);
 
-const db = firebase.firestore();
-
-export { fb, db };
+export { firebaseConfig };

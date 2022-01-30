@@ -78,7 +78,8 @@
 </template>
 
 <script>
-import { fb, db } from "@/store/firebase";
+import { firebaseConfig } from "@/store/firebase";
+import firebase from "firebase";
 import Input from "@/components/UI/Input";
 import Button from "@/components/UI/Button";
 import CameraIcon from "@/components/UI/Icons/CameraIcon";
@@ -153,6 +154,7 @@ export default {
       this.$refs.fileInput.click();
     },
     onFilePicked(e) {
+      const fb = firebase.initializeApp(firebaseConfig);
       const files = e.target.files;
       console.log(files);
       if (files[0]) {
