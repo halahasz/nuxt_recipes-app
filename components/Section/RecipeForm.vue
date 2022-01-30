@@ -125,6 +125,10 @@ export default {
   },
   methods: {
     onSave() {
+      const filteredIngredients = this.editedRecipe.ingredients.filter(
+        ingr => ingr.ingredient !== ""
+      );
+      this.editedRecipe.ingredients = filteredIngredients;
       this.$emit("submit", this.editedRecipe);
     },
     onRemove() {
@@ -134,19 +138,19 @@ export default {
       this.editedRecipe.ingredients.splice(index, 1);
     },
     onCancel() {
-      this.$router.push("/recipes/" + this.$route.params.editId);
+      if (this.recipe) {
+        this.$router.push("/recipes/" + this.$route.params.editId);
+      } else {
+        this.$router.push("/");
+      }
     },
     addIngr() {
-      if (this.editedRecipe.ingredients.length < 10) {
-        const newIngr = {
-          id: this.editedRecipe.ingredients.length,
-          ingredient: this.editedRecipe.ingredient
-            ? this.editedRecipe.ingredient.toLowerCase()
-            : null,
-          amount: this.editedRecipe.amount
-        };
-        this.editedRecipe.ingredients.push(newIngr);
-      }
+      const newIngr = {
+        id: this.editedRecipe.ingredients.length,
+        ingredient: "",
+        amount: ""
+      };
+      this.editedRecipe.ingredients.push(newIngr);
     },
     onPickFile() {
       this.$refs.fileInput.click();
@@ -300,25 +304,6 @@ export default {
       }
     }
   }
-  /* &__btn {
-    font-size: 2.2rem;
-    cursor: pointer;
-    height: 22px;
-    width: 22px;
-    position: absolute;
-    right: 5px;
-    z-index: 10;
-    border-radius: 10px;
-    color: $primary;
-    box-shadow: $box-shadow;
-    line-height: 18px;
-    background-color: $white;
-    top: 8px;
-    transition: box-shadow 0.3s ease-in-out;
-    &:hover {
-      box-shadow: $box-shadow-light;
-    }
-  } */
   .btn {
     position: absolute;
     left: 0;

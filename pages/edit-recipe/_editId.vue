@@ -27,6 +27,7 @@ export default {
   },
   methods: {
     onSubmitted(editedRecipe) {
+      console.log("fdfd", editedRecipe);
       this.$store.dispatch("editRecipe", editedRecipe).then(() => {
         this.$router.push("/recipes/" + this.$route.params.editId);
       });

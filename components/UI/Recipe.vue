@@ -71,17 +71,17 @@ export default {
 
 <style lang="scss">
 @import "@/assets/styles/_variables";
+@import "@/assets/styles/_mixins";
 .recipe {
   transition: $transition;
-  flex-basis: 33.3333%;
-  padding: 0 15px;
-  // TODO: media queries
-  @media (max-width: 1300px) {
-    width: 50%;
+  flex-basis: 100%;
+  padding: 0;
+  @include mQuery(hd-ready) {
+    flex-basis: 50%;
   }
-  @media (max-width: 1000px) {
-    width: 100%;
-    padding: 0;
+  @include mQuery(desktop) {
+    flex-basis: 33.33333%;
+    padding: 0 15px;
   }
 }
 .recipe-container {
@@ -106,7 +106,7 @@ export default {
   box-sizing: border-box;
   margin: 0 auto;
   margin: 15px 0;
-  height: 320px;
+  height: 400px;
   background-position: center;
   background-size: cover;
   box-shadow: 0px 3px 5px -1px rgba(158, 116, 88, 0.2),
@@ -117,8 +117,8 @@ export default {
   position: relative;
   border: 0;
   transition: $transition;
-  @media (max-width: 480px) {
-    height: 400px;
+  @include mQuery(mobile) {
+    height: 320px;
   }
   &:before {
     position: absolute;
@@ -147,9 +147,9 @@ export default {
     z-index: 5;
     padding: 0px 30px;
     font-weight: 600;
-    top: 240px;
-    @media (max-width: 480px) {
-      top: 300px;
+    top: 300px;
+    @include mQuery(mobile) {
+      top: 240px;
     }
   }
   img {

@@ -9,7 +9,7 @@ const createStore = () => {
       searchedRecipes: [],
       recipesNum: 6,
       isAllRecipesLoaded: false,
-      searchText: "kkk",
+      searchText: "",
       loading: false,
       token: null,
       email: null,
@@ -148,7 +148,9 @@ const createStore = () => {
             process.env.baseUrl + "recipes/" + editedRecipe.id + ".json",
             editedRecipe
           )
-          .then(res => {})
+          .then(res => {
+            // this.$router.push("/recipes/" + this.$route.params.editId);
+          })
           .catch(e => console.log(e));
       },
       filterRecipes({ commit, state }, id) {
