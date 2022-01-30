@@ -6,6 +6,7 @@ const createStore = () => {
     state: {
       loadedRecipes: [],
       likedRecipes: [],
+      searchedRecipes: [],
       recipesNum: 6,
       isAllRecipesLoaded: false,
       searchText: "",
@@ -21,6 +22,9 @@ const createStore = () => {
       setLikedRecipes(state, recipes) {
         state.likedRecipes = recipes;
       },
+      setSearchedRecipes(state, recipes) {
+        state.searchedRecipes = recipes;
+      },
       setLoading(state, value) {
         state.loading = value;
       },
@@ -30,7 +34,7 @@ const createStore = () => {
       setRecipesNum(state, num) {
         state.recipesNum = num;
       },
-      addRecipe(state, recipe) {
+      setAddedRecipe(state, recipe) {
         state.loadedRecipes.unshift(recipe);
       },
       setEditedRecipe(state, editedRecipe) {
@@ -46,6 +50,9 @@ const createStore = () => {
         let newArr = state.loadedRecipes.splice(recipeIndex, 1);
         state.loadedRecipes = newArr;
       },
+      setSearchText(state, text) {
+        state.searchText = text;
+      },
       setToken(state, token) {
         state.token = token;
       },
@@ -59,10 +66,7 @@ const createStore = () => {
         state.token = null;
       },
       clearRecipes(state) {
-        state.loadedRecipes = [];
-      },
-      setSearchText(state, text) {
-        state.searchText = text;
+        state.searchedRecipes = [];
       }
     },
     actions: {
@@ -95,34 +99,30 @@ const createStore = () => {
           })
           .catch(e => console.log(e));
       },
-      searchRecipes({ commit, dispatch }, text) {
+      async searchRecipes({ commit }, text) {
         if (text.length) {
-          commit("clearRecipes");
-          for (let i = 0; i < 11; i++) {
-            axios
-              .get(
+          commit("setLoading", true);
+          try {
+            let arr = [];
+            for (let i = 0; i < 12; i++) {
+              let res = await axios.get(
                 process.env.baseUrl +
                   `recipes.json?orderBy="ingredients/${i}/ingredient"&equalTo="${text}"`
-              )
-              .then(res => {
-                for (const key in res.data) {
-                  // Set liked recipes for unlogged users based on cookies
-                  if (!this.$cookies.get("token")) {
-                    const arr = this.$cookies.get("likedRecipes");
-                    if (arr) {
-                      arr.includes(key)
-                        ? (res.data[key].liked = true)
-                        : (res.data[key].liked = false);
-                    } else {
-                      res.data.liked = false;
-                    }
-                  }
-                  commit("addRecipe", { ...res.data[key], id: key });
-                }
-              });
+              );
+              for (const key in res.data) {
+                arr.push({
+                  ...res.data[key],
+                  id: key
+                });
+              }
+            }
+            commit("setSearchedRecipes", arr);
+            commit("setLoading", false);
+          } catch (err) {
+            console.log(err);
           }
         } else {
-          dispatch("loadRecipes", 0);
+          commit("clearRecipes");
         }
       },
       loadLikedRecipes({ commit, state }) {

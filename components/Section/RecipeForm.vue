@@ -30,15 +30,14 @@
       <transition-group tag="div" name="fade-ingredients">
         <div
           v-for="(ingr, index) in editedRecipe.ingredients"
-          :key="`${ingr.product}-${index}`"
+          :key="`${ingr.ingredient}-${index}`"
           class="form-ingredients__ingredient"
         >
           <div>
-            <!-- TODO: fix input transition bug -->
             <Input
               :label="'Ingredient ' + (index + 1)"
-              v-model="ingr.product"
-              :key="ingr.id"
+              v-model.trim="ingr.ingredient"
+              :key="index"
             />
             <Input class="amount" label="Amount" v-model.trim="ingr.amount" />
             <button
@@ -276,12 +275,14 @@ export default {
 .form-group {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 60px;
   .input {
     width: 48%;
     margin: 0;
   }
 }
 .form-ingredients {
+  margin-bottom: 60px;
   .btn {
     transition: $transition;
   }
@@ -291,10 +292,9 @@ export default {
       display: flex;
       justify-content: space-between;
       position: relative;
-      margin: 20px auto;
       .input {
+        margin: 10px 0;
         width: 71%;
-        margin: 0;
         &.amount {
           width: 25%;
         }
@@ -321,7 +321,12 @@ export default {
     }
   }
   .btn {
-    margin-top: 30px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 153px;
   }
 }
 .form-btns {

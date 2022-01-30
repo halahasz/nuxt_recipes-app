@@ -73,13 +73,13 @@
           <div
             class="recipe-content__ingredients-ingredient"
             v-for="(ingredient, index) in loadedRecipe.ingredients"
-            :key="`${ingredient.product}-${index}`"
+            :key="`${ingredient.ingredient}-${index}`"
           >
             <p
               class="recipe-content__ingredients-ingredient-el"
               @click="onClick"
             >
-              {{ ingredient.product }}
+              {{ ingredient.ingredient }}
             </p>
             <p>{{ ingredient.amount }}</p>
           </div>

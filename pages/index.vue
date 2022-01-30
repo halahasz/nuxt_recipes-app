@@ -32,11 +32,7 @@ import { mapState } from "vuex";
 
 export default {
   async asyncData({ store }) {
-    if (store.state.searchText === "") {
-      await store.dispatch("loadRecipes", 0);
-    } else {
-      await store.dispatch("searchRecipes", this.$store.state.searchText);
-    }
+    await store.dispatch("loadRecipes", 0);
   },
   components: {
     RecipesList,
@@ -44,16 +40,9 @@ export default {
     Button
   },
   computed: {
-    ...mapState([
-      "loadedRecipes",
-      "isAllRecipesLoaded",
-      "loading",
-      "searchText"
-    ]),
+    ...mapState(["loadedRecipes", "isAllRecipesLoaded", "loading"]),
     showButton() {
-      return (
-        this.searchText === "" && !this.loading && !this.isAllRecipesLoaded
-      );
+      return !this.loading && !this.isAllRecipesLoaded;
     }
   },
   methods: {

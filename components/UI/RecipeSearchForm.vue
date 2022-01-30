@@ -5,7 +5,7 @@
         <Input label="Search ingredient ..." v-model.trim="text" />
         <button
           type="submit"
-          @click.prevent="onSubmit"
+          @click.prevent="onSearch"
           color="#fff"
           class="btn-search"
         >
@@ -37,10 +37,10 @@ export default {
     this.loaded = true;
   },
   methods: {
-    onSubmit() {
+    onSearch() {
+      this.$store.dispatch("searchRecipes", this.text);
       this.$store.commit("setSearchText", this.text);
-      this.$router.app.refresh();
-      this.$router.push("/");
+      this.$router.push({ path: "/search?ingredient=" + this.text });
     }
   }
 };
