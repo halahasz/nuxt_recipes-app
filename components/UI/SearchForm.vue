@@ -3,6 +3,13 @@
     <transition name="slide-fade">
       <form class="search-form" v-if="loaded">
         <Input label="Search ingredient ..." v-model.trim="text" />
+        <Button
+          text="-"
+          v-if="text.length"
+          look="minus"
+          color="white"
+          @click="text = ''"
+        />
         <button
           type="submit"
           @click.prevent="onSearch"
@@ -18,6 +25,7 @@
 
 <script>
 import Input from "@/components/UI/Input";
+import Button from "@/components/UI/Button";
 import SearchIcon from "@/components/UI/Icons/SearchIcon";
 
 export default {
@@ -25,6 +33,7 @@ export default {
   emits: ["search-text"],
   components: {
     Input,
+    Button,
     SearchIcon
   },
   data() {

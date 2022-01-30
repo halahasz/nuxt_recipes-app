@@ -1,5 +1,5 @@
 <template>
-  <div class="recipes-page">
+  <div class="search-page">
     <transition-group tag="span" name="switch-group" mode="out-in">
       <div v-if="searchedRecipes.length" key="1">
         <transition name="fade-search-title">

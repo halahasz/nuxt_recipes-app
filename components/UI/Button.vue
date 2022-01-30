@@ -1,7 +1,7 @@
 <template>
   <button
     @click="$emit('click')"
-    :class="['btn', color, { center: center }]"
+    :class="[look, color, { center: center }]"
     :type="type"
   >
     {{ text }}
@@ -27,6 +27,11 @@ export default {
       type: String,
       required: false,
       default: "button"
+    },
+    look: {
+      type: String,
+      required: false,
+      default: "btn"
     }
   }
 };
@@ -48,30 +53,54 @@ export default {
   display: block;
   color: $white;
   background-color: $primary;
-  &--absolute {
+  &.absolute {
     position: absolute;
     transform: translateX(-50%);
     left: 50%;
     right: 0;
   }
+
   &:hover {
     box-shadow: $box-shadow-light;
     background-color: $primary-light;
   }
-  &.white {
+}
+.white {
+  color: $primary;
+  background-color: $white;
+  &:hover {
     color: $primary;
     background-color: $white;
   }
-  &.red {
-    color: $white;
-    background-color: $red;
-    &:hover {
-      background-color: $red-dark;
-    }
+}
+.red {
+  color: $white;
+  background-color: $red;
+  :hover {
+    background-color: $red-dark;
   }
-  &.center {
-    display: block;
-    margin: 20px auto 0;
+}
+.center {
+  display: block;
+  margin: 20px auto 0;
+}
+.minus {
+  font-size: 2.2rem;
+  cursor: pointer;
+  height: 22px;
+  width: 22px;
+  position: absolute;
+  right: 5px;
+  z-index: 10;
+  border-radius: 10px;
+  color: $primary;
+  box-shadow: $box-shadow;
+  line-height: 18px;
+  background-color: $white;
+  top: 8px;
+  transition: box-shadow 0.3s ease-in-out;
+  &:hover {
+    box-shadow: $box-shadow-light;
   }
 }
 </style>

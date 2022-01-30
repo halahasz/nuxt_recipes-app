@@ -40,14 +40,13 @@
               :key="index"
             />
             <Input class="amount" label="Amount" v-model.trim="ingr.amount" />
-            <button
-              type="button"
+            <Button
+              text="-"
               v-if="editedRecipe.ingredients.length > 1"
-              class="form-ingredients__btn"
+              look="minus"
+              color="white"
               @click="removeIngr(index)"
-            >
-              -
-            </button>
+            />
           </div>
         </div>
         <Button
@@ -301,7 +300,7 @@ export default {
       }
     }
   }
-  &__btn {
+  /* &__btn {
     font-size: 2.2rem;
     cursor: pointer;
     height: 22px;
@@ -319,7 +318,7 @@ export default {
     &:hover {
       box-shadow: $box-shadow-light;
     }
-  }
+  } */
   .btn {
     position: absolute;
     left: 0;

@@ -31,6 +31,5 @@ export default {
   display: flex;
   flex-wrap: wrap;
   transition: $transition;
-  justify-content: center;
 }
 </style>

@@ -14,7 +14,7 @@
       <LoadingSpinner key="1" v-if="loading" />
       <Button
         key="2"
-        class="btn--absolute"
+        class="absolute"
         text="Load more"
         center
         v-if="showButton"
