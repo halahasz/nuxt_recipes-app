@@ -1,6 +1,6 @@
 <template>
   <div class="recipes-page">
-    <transition-group tag="span" name="fade-group" mode="out-in">
+    <transition-group tag="span" name="switch-group" mode="out-in">
       <div v-if="searchedRecipes.length" key="1">
         <transition name="fade-search-title">
           <h1 class="page-title" :key="$route.query.ingredient">
@@ -34,6 +34,9 @@ export default {
   },
   computed: {
     ...mapState(["searchedRecipes", "searchText", "loading"])
+  },
+  beforeDestroy() {
+    this.$store.commit("setSearchText", "");
   }
 };
 </script>

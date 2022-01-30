@@ -9,7 +9,7 @@ const createStore = () => {
       searchedRecipes: [],
       recipesNum: 6,
       isAllRecipesLoaded: false,
-      searchText: "",
+      searchText: "kkk",
       loading: false,
       token: null,
       email: null,

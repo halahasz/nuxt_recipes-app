@@ -28,14 +28,14 @@
         </li>
       </ul>
       <div class="header-search">
-        <RecipeSearchForm :loaded="loaded" />
+        <SearchForm :loaded="loaded" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import RecipeSearchForm from "@/components/UI/RecipeSearchForm";
+import SearchForm from "@/components/UI/SearchForm";
 import HomeIcon from "@/components/UI/Icons/HomeIcon";
 import LikeIcon from "@/components/UI/Icons/LikeIcon";
 import AddIcon from "@/components/UI/Icons/AddIcon";
@@ -43,7 +43,7 @@ import AdminIcon from "@/components/UI/Icons/AdminIcon";
 
 export default {
   components: {
-    RecipeSearchForm,
+    SearchForm,
     HomeIcon,
     LikeIcon,
     AddIcon,

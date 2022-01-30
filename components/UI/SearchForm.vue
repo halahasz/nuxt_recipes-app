@@ -21,7 +21,7 @@ import Input from "@/components/UI/Input";
 import SearchIcon from "@/components/UI/Icons/SearchIcon";
 
 export default {
-  name: "RecipeSearchForm",
+  name: "SearchForm",
   emits: ["search-text"],
   components: {
     Input,
@@ -29,12 +29,21 @@ export default {
   },
   data() {
     return {
-      text: "",
       loaded: false
     };
   },
   mounted() {
     this.loaded = true;
+  },
+  computed: {
+    text: {
+      get() {
+        return this.$store.state.searchText;
+      },
+      set(value) {
+        return this.$store.commit("setSearchText", value);
+      }
+    }
   },
   methods: {
     onSearch() {
