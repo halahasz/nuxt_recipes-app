@@ -128,7 +128,9 @@ export default {
       const filteredIngredients = this.editedRecipe.ingredients.filter(
         ingr => ingr.ingredient !== ""
       );
-      this.editedRecipe.ingredients = filteredIngredients;
+      if (filteredIngredients.length) {
+        this.editedRecipe.ingredients = filteredIngredients;
+      }
       this.$emit("submit", this.editedRecipe);
     },
     onRemove() {

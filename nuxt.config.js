@@ -46,7 +46,11 @@ export default {
   /*
    ** Nuxt.js modules
    */
-
+  router: {
+    scrollBehavior() {
+      return { x: 0, y: 0 };
+    }
+  },
   env: {
     baseUrl: "https://recipes-6f5e0.firebaseio.com/",
     fbAPIKey: "AIzaSyB7w290E1E2wWvkzqChlblUK68TBEbuvpU"

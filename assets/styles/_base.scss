@@ -3,6 +3,7 @@
 html {
   margin-left: calc(100vw - 100%);
   background-color: $grey-bg;
+  overflow-y: overlay;
 }
 html,
 body {

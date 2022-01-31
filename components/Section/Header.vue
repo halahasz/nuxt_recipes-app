@@ -9,6 +9,7 @@
         </div>
       </transition>
       <ul class="nav">
+        <!-- TODO: add hover effect -->
         <li class="nav-item">
           <nuxt-link :to="'/'" exact> <HomeIcon /></nuxt-link>
         </li>

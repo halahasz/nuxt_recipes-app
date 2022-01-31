@@ -1,6 +1,7 @@
 .recipe-page {
   font-size: 14px;
   height: 100vh;
+  position: relative;
   @include mQuery(mobile) {
     height: auto;
   }
@@ -92,7 +93,7 @@
   border-radius: 30px;
   position: relative;
   z-index: 10;
-  margin-top: 48vh;
+  top: 33vh;
   height: fit-content;
   min-height: calc(59vh - 100px);
   background-color: #fff;

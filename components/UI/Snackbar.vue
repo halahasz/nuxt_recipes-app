@@ -1,8 +1,8 @@
 <template>
   <div
     class="snackbar"
-    :class="{ error }"
-    :style="{ animationDuration: `${snackVisibilityDuration / 1000}s` }"
+    :class="{ error: snackbarError }"
+    :style="{ animationDuration: `${VisibilityDuration / 1000}s` }"
   >
     <p class="snackbar__message" v-html="snackbarMessage"></p>
   </div>
@@ -11,17 +11,19 @@
 <script>
 export default {
   props: {
-    error: {
+    snackbarError: {
       type: Boolean,
-      required: true
+      required: false,
+      default: false
     },
     snackbarMessage: {
       type: String,
       required: true
     },
-    snackVisibilityDuration: {
+    VisibilityDuration: {
       type: Number,
-      required: true
+      required: false,
+      default: 2000
     }
   }
 };
@@ -36,10 +38,11 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: $accent;
+  background-color: $green;
   padding: 20px 30px;
   border-radius: 30px;
   z-index: 10000;
+  font-weight: 500;
   opacity: 0;
   transition: all 0.3s ease-in-out;
   animation-name: show;

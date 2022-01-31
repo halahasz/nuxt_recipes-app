@@ -1,5 +1,11 @@
 <template>
+  <!-- TODO: add snackbar, and footer -->
   <div @click="startLogoutInterval">
+    <Snackbar
+      :snackbarError="snackbarError"
+      :snackbarMessage="snackbarMessage"
+      v-if="showSnackbar"
+    />
     <transition name="slide-fade">
       <Header :title="title" v-if="loaded" />
     </transition>
@@ -16,12 +22,14 @@
 
 <script>
 import Header from "@/components/Section/Header";
+import Snackbar from "@/components/UI/Snackbar";
 import { mapState } from "vuex";
 
 export default {
   transition: "page",
   components: {
-    Header
+    Header,
+    Snackbar
   },
   data() {
     return {
@@ -31,12 +39,15 @@ export default {
     };
   },
   computed: {
-    ...mapState({
-      token: state => state.token,
-      email: state => state.email,
-      password: state => state.password,
-      searchText: state => state.searchText
-    }),
+    ...mapState([
+      "snackbarMessage",
+      "snackbarError",
+      "showSnackbar",
+      "token",
+      "email",
+      "password",
+      "searchText"
+    ]),
     title() {
       if (this.$route.path === "/" && this.searchText == "") {
         return "My recipes";
