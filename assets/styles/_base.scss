@@ -11,6 +11,7 @@ body {
   font-size: 10px;
   line-height: 1.4;
   scroll-behavior: smooth;
+  position: relative;
 }
 *,
 *:before,
@@ -35,8 +36,10 @@ button {
 
 .container-base {
   width: auto;
-  margin: 130px auto 130px;
+  margin: 0 auto 70px;
+  padding: 130px 0;
   max-width: $max-container-width;
+  min-height: calc(100vh - 70px);
 }
 
 .page-title {

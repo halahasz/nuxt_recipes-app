@@ -15,13 +15,14 @@
       <MenuMobile v-if="showMenuMobile === true" />
     </transition> -->
       <nuxt />
-      <!-- <Footer /> -->
+      <Footer />
     </div>
   </div>
 </template>
 
 <script>
 import Header from "@/components/Section/Header";
+import Footer from "@/components/Section/Footer";
 import Snackbar from "@/components/UI/Snackbar";
 import { mapState } from "vuex";
 
@@ -29,6 +30,7 @@ export default {
   transition: "page",
   components: {
     Header,
+    Footer,
     Snackbar
   },
   data() {
