@@ -21,7 +21,6 @@
             <AddIcon />
           </nuxt-link>
         </li>
-
         <li class="nav-item">
           <nuxt-link :to="'/admin'">
             <AdminIcon />
@@ -165,9 +164,21 @@ export default {
     svg {
       display: block;
       margin: 18px auto 18px;
+      path,
+      circle {
+        transition: $transition;
+      }
+    }
+    &:hover {
+      svg {
+        path {
+          fill: #f86600;
+        }
+      }
     }
   }
   &-item:last-child {
+    &:hover,
     .nuxt-link-active {
       svg {
         path,
@@ -175,8 +186,9 @@ export default {
           stroke: #f60;
           fill: none;
         }
-        .circle {
+        .dot {
           fill: #f60;
+          stroke: none;
         }
       }
     }

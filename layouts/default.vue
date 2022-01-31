@@ -1,5 +1,4 @@
 <template>
-  <!-- TODO: add snackbar, and footer -->
   <div @click="startLogoutInterval">
     <Snackbar
       :snackbarError="snackbarError"
