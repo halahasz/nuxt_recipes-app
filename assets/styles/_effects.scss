@@ -25,6 +25,30 @@
   opacity: 0;
 }
 
+// =========== recipes-list transition
+
+.recipes-list-enter-active,
+.recipes-list-leave-active {
+  transition: $transition;
+}
+
+.recipes-list-enter,
+.recipes-list-leave-to {
+  opacity: 0;
+  // transform: translateY(30px);
+}
+
+.recipes-list-leave-active {
+  position: absolute;
+  width: 100%;
+  @include mQuery(mobile) {
+    width: 50%;
+  }
+  @include mQuery(desktop) {
+    width: 33.33333%;
+  }
+}
+
 // =========== fade-title transition
 
 .fade-title-enter-active,
@@ -74,7 +98,7 @@
 .fade-group-enter,
 .fade-group-leave-to {
   opacity: 0;
-  transform: translateY(30px);
+  // transform: translateY(30px);
 }
 
 .fade-group-leave-active {

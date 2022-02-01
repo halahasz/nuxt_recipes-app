@@ -1,6 +1,6 @@
 <template>
   <div class="recipes-list">
-    <transition-group tag="div" name="fade-group">
+    <transition-group tag="div" name="recipes-list">
       <div class="recipe" v-for="recipe in recipes" :key="recipe.id">
         <Recipe :recipe="recipe" />
       </div>
