@@ -14,20 +14,21 @@ import Recipe from "@/components/UI/Recipe";
 export default {
   name: "RecipesList",
   components: {
-    Recipe
+    Recipe,
   },
   props: {
     recipes: {
       type: Array,
-      required: false
-    }
-  }
+      required: false,
+    },
+  },
 };
 </script>
 
 <style lang="scss">
 @import "@/assets/styles/_variables";
-.recipes-list div {
+.recipes-list > div {
+  padding: 0 15px;
   display: flex;
   flex-wrap: wrap;
   transition: $transition;

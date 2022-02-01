@@ -13,27 +13,27 @@ export default {
   props: {
     text: {
       type: String,
-      required: true
+      required: true,
     },
     color: {
       type: String,
-      required: false
+      required: false,
     },
     center: {
       type: Boolean,
-      required: false
+      required: false,
     },
     type: {
       type: String,
       required: false,
-      default: "button"
+      default: "button",
     },
     look: {
       type: String,
       required: false,
-      default: "btn"
-    }
-  }
+      default: "btn",
+    },
+  },
 };
 </script>
 
@@ -89,14 +89,14 @@ export default {
   height: 22px;
   width: 22px;
   position: absolute;
-  right: 5px;
+  right: 0px;
   z-index: 10;
   border-radius: 10px;
   color: $primary;
   box-shadow: $box-shadow;
   line-height: 18px;
   background-color: $white;
-  top: 8px;
+  top: 5px;
   transition: box-shadow 0.3s ease-in-out;
   &:hover {
     box-shadow: $box-shadow-light;

@@ -4,9 +4,12 @@
       <article
         class="recipe-preview"
         :style="{
-          'background-image': `url(${recipe.photo ||
-            require(`@/assets/img/food-placeholder-${recipe.title.length %
-              5}.jpg`)})`
+          'background-image': `url(${
+            recipe.photo ||
+            require(`@/assets/img/food-placeholder-${
+              recipe.title.length % 5
+            }.jpg`)
+          })`,
         }"
       >
         <h2>{{ recipe.title }}</h2>
@@ -39,22 +42,22 @@ import EmptyHeartIcon from "@/components/UI/Icons/EmptyHeart";
 export default {
   components: {
     FilledHeartIcon,
-    EmptyHeartIcon
+    EmptyHeartIcon,
   },
   data() {
     return {
-      like: this.recipe.liked
+      like: this.recipe.liked,
     };
   },
   props: {
     recipe: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     ...mapState(["loadedRecipes"]),
-    ...mapGetters(["isAdmin"])
+    ...mapGetters(["isAdmin"]),
   },
   methods: {
     onHover() {
@@ -64,8 +67,8 @@ export default {
       this.$vnode.elm
         .querySelector(".recipe-preview")
         .classList.remove("hovered");
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -75,13 +78,12 @@ export default {
 .recipe {
   transition: $transition;
   flex-basis: 100%;
-  padding: 0;
-  @include mQuery(hd-ready) {
+  padding: 0 15px;
+  @include mQuery(mobile) {
     flex-basis: 50%;
   }
   @include mQuery(desktop) {
     flex-basis: 33.33333%;
-    padding: 0 15px;
   }
 }
 .recipe-container {
@@ -106,7 +108,7 @@ export default {
   box-sizing: border-box;
   margin: 0 auto;
   margin: 15px 0;
-  height: 400px;
+  min-height: 400px;
   background-position: center;
   background-size: cover;
   box-shadow: 0px 3px 5px -1px rgba(158, 116, 88, 0.2),
@@ -117,8 +119,9 @@ export default {
   position: relative;
   border: 0;
   transition: $transition;
+  min-height: 270px;
   @include mQuery(mobile) {
-    height: 320px;
+    min-height: 310px;
   }
   &:before {
     position: absolute;
@@ -143,14 +146,11 @@ export default {
     margin: 0 auto;
     color: rgba(255, 255, 255, 0.9);
     font-size: 23px;
-    position: relative;
+    position: absolute;
     z-index: 5;
     padding: 0px 30px;
     font-weight: 600;
-    top: 300px;
-    @include mQuery(mobile) {
-      top: 240px;
-    }
+    bottom: 20px;
   }
   img {
     position: absolute;

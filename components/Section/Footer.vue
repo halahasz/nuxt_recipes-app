@@ -7,11 +7,13 @@
 
 <style scoped lang="scss">
 @import "@/assets/styles/_variables";
+@import "@/assets/styles/_mixins";
 
 .footer {
-  padding: 0 15px 30px;
+  padding: 0 10px 30px;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
   max-width: $max-container-width;
   width: 100%;
   position: absolute;
@@ -19,6 +21,14 @@
   margin: 0 auto;
   left: 0;
   right: 0;
+  @include mQuery(mobile) {
+    padding: 0 30px 30px;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  p {
+    padding-top: 5px;
+  }
 }
 .recipe-page + .footer {
   p {

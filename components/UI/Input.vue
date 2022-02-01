@@ -24,31 +24,31 @@ export default {
   props: {
     label: {
       type: String,
-      required: true
+      required: true,
     },
     value: {
       type: String,
-      required: false
+      required: false,
     },
     type: {
       type: String,
       required: false,
-      default: "text"
+      default: "text",
     },
     bold: {
       type: Boolean,
-      required: false
+      required: false,
     },
     required: {
       type: Boolean,
-      required: false
-    }
+      required: false,
+    },
   },
   data() {
     return {
       sort: this.type || "text",
       invalid: false,
-      errorMessage: ""
+      errorMessage: "",
     };
   },
   methods: {
@@ -63,8 +63,8 @@ export default {
         document.querySelector("*").classList.add("remove-transition");
         this.$emit("validation", true);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -88,11 +88,13 @@ export default {
   border-bottom: 1px solid $grey;
   outline: 0;
   font-size: 1.4rem;
-  padding: 7px 30px 7px 15px;
+  padding: 7px 10px 7px;
   background: transparent;
   transition: all 0.2s;
   color: $accent;
-
+  @include mQuery(tablet) {
+    padding: 7px 30px 7px 15px;
+  }
   &.bold {
     font-weight: 700;
   }
@@ -101,7 +103,10 @@ export default {
     border-bottom: 1px solid $primary;
   }
   &:focus ~ .input__label {
-    left: 15px;
+    left: 10px;
+    @include mQuery(desktop) {
+      left: 15px;
+    }
   }
   &:active {
     background-color: transparent;
@@ -115,24 +120,28 @@ export default {
   &:placeholder-shown ~ .input__label {
     font-size: 1.3rem;
     cursor: text;
-    top: 25px;
-    left: 15px;
+    top: 20px;
+    left: 10px;
     @include mQuery(desktop) {
       font-size: 1.4rem;
       top: 15px;
+      left: 15px;
     }
   }
 }
 .input__label {
   position: absolute;
   top: 0;
-  left: 15px;
+  left: 10px;
   display: block;
   transition: 0.2s;
   font-size: 1rem;
   transition: all 0.3s ease-in-out;
   color: $grey;
   pointer-events: none;
+  @include mQuery(desktop) {
+    left: 15px;
+  }
   &.bold {
     font-weight: 700;
   }

@@ -13,7 +13,7 @@
       <input
         type="file"
         ref="fileInput"
-        style="display: none;"
+        style="display: none"
         accept="image/*"
         @change="onFilePicked"
       />
@@ -87,7 +87,7 @@ export default {
   components: {
     Input,
     Button,
-    CameraIcon
+    CameraIcon,
   },
   data() {
     return {
@@ -113,20 +113,20 @@ export default {
               new Date().getDate() < 10
                 ? "0" + new Date().getDate()
                 : new Date().getDate()
-            }`
-          }
+            }`,
+          },
     };
   },
   props: {
     recipe: {
       type: Object,
-      required: false
-    }
+      required: false,
+    },
   },
   methods: {
     onSave() {
       const filteredIngredients = this.editedRecipe.ingredients.filter(
-        ingr => ingr.ingredient !== ""
+        (ingr) => ingr.ingredient !== ""
       );
       if (filteredIngredients.length) {
         this.editedRecipe.ingredients = filteredIngredients;
@@ -150,7 +150,7 @@ export default {
       const newIngr = {
         id: this.editedRecipe.ingredients.length,
         ingredient: "",
-        amount: ""
+        amount: "",
       };
       this.editedRecipe.ingredients.push(newIngr);
     },
@@ -178,14 +178,14 @@ export default {
         var storageRef = fb.storage().ref("edit-recipe/" + file.name);
         let uploadTask = storageRef.put(file);
 
-        uploadTask.on("state_changed", snapshot => {
-          uploadTask.snapshot.ref.getDownloadURL().then(getDownloadURL => {
+        uploadTask.on("state_changed", (snapshot) => {
+          uploadTask.snapshot.ref.getDownloadURL().then((getDownloadURL) => {
             this.editedRecipe.photo = getDownloadURL;
           });
         });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -194,9 +194,21 @@ export default {
 @import "@/assets/styles/_mixins";
 
 .form {
-  width: 60%;
-  padding: 0px 30px 0;
-  margin-left: 20%;
+  width: 100%;
+  padding: 0px 15px 0;
+  @include mQuery(sm-tablet) {
+    padding: 0px 30px 0;
+    width: 80%;
+    margin-left: 10%;
+  }
+  @include mQuery(tablet) {
+    width: 70%;
+    margin-left: 15%;
+  }
+  @include mQuery(desktop) {
+    width: 60%;
+    margin-left: 20%;
+  }
   &__label {
     margin-bottom: 20px;
     margin-top: 40px;
@@ -207,19 +219,22 @@ export default {
     background-color: transparent;
     resize: vertical;
     color: $accent;
-    margin-top: 10px;
     font-weight: 600;
     font-size: 15px;
     font-size: 1.4rem;
     height: 180px;
     width: 100%;
     line-height: 21px;
-    padding: 15px;
+    padding: 0 10px;
     border-color: $grey;
     font-family: "Open Sans", sans-serif;
     border: none;
     border-bottom: 1px solid $grey;
     font-weight: 400;
+    padding: 1;
+    @include mQuery(desktop) {
+      padding: 0 15px;
+    }
     &:focus {
       outline: none;
       border: none;
@@ -228,8 +243,11 @@ export default {
     &::placeholder {
       font-family: "Open Sans", sans-serif;
       color: $grey;
-      font-size: 1.4rem;
+      font-size: 1.3rem;
       font-weight: 400;
+      @include mQuery(desktop) {
+        font-size: 1.4rem;
+      }
     }
   }
 }
@@ -240,8 +258,11 @@ export default {
     max-width: 200px;
     max-height: 300px;
     border-radius: 30px;
-    margin: 30px 0px 20px 0;
+    margin: 30px 0px 10px 0;
     position: relative;
+    @include mQuery(mobile) {
+      margin: 30px 0px 20px 0;
+    }
   }
   &__btn {
     position: absolute;
@@ -287,7 +308,10 @@ export default {
   }
 }
 .form-ingredients {
-  margin-bottom: 60px;
+  margin-bottom: 90px;
+  @include mQuery(mobile) {
+    margin-bottom: 60px;
+  }
   .btn {
     transition: $transition;
   }

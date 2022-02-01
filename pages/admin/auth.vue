@@ -7,9 +7,7 @@
       v-if="showSnackbar"
     />
     <div class="auth-container">
-      <h1 class="page-title">
-        Authentication
-      </h1>
+      <h1 class="page-title">Authentication</h1>
       <form @submit.prevent="onSubmit">
         <Input required type="email" v-model="email" label="E-Mail Address" />
         <Input
@@ -44,7 +42,7 @@ export default {
   components: {
     Input,
     Button,
-    Snackbar
+    Snackbar,
   },
   data() {
     return {
@@ -55,7 +53,7 @@ export default {
       error: false,
       snackbarMessage: "",
       showSnackbar: false,
-      snackVisibilityDuration: 2000
+      snackVisibilityDuration: 2000,
     };
   },
   watch: {},
@@ -75,7 +73,7 @@ export default {
           .dispatch("authenticateUser", {
             isLogin: this.isLogin,
             email: this.email,
-            password: this.password
+            password: this.password,
           })
           .then(() => {
             this.$router.push("/admin");
@@ -88,15 +86,7 @@ export default {
             this.snackbarMessage = "Invalid email or password!";
           });
       }
-    }
-  }
+    },
+  },
 };
 </script>
-
-<style lang="scss" scoped>
-.auth-container {
-  width: 40%;
-  padding: 0px 30px 0;
-  margin-left: 30%;
-}
-</style>

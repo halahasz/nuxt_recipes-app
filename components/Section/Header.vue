@@ -8,20 +8,19 @@
           </h1>
         </div>
       </transition>
-      <ul class="nav">
-        <!-- TODO: add hover effect -->
-        <li class="nav-item">
-          <nuxt-link :to="'/'" exact> <HomeIcon /></nuxt-link>
+      <ul class="header-nav">
+        <li class="header-nav__item">
+          <nuxt-link :to="'/'" exact><HomeIcon /></nuxt-link>
         </li>
-        <li class="nav-item">
+        <li class="header-nav__item">
           <nuxt-link :to="'/liked-recipes'"><LikeIcon /> </nuxt-link>
         </li>
-        <li class="nav-item">
+        <li class="header-nav__item">
           <nuxt-link :to="'/add-recipe'">
             <AddIcon />
           </nuxt-link>
         </li>
-        <li class="nav-item">
+        <li class="header-nav__item">
           <nuxt-link :to="'/admin'">
             <AdminIcon />
           </nuxt-link>
@@ -47,19 +46,19 @@ export default {
     HomeIcon,
     LikeIcon,
     AddIcon,
-    AdminIcon
+    AdminIcon,
   },
   props: ["title"],
   data() {
     return {
       scrolled: false,
-      loaded: false
+      loaded: false,
     };
   },
   methods: {
     handleScroll() {
       window.scrollY > 50 ? (this.scrolled = true) : (this.scrolled = false);
-    }
+    },
   },
   mounted() {
     this.loaded = true;
@@ -69,15 +68,16 @@ export default {
   },
   beforeDestroy() {
     window.removeEventListener("scroll", this.handleScroll);
-  }
+  },
 };
 </script>
 
 <style lang="scss">
 @import "@/assets/styles/_variables";
+@import "@/assets/styles/_mixins";
 
 .header {
-  height: 90px;
+  height: auto;
   display: flex;
   position: fixed;
   justify-content: center;
@@ -90,6 +90,9 @@ export default {
   background-color: $white;
   z-index: 100;
   transition: $transition;
+  @include mQuery(tablet) {
+    height: 90px;
+  }
   &.scrolled {
     height: 60px;
     .form_group {
@@ -120,56 +123,111 @@ export default {
     margin: 0 auto;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     justify-content: space-between;
-    .header-search,
-    .header-title {
+    @include mQuery(tablet) {
+      flex-wrap: nowrap;
+    }
+  }
+  &-title {
+    flex-basis: 100%;
+    line-height: 1.1;
+    @include mQuery(tablet) {
       flex-basis: 40%;
     }
-    .header-search {
-      display: flex;
-      justify-content: flex-end;
-      padding-right: 40px;
-    }
-  }
-  &-title h1 {
-    font-size: 30px;
-    transition: $transition;
-    color: $white;
-    text-shadow: 0px 0px 4px rgba($accent, 1);
-    padding-left: 50px;
-    z-index: 2;
-    position: relative;
-    padding-bottom: 15px;
-    &:before {
-      position: absolute;
+    h1 {
+      font-size: 25px;
       transition: $transition;
-      content: "";
-      width: 170px;
-      height: 1px;
-      background-color: $primary;
-      left: 15px;
-      bottom: 7px;
-    }
-  }
-}
-
-.nav {
-  padding-left: 0;
-  list-style: none;
-  display: flex;
-  &-item {
-    display: block;
-    height: 60px;
-    width: 60px;
-    svg {
-      display: block;
-      margin: 18px auto 18px;
-      path,
-      circle {
+      color: $white;
+      text-shadow: 0px 0px 4px rgba($accent, 1);
+      padding: 20px 10px;
+      text-align: center;
+      z-index: 2;
+      position: relative;
+      @include mQuery(tablet) {
+        font-size: 30px;
+        padding-bottom: 15px;
+        padding-left: 65px;
+        text-align: left;
+      }
+      &:before {
+        position: absolute;
         transition: $transition;
+        content: "";
+        width: calc(100% - 20px);
+        height: 1px;
+        background-color: $primary;
+        left: 10px;
+        bottom: 0px;
+        @include mQuery(tablet) {
+          width: 170px;
+          bottom: 7px;
+        }
+        @include mQuery(desktop) {
+          left: 30px;
+        }
       }
     }
-    &:hover {
+  }
+  &-nav {
+    padding-left: 0;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    flex-basis: 40%;
+    @include mQuery(tablet) {
+      flex-basis: 20%;
+    }
+    &__item {
+      display: block;
+      height: 32px;
+      width: 32px;
+      @include mQuery(tablet) {
+        height: 40px;
+        width: 40px;
+      }
+      @include mQuery(tablet) {
+        height: 60px;
+        width: 60px;
+      }
+      svg {
+        display: block;
+        margin: 3px auto;
+        transform: scale(0.9);
+        @include mQuery(tablet) {
+          margin: 18px auto;
+          transform: scale(1);
+        }
+        path,
+        circle {
+          transition: $transition;
+        }
+      }
+      &:hover {
+        svg {
+          path {
+            fill: #f86600;
+          }
+        }
+      }
+    }
+    &__item:last-child {
+      &:hover,
+      .nuxt-link-active {
+        svg {
+          path,
+          circle {
+            stroke: #f60;
+            fill: none;
+          }
+          .dot {
+            fill: #f60;
+            stroke: none;
+          }
+        }
+      }
+    }
+    .nuxt-link-active {
       svg {
         path {
           fill: #f86600;
@@ -177,27 +235,19 @@ export default {
       }
     }
   }
-  &-item:last-child {
-    &:hover,
-    .nuxt-link-active {
-      svg {
-        path,
-        circle {
-          stroke: #f60;
-          fill: none;
-        }
-        .dot {
-          fill: #f60;
-          stroke: none;
-        }
-      }
+  &-search {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 20px;
+    flex-basis: 60%;
+    padding-bottom: 25px;
+    @include mQuery(tablet) {
+      margin-top: 15px;
+      flex-basis: 40%;
+      padding-right: 40px;
     }
-  }
-}
-.nuxt-link-active {
-  svg {
-    path {
-      fill: #f86600;
+    @include mQuery(desktop) {
+      padding-right: 55px;
     }
   }
 }
