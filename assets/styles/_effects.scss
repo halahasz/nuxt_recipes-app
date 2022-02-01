@@ -29,7 +29,7 @@
 
 .fade-title-enter-active,
 .fade-title-leave-active {
-  transition: opacity 1s;
+  transition: $transition;
 }
 
 .fade-title-enter,
@@ -38,6 +38,12 @@
 }
 .fade-title-leave-active {
   position: absolute;
+  width: 100%;
+  top: 0;
+  @include mQuery(tablet) {
+    top: auto;
+    width: auto;
+  }
 }
 
 // =========== fade-search-title transition

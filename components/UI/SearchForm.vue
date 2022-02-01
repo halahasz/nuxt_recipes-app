@@ -75,7 +75,13 @@ export default {
   left: -35px;
   transition: $transition;
   transition-delay: 0.5s;
+  @include mQuery(mobile) {
+    width: 200px;
+  }
   @include mQuery(tablet) {
+    width: 150px;
+  }
+  @include mQuery(desktop) {
     width: 250px;
   }
   &:host {
@@ -83,11 +89,7 @@ export default {
   }
   .input {
     margin: 0 auto;
-    /* padding-top: 10px; */
     margin-top: 5px;
-    @include mQuery(tablet) {
-      margin: 17px auto 20px;
-    }
   }
   .btn-search {
     position: absolute;

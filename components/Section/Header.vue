@@ -91,29 +91,49 @@ export default {
   z-index: 100;
   transition: $transition;
   @include mQuery(tablet) {
-    height: 90px;
+    height: 80px;
   }
   &.scrolled {
-    height: 60px;
+    @include mQuery(tablet) {
+      height: 60px;
+    }
     .form_group {
-      padding: 12px 0 0;
+      @include mQuery(tablet) {
+        padding: 12px 0 0;
+      }
     }
     .header-title h1 {
       font-size: 25px;
-      padding-bottom: 6px;
+      padding: 0;
+      height: 0;
+      overflow: hidden;
       &:before {
         content: "";
-        width: 100px;
+        width: 100%;
         bottom: 0;
+        @include mQuery(tablet) {
+          width: 100px;
+        }
+      }
+      @include mQuery(tablet) {
+        height: auto;
+        padding: 0px 10px 7px 65px;
+      }
+    }
+    .header-search {
+      .input {
+        margin-top: -5px;
       }
     }
     .btn-search {
-      width: 40px;
-      height: 40px;
-      right: -60px;
-      top: 4px;
-      svg {
-        transform: scale(0.9);
+      @include mQuery(tablet) {
+        width: 40px;
+        height: 40px;
+        right: -60px;
+        top: 4px;
+        svg {
+          transform: scale(0.9);
+        }
       }
     }
   }
@@ -142,13 +162,14 @@ export default {
       text-shadow: 0px 0px 4px rgba($accent, 1);
       padding: 20px 10px;
       text-align: center;
-      z-index: 2;
       position: relative;
+      height: 68px;
       @include mQuery(tablet) {
         font-size: 30px;
-        padding-bottom: 15px;
-        padding-left: 65px;
+        padding: 0 0 12px 65px;
+        margin-top: 5px;
         text-align: left;
+        height: auto;
       }
       &:before {
         position: absolute;
@@ -161,7 +182,7 @@ export default {
         bottom: 0px;
         @include mQuery(tablet) {
           width: 170px;
-          bottom: 7px;
+          bottom: 0px;
         }
         @include mQuery(desktop) {
           left: 30px;
@@ -173,10 +194,22 @@ export default {
     padding-left: 0;
     list-style: none;
     display: flex;
-    justify-content: center;
-    flex-basis: 40%;
+    padding-left: 5px;
+    flex-basis: 42%;
+    height: 75px;
+    align-items: center;
+    background-color: #fff;
+    justify-content: space-between;
+    position: relative;
+    z-index: 1;
+    @include mQuery(sm-tablet) {
+      flex-basis: 3 0%;
+      height: auto;
+    }
     @include mQuery(tablet) {
+      justify-content: center;
       flex-basis: 20%;
+      height: auto;
     }
     &__item {
       display: block;
@@ -236,15 +269,18 @@ export default {
     }
   }
   &-search {
+    background-color: #fff;
     display: flex;
     justify-content: flex-end;
-    padding-right: 20px;
-    flex-basis: 60%;
+    padding-right: 15px;
+    flex-basis: 58%;
     padding-bottom: 25px;
+    position: relative;
+    z-index: 1;
     @include mQuery(tablet) {
-      margin-top: 15px;
       flex-basis: 40%;
       padding-right: 40px;
+      padding-bottom: 0;
     }
     @include mQuery(desktop) {
       padding-right: 55px;

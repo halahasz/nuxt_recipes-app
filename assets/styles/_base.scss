@@ -37,7 +37,7 @@ button {
 .container-base {
   width: auto;
   margin: 0 auto 70px;
-  padding: 160px 0 130px;
+  padding: 170px 0 130px;
   max-width: $max-container-width;
   min-height: calc(100vh - 70px);
   @include mQuery(tablet) {
