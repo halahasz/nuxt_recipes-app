@@ -21,17 +21,17 @@ export default {
   props: {
     recipe: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     onLike() {
-      this.$store.dispatch("editRecipe", {
+      this.$store.dispatch("editRecipeLike", {
         ...this.recipe,
-        liked: true
+        liked: true,
       });
       this.$emit("onLike", true);
-    }
-  }
+    },
+  },
 };
 </script>

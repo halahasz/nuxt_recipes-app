@@ -87,8 +87,9 @@ export default {
   font-size: 2.2rem;
   cursor: pointer;
   height: 22px;
-  width: 22px;
+  width: 22px !important;
   position: absolute;
+  padding: 0;
   right: 0px;
   z-index: 10;
   border-radius: 10px;

@@ -212,7 +212,9 @@ export default {
       height: auto;
     }
     &__item {
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       height: 32px;
       width: 32px;
       @include mQuery(tablet) {
@@ -226,11 +228,6 @@ export default {
       svg {
         display: block;
         margin: 3px auto;
-        transform: scale(0.9);
-        @include mQuery(tablet) {
-          margin: 18px auto;
-          transform: scale(1);
-        }
         path,
         circle {
           transition: $transition;

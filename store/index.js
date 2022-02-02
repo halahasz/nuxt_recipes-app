@@ -16,7 +16,7 @@ const createStore = () => {
       loading: false,
       token: null,
       email: null,
-      password: null
+      password: null,
     },
     mutations: {
       setRecipes(state, recipes) {
@@ -51,13 +51,13 @@ const createStore = () => {
       },
       setEditedRecipe(state, editedRecipe) {
         const recipeIndex = state.loadedRecipes.findIndex(
-          recipe => recipe.id === editedRecipe.id
+          (recipe) => recipe.id === editedRecipe.id
         );
         state.loadedRecipes[recipeIndex] = editedRecipe;
       },
       setDeletedRecipe(state, deletedRecipe) {
         const recipeIndex = state.loadedRecipes.findIndex(
-          recipe => recipe.id == deletedRecipe.id
+          (recipe) => recipe.id == deletedRecipe.id
         );
         let newArr = state.loadedRecipes.splice(recipeIndex, 1);
         state.loadedRecipes = newArr;
@@ -79,7 +79,7 @@ const createStore = () => {
       },
       clearRecipes(state) {
         state.searchedRecipes = [];
-      }
+      },
     },
     actions: {
       loadRecipes({ commit, state }, num) {
@@ -90,7 +90,7 @@ const createStore = () => {
             process.env.baseUrl +
               `recipes.json?orderBy="order"&limitToFirst=${recipesNum}`
           )
-          .then(res => {
+          .then((res) => {
             var arr = Object.entries(res.data);
             if (
               arr.length + num >= state.loadedRecipes.length &&
@@ -109,7 +109,7 @@ const createStore = () => {
             commit("setLoading", false);
             return sortedArr;
           })
-          .catch(e => {
+          .catch((e) => {
             commit("setShowSnackbar", false);
             console.log(e);
             commit("setSnackbarMessage", "There was a problem loading recipes");
@@ -130,7 +130,7 @@ const createStore = () => {
               for (const key in res.data) {
                 arr.push({
                   ...res.data[key],
-                  id: key
+                  id: key,
                 });
               }
             }
@@ -155,7 +155,7 @@ const createStore = () => {
           .get(
             process.env.baseUrl + `recipes.json?orderBy="liked"&equalTo=true`
           )
-          .then(res => {
+          .then((res) => {
             const recipesArray = [];
             for (const key in res.data) {
               recipesArray.unshift({ ...res.data[key], id: key });
@@ -164,7 +164,7 @@ const createStore = () => {
             commit("setLikedRecipes", sortedArr);
             return sortedArr;
           })
-          .catch(e => {
+          .catch((e) => {
             console.log(e);
             commit("setShowSnackbar", false);
             commit(
@@ -188,7 +188,7 @@ const createStore = () => {
             commit("setSnackbarError", false);
             commit("setShowSnackbar", true);
           })
-          .catch(e => {
+          .catch((e) => {
             console.log(e);
             commit("setShowSnackbar", false);
             commit(
@@ -199,17 +199,29 @@ const createStore = () => {
             commit("setShowSnackbar", true);
           });
       },
+      editRecipeLike({ commit }, editedRecipe) {
+        commit("setEditedRecipe", editedRecipe);
+        return axios
+          .put(
+            process.env.baseUrl + "recipes/" + editedRecipe.id + ".json",
+            editedRecipe
+          )
+          .then(() => {})
+          .catch((e) => {
+            console.log(e);
+          });
+      },
       filterRecipes({ commit, state }, id) {
-        const filteredRecipes = state.likedRecipes.filter(el => el.id != id);
+        const filteredRecipes = state.likedRecipes.filter((el) => el.id != id);
         commit("setLikedRecipes", filteredRecipes);
       },
       loadRecipe({ commit }, id) {
         return axios
           .get(process.env.baseUrl + `recipes/${id}.json`)
-          .then(res => {
+          .then((res) => {
             return { ...res.data };
           })
-          .catch(e => {
+          .catch((e) => {
             console.log(e);
             commit("setShowSnackbar", false);
             commit(
@@ -222,16 +234,16 @@ const createStore = () => {
       },
       addRecipe({ commit }, recipe) {
         const createdRecipe = {
-          ...recipe
+          ...recipe,
         };
         return axios
           .post(process.env.baseUrl + "recipes.json", {
-            ...recipe
+            ...recipe,
           })
-          .then(result => {
+          .then((result) => {
             createdRecipe.id = result.data.name;
             commit("setAddedRecipe", {
-              ...createdRecipe
+              ...createdRecipe,
             });
             commit("setShowSnackbar", false);
             commit(
@@ -241,7 +253,7 @@ const createStore = () => {
             commit("setSnackbarError", false);
             commit("setShowSnackbar", true);
           })
-          .catch(e => {
+          .catch((e) => {
             console.log(e);
             commit("setShowSnackbar", false);
             commit(
@@ -258,7 +270,7 @@ const createStore = () => {
             process.env.baseUrl + "recipes/" + deletedRecipe.id + ".json",
             deletedRecipe
           )
-          .then(result => {
+          .then((result) => {
             deletedRecipe.id = result.config.id;
             commit("setShowSnackbar", false);
             commit("setDeletedRecipe", deletedRecipe);
@@ -269,7 +281,7 @@ const createStore = () => {
             commit("setSnackbarError", false);
             commit("setShowSnackbar", true);
           })
-          .catch(e => {
+          .catch((e) => {
             console.log(e);
             commit("setShowSnackbar", false);
             commit(
@@ -289,9 +301,9 @@ const createStore = () => {
           .post(authUrl, {
             email: authData.email,
             password: authData.password,
-            returnSecureToken: true
+            returnSecureToken: true,
           })
-          .then(res => {
+          .then((res) => {
             commit("setToken", res.data.idToken);
             localStorage.setItem("token", res.data.idToken);
             localStorage.setItem("refreshToken", res.data.refreshToken);
@@ -317,7 +329,7 @@ const createStore = () => {
               "refreshToken"
             )}`
           )
-          .then(res => {
+          .then((res) => {
             commit("setToken", res.data.id_token);
             localStorage.setItem("token", res.data.id_token);
             localStorage.setItem("refreshToken", res.data.refresh_token);
@@ -338,14 +350,14 @@ const createStore = () => {
         if (req) {
           const jwtCookie = req.headers.cookie
             .split(";")
-            .find(c => c.trim().startsWith("token="));
+            .find((c) => c.trim().startsWith("token="));
           if (!jwtCookie) {
             return;
           }
           token = jwtCookie.split("=")[1];
           expirationDate = req.headers.cookie
             .split(";")
-            .find(c => c.trim().startsWith("expirationDate="))
+            .find((c) => c.trim().startsWith("expirationDate="))
             .split("=")[1];
         } else {
           token = localStorage.getItem("token");
@@ -368,7 +380,7 @@ const createStore = () => {
           localStorage.removeItem("refreshToken");
           localStorage.removeItem("expirationDate");
         }
-      }
+      },
     },
     getters: {
       // loadedRecipes(state) {
@@ -382,8 +394,8 @@ const createStore = () => {
       isAdmin(state) {
         // return state.token != null;
         return false;
-      }
-    }
+      },
+    },
   });
 };
 

@@ -91,18 +91,28 @@ export default {
     margin: 0 auto;
     margin-top: 5px;
   }
+  .input__label {
+    display: none;
+  }
+  .input__field::placeholder {
+    color: $grey;
+  }
+  .input__field:focus ~ .input__label {
+    display: none;
+  }
   .btn-search {
     position: absolute;
     content: "";
-    top: 10px;
+    top: 5px;
     background: #fff;
-    width: 35px;
-    height: 35px;
+    width: 45px;
+    height: 45px;
     border-radius: 30px;
+    transform: scale(0.8);
     transition: $transition;
     margin: 0 auto;
     display: block;
-    right: -40px;
+    right: -45px;
     border: none;
     cursor: pointer;
     box-shadow: $box-shadow-search;
@@ -116,10 +126,6 @@ export default {
     svg {
       height: 20px;
       transition: $transition;
-      transform: scale(0.9);
-      @include mQuery(tablet) {
-        transform: scale(1);
-      }
       path,
       circle {
         transition: $transition;

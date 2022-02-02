@@ -85,7 +85,9 @@ export default {
   width: 100%;
   border: 0;
   height: 30px;
+  border: none;
   border-bottom: 1px solid $grey;
+  border-radius: 0;
   outline: 0;
   font-size: 1.4rem;
   padding: 7px 10px 7px;

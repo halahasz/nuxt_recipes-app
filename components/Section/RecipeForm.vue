@@ -227,9 +227,11 @@ export default {
     line-height: 21px;
     padding: 0 10px;
     border-color: $grey;
+    border: none;
     font-family: "Open Sans", sans-serif;
     border: none;
     border-bottom: 1px solid $grey;
+    border-radius: 0;
     font-weight: 400;
     padding: 1;
     @include mQuery(desktop) {

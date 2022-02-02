@@ -27,18 +27,18 @@ export default {
   props: {
     recipe: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     onDislike() {
-      this.$store.dispatch("editRecipe", {
+      this.$store.dispatch("editRecipeLike", {
         ...this.recipe,
-        liked: false
+        liked: false,
       });
       this.$emit("onDislike", false);
       this.$store.dispatch("filterRecipes", this.recipe.id);
-    }
-  }
+    },
+  },
 };
 </script>
