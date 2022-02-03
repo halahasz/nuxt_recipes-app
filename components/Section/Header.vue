@@ -271,7 +271,7 @@ export default {
     justify-content: flex-end;
     padding-right: 15px;
     flex-basis: 58%;
-    padding-bottom: 25px;
+    padding-bottom: 15px;
     position: relative;
     z-index: 1;
     @include mQuery(tablet) {

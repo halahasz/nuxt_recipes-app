@@ -1,7 +1,7 @@
 <template>
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="19.168"
+    width="20"
     height="21.493"
     xmlns:v="https://vecta.io/nano"
   >

@@ -1,4 +1,3 @@
-import firebase from "firebase";
 import "firebase/firestore";
 import "firebase/firebase-auth";
 import "firebase/storage";
@@ -12,7 +11,7 @@ const firebaseConfig = {
   projectId: "recipes-6f5e0",
   storageBucket: "recipes-6f5e0.appspot.com",
   messagingSenderId: "775452337922",
-  appId: "1:775452337922:web:2cef4245555fc0b9f4441b"
+  appId: "1:775452337922:web:2cef4245555fc0b9f4441b",
 };
 
 export { firebaseConfig };

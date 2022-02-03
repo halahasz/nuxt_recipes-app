@@ -3,9 +3,9 @@
     id="Add_recipe"
     data-name="Add recipe"
     xmlns="http://www.w3.org/2000/svg"
-    width="21.463"
-    height="21.463"
-    viewBox="0 0 21.463 21.463"
+    width="22.3"
+    height="23.3"
+    viewBox="0 0 22.3 22.3"
   >
     <g
       id="Group_21"

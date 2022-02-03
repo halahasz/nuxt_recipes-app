@@ -11,8 +11,8 @@ export default {
       {
         hid: "description",
         name: "description",
-        content: process.env.npm_package_description || ""
-      }
+        content: process.env.npm_package_description || "",
+      },
     ],
     // script: [
     //   { src: "https://www.gstatic.com/firebasejs/7.11.0/firebase-app.js" }
@@ -21,10 +21,9 @@ export default {
       { rel: "icon", type: "image/x-icon", href: "/favicon.png" },
       {
         rel: "stylesheet",
-        href:
-          "https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800&display=swap&subset=latin-ext"
-      }
-    ]
+        href: "https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800&display=swap&subset=latin-ext",
+      },
+    ],
   },
   /*
    ** Customize the progress-bar color
@@ -49,11 +48,11 @@ export default {
   router: {
     scrollBehavior() {
       return { x: 0, y: 0 };
-    }
+    },
   },
   env: {
     baseUrl: "https://recipes-6f5e0.firebaseio.com/",
-    fbAPIKey: "AIzaSyB7w290E1E2wWvkzqChlblUK68TBEbuvpU"
+    fbAPIKey: "AIzaSyBWcwmCOJeQKCPbIgAbKMUonZpiBlRyC-4",
   },
   // layoutTransition: {
   //   name: "page",
@@ -64,7 +63,7 @@ export default {
    ** https://github.com/nuxt-community/vuetify-module
    */
   generate: {
-    fallback: true
+    fallback: true,
   },
   /*
    ** Build configuration
@@ -73,6 +72,6 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {}
-  }
+    extend(config, ctx) {},
+  },
 };

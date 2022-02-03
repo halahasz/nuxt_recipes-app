@@ -57,7 +57,7 @@ export default {
   },
   computed: {
     ...mapState(["loadedRecipes"]),
-    ...mapGetters(["isAdmin"]),
+    ...mapGetters(["auth/isAdmin"]),
   },
   methods: {
     onHover() {
