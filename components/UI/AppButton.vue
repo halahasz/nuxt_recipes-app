@@ -37,7 +37,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import "@/assets/styles/_variables";
 .btn {
   text-transform: none;
@@ -49,7 +49,8 @@ export default {
   border: none;
   margin: 20px auto;
   letter-spacing: 1px;
-  display: block;
+  display: inline-block;
+  text-decoration: none;
   color: $white;
   background-color: $primary;
   &.absolute {

@@ -6,7 +6,9 @@
     <h1 class="page-title" v-else>
       {{ otherError }}
     </h1>
-    <a class="btn" href="/">Home page</a>
+    <div style="text-align: center">
+      <a class="btn" href="/">Home page</a>
+    </div>
   </v-app>
 </template>
 
