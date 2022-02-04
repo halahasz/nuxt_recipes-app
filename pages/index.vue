@@ -6,13 +6,11 @@
         v-if="loadedRecipes.length"
         :recipes="loadedRecipes"
       />
-      <h1 key="2" class="page-title" v-else>
-        There is no recipes!
-      </h1>
+      <h1 key="2" class="page-title" v-else>There is no recipes!</h1>
     </transition-group>
     <transition-group tag="span" name="fade-group" mode="out-in">
       <LoadingSpinner key="1" v-if="loading" />
-      <Button
+      <AppButton
         key="2"
         class="absolute"
         text="Load more"
@@ -27,7 +25,7 @@
 <script>
 import RecipesList from "@/components/Section/RecipesList";
 import LoadingSpinner from "@/components/UI/LoadingSpinner";
-import Button from "@/components/UI/Button";
+import AppButton from "@/components/UI/AppButton";
 import { mapState } from "vuex";
 
 export default {
@@ -37,18 +35,18 @@ export default {
   components: {
     RecipesList,
     LoadingSpinner,
-    Button
+    AppButton,
   },
   computed: {
     ...mapState(["loadedRecipes", "isAllRecipesLoaded", "loading"]),
     showButton() {
       return !this.loading && !this.isAllRecipesLoaded;
-    }
+    },
   },
   methods: {
     loadRecipes(num) {
       this.$store.dispatch("loadRecipes", num);
-    }
-  }
+    },
+  },
 };
 </script>

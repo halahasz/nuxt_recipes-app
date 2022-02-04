@@ -2,8 +2,8 @@
   <div>
     <transition name="slide-fade">
       <form class="search-form" v-if="loaded">
-        <Input label="Search ingredient ..." v-model.trim="text" />
-        <Button
+        <AppInput label="Search ingredient ..." v-model.trim="text" />
+        <AppButton
           text="-"
           v-if="text.length"
           look="minus"
@@ -24,16 +24,16 @@
 </template>
 
 <script>
-import Input from "@/components/UI/Input";
-import Button from "@/components/UI/Button";
+import AppInput from "@/components/UI/AppInput";
+import AppButton from "@/components/UI/AppButton";
 import SearchIcon from "@/components/UI/Icons/SearchIcon";
 
 export default {
   name: "SearchForm",
   emits: ["search-text"],
   components: {
-    Input,
-    Button,
+    AppInput,
+    AppButton,
     SearchIcon,
   },
   data() {

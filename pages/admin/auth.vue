@@ -9,8 +9,13 @@
     <div class="auth-container">
       <h1 class="page-title">Authentication</h1>
       <form @submit.prevent="onSubmit">
-        <Input required type="email" v-model="email" label="E-Mail Address" />
-        <Input
+        <AppInput
+          required
+          type="email"
+          v-model="email"
+          label="E-Mail Address"
+        />
+        <AppInput
           required
           error
           type="password"
@@ -19,8 +24,8 @@
           @validation="onValidation"
         />
         <div class="btn-container">
-          <Button type="submit" :text="isLogin ? 'Login' : 'Signup'" />
-          <Button
+          <AppButton type="submit" :text="isLogin ? 'Login' : 'Signup'" />
+          <AppButton
             color="white"
             @click="isLogin = !isLogin"
             :text="isLogin ? 'Switch to Signup' : 'Switch to Login'"
@@ -32,16 +37,16 @@
 </template>
 
 <script>
-import Input from "@/components/UI/Input";
-import Button from "@/components/UI/Button";
+import AppInput from "@/components/UI/AppInput";
+import AppButton from "@/components/UI/AppButton";
 import Snackbar from "@/components/UI/Snackbar";
 
 export default {
   name: "AdminAuthPage",
   layout: "admin",
   components: {
-    Input,
-    Button,
+    AppInput,
+    AppButton,
     Snackbar,
   },
   data() {

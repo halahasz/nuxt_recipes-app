@@ -12,18 +12,22 @@
       </button>
       <input
         type="file"
-        ref="fileInput"
+        ref="fileAppInput"
         style="display: none"
         accept="image/*"
         @change="onFilePicked"
       />
     </div>
-    <Input label="Title" bold required v-model="editedRecipe.title" />
-    <Input label="Author" v-model="editedRecipe.author" />
-    <Input label="Link" v-model="editedRecipe.link" />
+    <AppInput label="Title" bold required v-model="editedRecipe.title" />
+    <AppInput label="Author" v-model="editedRecipe.author" />
+    <AppInput label="Link" v-model="editedRecipe.link" />
     <div class="form-group">
-      <Input label="Time" v-model="editedRecipe.time" />
-      <Input label="Portions" type="number" v-model="editedRecipe.portions" />
+      <AppInput label="Time" v-model="editedRecipe.time" />
+      <AppInput
+        label="Portions"
+        type="number"
+        v-model="editedRecipe.portions"
+      />
     </div>
     <p class="form__label">INGREDIENTS</p>
     <div class="form-ingredients" v-if="editedRecipe.ingredients.length">
@@ -34,13 +38,17 @@
           class="form-ingredients__ingredient"
         >
           <div>
-            <Input
+            <AppInput
               :label="'Ingredient ' + (index + 1)"
               v-model.trim="ingr.ingredient"
               :key="index"
             />
-            <Input class="amount" label="Amount" v-model.trim="ingr.amount" />
-            <Button
+            <AppInput
+              class="amount"
+              label="Amount"
+              v-model.trim="ingr.amount"
+            />
+            <AppButton
               text="-"
               v-if="editedRecipe.ingredients.length > 1"
               look="minus"
@@ -49,7 +57,7 @@
             />
           </div>
         </div>
-        <Button
+        <AppButton
           v-if="editedRecipe.ingredients.length < 10"
           text="+ Add ingredient"
           color="white"
@@ -68,9 +76,9 @@
       placeholder="Type your recipe..."
     ></textarea>
     <div class="form-btns">
-      <Button text="Save" type="submit" />
-      <Button text="Remove" color="red" @click="onRemove" />
-      <Button text="Cancel" color="white" @click="onCancel" />
+      <AppButton text="Save" type="submit" />
+      <AppButton text="Remove" color="red" @click="onRemove" />
+      <AppButton text="Cancel" color="white" @click="onCancel" />
     </div>
   </form>
 </template>
@@ -78,15 +86,15 @@
 <script>
 import { firebaseConfig } from "@/store/firebase";
 import firebase from "firebase";
-import Input from "@/components/UI/Input";
-import Button from "@/components/UI/Button";
+import AppInput from "@/components/UI/AppInput";
+import AppButton from "@/components/UI/AppButton";
 import CameraIcon from "@/components/UI/Icons/CameraIcon";
 
 export default {
   name: "AdminPostForm",
   components: {
-    Input,
-    Button,
+    AppInput,
+    AppButton,
     CameraIcon,
   },
   data() {
