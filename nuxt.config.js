@@ -28,7 +28,7 @@ export default {
   /*
    ** Customize the progress-bar color
    */
-  loading: { color: "#fa6a18;", duration: 3000 },
+  loading: { color: "#fa6a18;", height: "4px", duration: 3000 },
   /*
    ** Global CSS
    */
@@ -51,7 +51,10 @@ export default {
     },
   },
   env: {
-    baseUrl: "https://recipes-6f5e0.firebaseio.com/",
+    baseUrl: process.env.BASE_URL || "https://recipes-6f5e0.firebaseio.com/",
+    baseAuthUrl:
+      process.env.BASE_URL ||
+      "https://recipes-auth-bb96f-default-rtdb.europe-west1.firebasedatabase.app/",
     fbAPIKey: "AIzaSyBWcwmCOJeQKCPbIgAbKMUonZpiBlRyC-4",
   },
   // layoutTransition: {

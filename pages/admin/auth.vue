@@ -1,13 +1,9 @@
 <template>
   <div class="admin-auth-page">
-    <Snackbar
-      :error="error"
-      :snackbarMessage="snackbarMessage"
-      :snackVisibilityDuration="snackVisibilityDuration"
-      v-if="showSnackbar"
-    />
     <div class="auth-container">
-      <h1 class="page-title">Authentication</h1>
+      <h1 class="page-title">
+        Sign up or log in to create your own list of recipes
+      </h1>
       <form @submit.prevent="onSubmit">
         <AppInput
           required
@@ -17,11 +13,9 @@
         />
         <AppInput
           required
-          error
           type="password"
           v-model="password"
           label="Password"
-          @validation="onValidation"
         />
         <div class="btn-container">
           <AppButton type="submit" :text="isLogin ? 'Login' : 'Signup'" />
@@ -39,7 +33,6 @@
 <script>
 import AppInput from "@/components/UI/AppInput";
 import AppButton from "@/components/UI/AppButton";
-import Snackbar from "@/components/UI/Snackbar";
 
 export default {
   name: "AdminAuthPage",
@@ -47,50 +40,23 @@ export default {
   components: {
     AppInput,
     AppButton,
-    Snackbar,
   },
   data() {
     return {
-      formValid: false,
       email: "",
       password: "",
       isLogin: false,
-      error: false,
-      snackbarMessage: "",
-      showSnackbar: false,
-      snackVisibilityDuration: 2000,
     };
   },
-  watch: {},
   methods: {
-    onValidation(value) {
-      if (value) {
-        this.formValid = true;
-      } else {
-        this.formValid = false;
-      }
-    },
     onSubmit() {
-      if (this.formValid) {
-        this.error = false;
-        this.showSnackbar = false;
-        this.$store
-          .dispatch("authenticateUser", {
-            isLogin: this.isLogin,
-            email: this.email,
-            password: this.password,
-          })
-          .then(() => {
-            this.$router.push("/admin");
-            this.$store.commit("setEmail", this.email);
-            this.$store.commit("setPassword", this.password);
-          })
-          .catch(() => {
-            this.error = true;
-            this.showSnackbar = true;
-            this.snackbarMessage = "Invalid email or password!";
-          });
-      }
+      this.$store
+        .dispatch("auth/authenticateUser", {
+          isLogin: this.isLogin,
+          email: this.email,
+          password: this.password,
+        })
+        .then(this.$router.push("/admin"));
     },
   },
 };

@@ -22,7 +22,7 @@ import RecipesList from "@/components/Section/RecipesList";
 import AppButton from "@/components/UI/AppButton";
 
 export default {
-  middleware: ["check-auth", "auth"],
+  // middleware: ["check-auth", "auth"],
   components: {
     RecipesList,
     AppButton,

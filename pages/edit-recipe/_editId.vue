@@ -17,17 +17,16 @@ export default {
   // layout: "admin",
   // middleware: ["check-auth", "auth"],
   components: {
-    RecipeForm
+    RecipeForm,
   },
   async asyncData({ store, params }) {
     const recipe = await store.dispatch("loadRecipe", params.editId);
     return {
-      loadedRecipe: recipe
+      loadedRecipe: recipe,
     };
   },
   methods: {
     onSubmitted(editedRecipe) {
-      console.log("fdfd", editedRecipe);
       this.$store.dispatch("editRecipe", editedRecipe).then(() => {
         this.$router.push("/recipes/" + this.$route.params.editId);
       });
@@ -36,7 +35,7 @@ export default {
       this.$store.dispatch("deleteRecipe", deletedRecipe).then(() => {
         this.$router.push("/");
       });
-    }
-  }
+    },
+  },
 };
 </script>
