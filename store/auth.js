@@ -46,8 +46,34 @@ export const actions = {
           "expirationDate",
           new Date().getTime() + +res.data.expiresIn * 1000
         );
-        this.$cookies.remove("likedRecipes");
       });
+  },
+  initAuth({ commit, dispatch }, req) {
+    let token, expirationDate;
+    if (req) {
+      if (!req.headers.cookie) {
+        return;
+      }
+      const jwtCookie = req.headers.cookie
+        .split(";")
+        .find((c) => c.trim().startsWith("token="));
+      if (!jwtCookie) {
+        return;
+      }
+      token = jwtCookie.split("=")[1];
+      expirationDate = req.headers.cookie
+        .split(";")
+        .find((c) => c.trim().startsWith("expirationDate="))
+        .split("=")[1];
+    } else {
+      token = localStorage.getItem("token");
+      expirationDate = localStorage.getItem("expirationDate");
+    }
+    if (new Date().getTime() > +expirationDate || !token) {
+      dispatch("logout");
+      return;
+    }
+    commit("setToken", token);
   },
   refreshToken({ commit, state }) {
     return axios
@@ -74,31 +100,7 @@ export const actions = {
         );
       });
   },
-  initAuth({ commit, dispatch, state }, req) {
-    let token, expirationDate;
-    if (req) {
-      const jwtCookie = req.headers.cookie
-        .split(";")
-        .find((c) => c.trim().startsWith("token="));
-      if (!jwtCookie) {
-        return;
-      }
-      token = jwtCookie.split("=")[1];
-      expirationDate = req.headers.cookie
-        .split(";")
-        .find((c) => c.trim().startsWith("expirationDate="))
-        .split("=")[1];
-    } else {
-      token = localStorage.getItem("token");
-      expirationDate = localStorage.getItem("expirationDate");
-    }
-    if (new Date().getTime() > +expirationDate || !token) {
-      dispatch("logout");
-      return;
-    }
 
-    commit("setToken", token);
-  },
   logout({ commit }) {
     commit("clearToken");
     this.$cookies.remove("token");

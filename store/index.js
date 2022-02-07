@@ -65,7 +65,6 @@ export const mutations = {
 };
 export const actions = {
   loadRecipes({ commit, state, rootState }, num) {
-    console.log(rootState);
     commit("setLoading", true);
     const recipesNum = state.recipesNum + num;
     let url = process.env.baseUrl + "recipes.json";
@@ -77,6 +76,7 @@ export const actions = {
       .get(url + `?orderBy="order"&limitToFirst=${recipesNum}`)
       .then((res) => {
         var arr = Object.entries(res.data);
+        // TODO: fix loading button for admin
         if (
           arr.length + num >= state.loadedRecipes.length &&
           arr.length % num !== 0 &&
@@ -173,15 +173,11 @@ export const actions = {
   },
   editRecipe({ commit, rootState }, editedRecipe) {
     commit("setEditedRecipe", editedRecipe);
-    let url =
-      process.env.baseUrl +
-      "recipes/" +
-      editedRecipe.id.split("@")[0] +
-      ".json";
+    let url = process.env.baseUrl + "recipes/" + editedRecipe.id + ".json";
     if (rootState.auth.token != null) {
       url =
         process.env.baseAuthUrl +
-        rootState.auth.email +
+        rootState.auth.email.split("@")[0] +
         "/" +
         editedRecipe.id +
         ".json?auth=" +
@@ -205,15 +201,11 @@ export const actions = {
   },
   editRecipeLike({ commit, rootState }, editedRecipe) {
     commit("setEditedRecipe", editedRecipe);
-    let url =
-      process.env.baseUrl +
-      "recipes/" +
-      editedRecipe.id.split("@")[0] +
-      ".json";
+    let url = process.env.baseUrl + "recipes/" + editedRecipe.id + ".json";
     if (rootState.auth.token != null) {
       url =
         process.env.baseAuthUrl +
-        rootState.auth.email +
+        rootState.auth.email.split("@")[0] +
         "/" +
         editedRecipe.id +
         ".json?auth=" +

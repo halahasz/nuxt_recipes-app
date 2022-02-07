@@ -30,13 +30,13 @@ export default {
   components: {
     Header,
     Footer,
-    Snackbar
+    Snackbar,
   },
   data() {
     return {
       logoutTimeout: null,
       refreshInterval: null,
-      loaded: false
+      loaded: false,
     };
   },
   computed: {
@@ -47,7 +47,7 @@ export default {
       "token",
       "email",
       "password",
-      "searchText"
+      "searchText",
     ]),
     title() {
       if (this.$route.path === "/" && this.searchText == "") {
@@ -56,17 +56,11 @@ export default {
         return "My search results";
       } else {
         return (
-          this.$route.path
-            .split("/")[1]
-            .slice(0, 1)
-            .toUpperCase() +
-          this.$route.path
-            .split("/")[1]
-            .slice(1)
-            .replace("-", " ")
+          this.$route.path.split("/")[1].slice(0, 1).toUpperCase() +
+          this.$route.path.split("/")[1].slice(1).replace("-", " ")
         );
       }
-    }
+    },
   },
   mounted() {
     this.loaded = true;
@@ -74,7 +68,7 @@ export default {
     if (this.logoutTimeout === null) {
       this.startLogoutInterval();
     }
-    // refresh token every 2 min.
+    // check refresh token every 2 min.
     this.refreshInterval = setInterval(
       () => this.checkRefreshToken(),
       1000 * 60 * 2
@@ -100,14 +94,15 @@ export default {
     startLogoutInterval() {
       clearTimeout(this.logoutTimeout);
       this.logoutTimeout = setTimeout(() => {
-        this.$$cookies.remove("token");
+        this.$store.dispatch("logout");
         this.$router.push("/admin/auth");
+        console.log("logged out");
       }, 1000 * 60 * 15);
-    }
+    },
   },
   beforeDestroy() {
     clearTimeout(this.logoutTimeout);
     clearTimeout(this.refreshInterval);
-  }
+  },
 };
 </script>

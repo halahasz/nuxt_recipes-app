@@ -12,7 +12,7 @@
       </button>
       <input
         type="file"
-        ref="fileAppInput"
+        ref="fileInput"
         style="display: none"
         accept="image/*"
         @change="onFilePicked"
@@ -85,6 +85,8 @@
 
 <script>
 import { firebaseConfig } from "@/store/firebase";
+import { firebaseAuthConfig } from "@/store/firebase-auth";
+import { mapGetters } from "vuex";
 import firebase from "firebase";
 import AppInput from "@/components/UI/AppInput";
 import AppButton from "@/components/UI/AppButton";
@@ -124,6 +126,9 @@ export default {
             }`,
           },
     };
+  },
+  computed: {
+    ...mapGetters({ isAdmin: "auth/isAdmin" }),
   },
   props: {
     recipe: {
@@ -166,9 +171,13 @@ export default {
       this.$refs.fileInput.click();
     },
     onFilePicked(e) {
-      const fb = firebase.initializeApp(firebaseConfig);
+      let fb;
+      if (this.isAdmin) {
+        fb = firebase.initializeApp(firebaseAuthConfig);
+      } else {
+        fb = firebase.initializeApp(firebaseConfig);
+      }
       const files = e.target.files;
-      console.log(files);
       if (files[0]) {
         let fileName = files[0].name;
         if (fileName.lastIndexOf(".") <= 0) {
@@ -178,7 +187,6 @@ export default {
         fileReader.addEventListener("load", () => {
           this.editedRecipe.photo = fileReader.result;
         });
-        console.log(this.editedRecipe.photo);
         fileReader.readAsDataURL(files[0]);
 
         let file = e.target.files[0];
@@ -191,6 +199,7 @@ export default {
             this.editedRecipe.photo = getDownloadURL;
           });
         });
+        fb.delete();
       }
     },
   },
