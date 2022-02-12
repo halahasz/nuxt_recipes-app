@@ -29,6 +29,7 @@ import AppButton from "@/components/UI/AppButton";
 import { mapState } from "vuex";
 
 export default {
+  middleware: ["check-auth"],
   async asyncData({ store }) {
     await store.dispatch("loadRecipes", 0);
   },

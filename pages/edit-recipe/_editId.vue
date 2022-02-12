@@ -14,8 +14,7 @@
 import RecipeForm from "@/components/Section/RecipeForm";
 
 export default {
-  // layout: "admin",
-  // middleware: ["check-auth", "auth"],
+  middleware: ["check-auth"],
   components: {
     RecipeForm,
   },

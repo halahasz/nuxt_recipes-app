@@ -8,15 +8,16 @@
 import RecipeForm from "@/components/Section/RecipeForm";
 
 export default {
+  middleware: ["check-auth"],
   components: {
-    RecipeForm
+    RecipeForm,
   },
   methods: {
     onSubmitted(recipeData) {
       this.$store.dispatch("addRecipe", recipeData).then(() => {
         this.$router.push("/");
       });
-    }
-  }
+    },
+  },
 };
 </script>

@@ -22,6 +22,7 @@ import AppButton from "@/components/UI/AppButton";
 import { mapState } from "vuex";
 
 export default {
+  middleware: ["check-auth"],
   async asyncData({ store, route }) {
     await store.dispatch("searchRecipes", route.query.ingredient);
   },
@@ -36,5 +37,6 @@ export default {
   beforeDestroy() {
     this.$store.commit("setSearchText", "");
   },
+  // TODO: redirect to home page when empty string
 };
 </script>

@@ -3,9 +3,12 @@
     <div
       class="recipe-photo"
       :style="{
-        'background-image': `url(${loadedRecipe.photo ||
-          require(`@/assets/img/food-placeholder-${loadedRecipe.title.length %
-            5}.jpg`)})`
+        'background-image': `url(${
+          loadedRecipe.photo ||
+          require(`@/assets/img/food-placeholder-${
+            loadedRecipe.title.length % 5
+          }.jpg`)
+        })`,
       }"
     >
       <div class="recipe-photo__content">
@@ -103,15 +106,16 @@ import EditIcon from "@/components/UI/Icons/EditIcon";
 import ClockIcon from "@/components/UI/Icons/ClockIcon";
 
 export default {
+  middleware: ["check-auth"],
   components: {
     FilledHeartIcon,
     EmptyHeartIcon,
     EditIcon,
-    ClockIcon
+    ClockIcon,
   },
   data() {
     return {
-      isActive: true
+      isActive: true,
     };
   },
   computed: {
@@ -122,19 +126,19 @@ export default {
       set(value) {
         this.loadedRecipe.liked = value;
         return value;
-      }
-    }
+      },
+    },
   },
   async asyncData({ store, params }) {
     const recipe = await store.dispatch("loadRecipe", params.id);
     return {
-      loadedRecipe: recipe
+      loadedRecipe: recipe,
     };
   },
   methods: {
     onClick(e) {
       e.target.classList.toggle("ingredient-checked");
-    }
-  }
+    },
+  },
 };
 </script>

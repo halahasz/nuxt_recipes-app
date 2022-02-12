@@ -1,7 +1,7 @@
 <template>
   <div class="input">
     <input
-      @change="handleInput"
+      @input="handleInput"
       :value="value"
       :type="type"
       :class="['input__field', { bold: bold }]"

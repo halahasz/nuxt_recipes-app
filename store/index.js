@@ -63,6 +63,7 @@ export const mutations = {
     state.searchedRecipes = [];
   },
 };
+
 export const actions = {
   loadRecipes({ commit, state, rootState }, num) {
     commit("setLoading", true);
@@ -100,7 +101,7 @@ export const actions = {
         console.log(e);
         commit("setSnackbarMessage", "There was a problem loading recipes");
         commit("setSnackbarError", true);
-        commit("setShowSnackbar", true);
+        commit("setShowSnackbar", false);
       });
   },
   async searchRecipes({ commit, rootState }, text) {
@@ -137,7 +138,7 @@ export const actions = {
           "There is a problem with searching recipes"
         );
         commit("setSnackbarError", true);
-        commit("setShowSnackbar", true);
+        commit("setShowSnackbar", false);
       }
     } else {
       commit("clearRecipes");
@@ -168,7 +169,7 @@ export const actions = {
           "There was a problem loading the liked recipes"
         );
         commit("setSnackbarError", true);
-        commit("setShowSnackbar", true);
+        commit("setShowSnackbar", false);
       });
   },
   editRecipe({ commit, rootState }, editedRecipe) {
@@ -196,7 +197,7 @@ export const actions = {
         commit("setShowSnackbar", false);
         commit("setSnackbarMessage", "There was a problem updating the recipe");
         commit("setSnackbarError", true);
-        commit("setShowSnackbar", true);
+        commit("setShowSnackbar", false);
       });
   },
   editRecipeLike({ commit, rootState }, editedRecipe) {
@@ -237,7 +238,7 @@ export const actions = {
         commit("setShowSnackbar", false);
         commit("setSnackbarMessage", "There was a problem loading the recipe");
         commit("setSnackbarError", true);
-        commit("setShowSnackbar", true);
+        commit("setShowSnackbar", false);
       });
   },
   addRecipe({ commit, rootState }, recipe) {
@@ -274,7 +275,7 @@ export const actions = {
         commit("setShowSnackbar", false);
         commit("setSnackbarMessage", "There was a problem adding the recipe");
         commit("setSnackbarError", true);
-        commit("setShowSnackbar", true);
+        commit("setShowSnackbar", false);
       });
   },
   deleteRecipe({ commit, rootState }, deletedRecipe) {
@@ -299,14 +300,14 @@ export const actions = {
           "There recipe has been successfully deleted"
         );
         commit("setSnackbarError", false);
-        commit("setShowSnackbar", true);
+        commit("setShowSnackbar", false);
       })
       .catch((e) => {
         console.log(e);
         commit("setShowSnackbar", false);
         commit("setSnackbarMessage", "There was a problem deleting the recipe");
         commit("setSnackbarError", true);
-        commit("setShowSnackbar", true);
+        commit("setShowSnackbar", false);
       });
   },
 };

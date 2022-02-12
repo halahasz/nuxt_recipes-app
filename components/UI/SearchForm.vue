@@ -79,7 +79,7 @@ export default {
     width: 200px;
   }
   @include mQuery(tablet) {
-    width: 150px;
+    width: 180px;
   }
   @include mQuery(desktop) {
     width: 250px;

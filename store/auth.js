@@ -19,6 +19,7 @@ export const mutations = {
     state.token = null;
   },
 };
+// TODO: add snackbors
 export const actions = {
   authenticateUser({ commit }, authData) {
     let authUrl = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.fbAPIKey}`;
@@ -74,6 +75,14 @@ export const actions = {
       return;
     }
     commit("setToken", token);
+    return axios
+      .get(
+        "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=" +
+          process.env.fbAPIKey +
+          "&idToken=" +
+          token
+      )
+      .then((res) => commit("setEmail", res.users.email));
   },
   refreshToken({ commit, state }) {
     return axios

@@ -15,14 +15,15 @@ import { mapState } from "vuex";
 import RecipesList from "@/components/Section/RecipesList";
 
 export default {
+  middleware: ["check-auth"],
   async asyncData({ store }) {
     await store.dispatch("loadLikedRecipes");
   },
   components: {
-    RecipesList
+    RecipesList,
   },
   computed: {
-    ...mapState(["likedRecipes"])
-  }
+    ...mapState(["likedRecipes"]),
+  },
 };
 </script>
