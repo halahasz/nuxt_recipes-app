@@ -10,7 +10,13 @@
         <LoadingSpinner key="1" v-if="loading" />
         <RecipesList :recipes="searchedRecipes" v-else />
       </div>
-      <h1 key="2" class="page-title" v-else>No recipes found!</h1>
+      <h1
+        key="2"
+        class="page-title"
+        v-if="!searchedRecipes.length && searchText != ''"
+      >
+        No recipes found!
+      </h1>
     </transition-group>
   </div>
 </template>
@@ -37,6 +43,5 @@ export default {
   beforeDestroy() {
     this.$store.commit("setSearchText", "");
   },
-  // TODO: redirect to home page when empty string
 };
 </script>
