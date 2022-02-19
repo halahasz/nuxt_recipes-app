@@ -65,7 +65,7 @@ export const mutations = {
 };
 
 export const actions = {
-  loadRecipes({ commit, state, rootState }, num) {
+  loadRecipes({ commit, dispatch, state, rootState }, num) {
     commit("setLoading", true);
     const recipesNum = state.recipesNum + num;
     let url = process.env.baseUrl + "recipes.json";
@@ -97,14 +97,11 @@ export const actions = {
       })
       .catch((e) => {
         commit("setLoading", false);
-        commit("setShowSnackbar", false);
         console.log(e);
-        commit("setSnackbarMessage", "There was a problem loading recipes");
-        commit("setSnackbarError", true);
-        commit("setShowSnackbar", false);
+        dispatch("setSnackbar", "There was a problem loading recipes", true);
       });
   },
-  async searchRecipes({ commit, rootState }, text) {
+  async searchRecipes({ commit, dispatch, rootState }, text) {
     if (text.length) {
       commit("setLoading", true);
       try {
@@ -132,19 +129,17 @@ export const actions = {
       } catch (e) {
         console.log(e);
         commit("setLoading", false);
-        commit("setShowSnackbar", false);
-        commit(
-          "setSnackbarMessage",
-          "There is a problem with searching recipes"
+        dispatch(
+          "setSnackbar",
+          "There is a problem with searching recipes",
+          true
         );
-        commit("setSnackbarError", true);
-        commit("setShowSnackbar", false);
       }
     } else {
       commit("clearRecipes");
     }
   },
-  loadLikedRecipes({ commit, state, rootState }) {
+  loadLikedRecipes({ commit, dispatch, rootState }) {
     let url = process.env.baseUrl + "recipes.json";
     if (rootState.auth.token != null) {
       url =
@@ -163,16 +158,14 @@ export const actions = {
       })
       .catch((e) => {
         console.log(e);
-        commit("setShowSnackbar", false);
-        commit(
-          "setSnackbarMessage",
-          "There was a problem loading the liked recipes"
+        dispatch(
+          "setSnackbar",
+          "There was a problem loading the liked recipes",
+          true
         );
-        commit("setSnackbarError", true);
-        commit("setShowSnackbar", false);
       });
   },
-  editRecipe({ commit, rootState }, editedRecipe) {
+  editRecipe({ commit, dispatch, rootState }, editedRecipe) {
     commit("setEditedRecipe", editedRecipe);
     let url = process.env.baseUrl + "recipes/" + editedRecipe.id + ".json";
     if (rootState.auth.token != null) {
@@ -187,17 +180,15 @@ export const actions = {
     return axios
       .put(url, editedRecipe)
       .then(() => {
-        commit("setShowSnackbar", false);
-        commit("setSnackbarMessage", "The recipe has been updated");
-        commit("setSnackbarError", false);
-        commit("setShowSnackbar", true);
+        dispatch("setSnackbar", "The recipe has been updated", false);
       })
       .catch((e) => {
         console.log(e);
-        commit("setShowSnackbar", false);
-        commit("setSnackbarMessage", "There was a problem updating the recipe");
-        commit("setSnackbarError", true);
-        commit("setShowSnackbar", false);
+        dispatch(
+          "setSnackbar",
+          "There was a problem updating the recipe",
+          true
+        );
       });
   },
   editRecipeLike({ commit, rootState }, editedRecipe) {
@@ -223,7 +214,7 @@ export const actions = {
     const filteredRecipes = state.likedRecipes.filter((el) => el.id != id);
     commit("setLikedRecipes", filteredRecipes);
   },
-  loadRecipe({ commit, rootState }, id) {
+  loadRecipe({ dispatch, rootState }, id) {
     let url = process.env.baseUrl + "recipes/";
     if (rootState.auth.token != null) {
       url = process.env.baseAuthUrl + rootState.auth.email.split("@")[0] + "/";
@@ -235,13 +226,10 @@ export const actions = {
       })
       .catch((e) => {
         console.log(e);
-        commit("setShowSnackbar", false);
-        commit("setSnackbarMessage", "There was a problem loading the recipe");
-        commit("setSnackbarError", true);
-        commit("setShowSnackbar", false);
+        dispatch("setSnackbar", "There was a problem loading the recipe", true);
       });
   },
-  addRecipe({ commit, rootState }, recipe) {
+  addRecipe({ commit, dispatch, rootState }, recipe) {
     const createdRecipe = {
       ...recipe,
     };
@@ -262,23 +250,18 @@ export const actions = {
         commit("setAddedRecipe", {
           ...createdRecipe,
         });
-        commit("setShowSnackbar", false);
-        commit(
-          "setSnackbarMessage",
-          "There recipe has been successfully added"
+        dispatch(
+          "setSnackbar",
+          "There recipe has been successfully added",
+          false
         );
-        commit("setSnackbarError", false);
-        commit("setShowSnackbar", true);
       })
       .catch((e) => {
         console.log(e);
-        commit("setShowSnackbar", false);
-        commit("setSnackbarMessage", "There was a problem adding the recipe");
-        commit("setSnackbarError", true);
-        commit("setShowSnackbar", false);
+        dispatch("setSnackbar", "There was a problem adding the recipe", true);
       });
   },
-  deleteRecipe({ commit, rootState }, deletedRecipe) {
+  deleteRecipe({ commit, dispatch, rootState }, deletedRecipe) {
     let url = process.env.baseUrl + "recipes/" + deletedRecipe.id + ".json";
     if (rootState.auth.token != null) {
       url =
@@ -293,21 +276,25 @@ export const actions = {
       .delete(url, deletedRecipe)
       .then((result) => {
         deletedRecipe.id = result.config.id;
-        commit("setShowSnackbar", false);
         commit("setDeletedRecipe", deletedRecipe);
-        commit(
-          "setSnackbarMessage",
-          "There recipe has been successfully deleted"
+        dispatch(
+          "setSnackbar",
+          "There recipe has been successfully deleted",
+          false
         );
-        commit("setSnackbarError", false);
-        commit("setShowSnackbar", false);
       })
       .catch((e) => {
         console.log(e);
-        commit("setShowSnackbar", false);
-        commit("setSnackbarMessage", "There was a problem deleting the recipe");
-        commit("setSnackbarError", true);
-        commit("setShowSnackbar", false);
+        dispatch(
+          "setSnackbar",
+          "There was a problem deleting the recipe",
+          true
+        );
       });
+  },
+  setSnackbar({ commit }, text, error) {
+    commit("setSnackbarMessage", text);
+    commit("setSnackbarError", error);
+    commit("setShowSnackbar", true);
   },
 };

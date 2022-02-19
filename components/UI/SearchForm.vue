@@ -56,13 +56,13 @@ export default {
   },
   methods: {
     onSearch() {
+      this.$store.dispatch("searchRecipes", this.text);
+      this.$store.commit("setSearchText", this.text);
       if (this.text == "") {
         this.$router.push({ path: "/" });
       } else {
         this.$router.push({ path: "/search?ingredient=" + this.text });
       }
-      this.$store.dispatch("searchRecipes", this.text);
-      this.$store.commit("setSearchText", this.text);
     },
   },
 };
