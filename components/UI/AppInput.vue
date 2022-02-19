@@ -56,6 +56,7 @@ export default {
       if (this.type === "password" && e.target.value.length < 6) {
         this.invalid = true;
         this.errorMessage = "Password length should be at least 6 characters";
+        this.$emit("input", e.target.value);
         this.$emit("validation", false);
       } else {
         this.invalid = false;
@@ -169,8 +170,8 @@ export default {
 .input__invalid {
   position: absolute;
   content: "";
-  left: 5px;
-  bottom: -15px;
+  left: 15px;
+  bottom: -20px;
   color: $primary;
 }
 </style>
