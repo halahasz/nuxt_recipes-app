@@ -29,7 +29,12 @@ export default {
   },
   methods: {
     onLogout() {
-      this.$store.dispatch("auth/logout");
+      this.$store.dispatch("auth/logout").then(() => {
+        this.$store.dispatch("snackbar/setSnackbar", {
+          text: "Successfully logged out",
+          error: false,
+        });
+      });
       this.$router.push("/admin/auth");
     },
   },

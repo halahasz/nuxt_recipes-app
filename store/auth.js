@@ -21,10 +21,14 @@ export const mutations = {
 };
 // TODO: add snackbors
 export const actions = {
-  authenticateUser({ commit }, authData) {
+  authenticateUser({ commit, dispatch }, authData) {
     let authUrl = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.fbAPIKey}`;
+    let successMessage = "Successfully logged in";
+    let failMessage = "Failed to log in, try again";
     if (!authData.isLogin) {
       authUrl = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.fbAPIKey}`;
+      successMessage = "Successfully singed up";
+      failMessage = "Failed to sing up, try again";
     }
     return axios
       .post(authUrl, {
@@ -46,6 +50,24 @@ export const actions = {
         this.$cookies.set(
           "expirationDate",
           new Date().getTime() + +res.data.expiresIn * 1000
+        );
+        dispatch(
+          "snackbar/setSnackbar",
+          { text: successMessage, error: false },
+          {
+            root: true,
+          }
+        );
+        $nuxt.$router.push("/admin");
+      })
+      .catch((err) => {
+        console.log(err);
+        dispatch(
+          "snackbar/setSnackbar",
+          { text: failMessage, error: true },
+          {
+            root: true,
+          }
         );
       });
   },
@@ -84,7 +106,7 @@ export const actions = {
       )
       .then((res) => commit("setEmail", res.users.email));
   },
-  refreshToken({ commit, state }) {
+  refreshToken({ commit }) {
     return axios
       .post(
         `https://securetoken.googleapis.com/v1/token?key=${

@@ -37,12 +37,12 @@ export default {
     };
   },
   computed: {
-    ...mapState([
-      "snackbarMessage",
-      "snackbarError",
-      "showSnackbar",
-      "searchText",
-    ]),
+    ...mapState({
+      snackbarMessage: (state) => state.snackbar.snackbarMessage,
+      snackbarError: (state) => state.snackbar.snackbarError,
+      showSnackbar: (state) => state.snackbar.showSnackbar,
+      searchText: (state) => state.searchText,
+    }),
     ...mapGetters({ isAdmin: "auth/isAdmin" }),
     title() {
       if (this.$route.path === "/" && this.searchText == "") {
@@ -73,7 +73,7 @@ export default {
   },
   methods: {
     setShowSnackbar() {
-      this.$store.commit("setShowSnackbar", false);
+      this.$store.commit("snackbar/setShowSnackbar", false);
     },
     //  expiration time is check every 2 min., it is refreshed if it's lower then 10 min.
     async checkRefresh() {

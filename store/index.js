@@ -7,9 +7,6 @@ export const state = () => ({
   recipesNum: 6,
   isAllRecipesLoaded: false,
   searchText: "",
-  snackbarMessage: "",
-  snackbarError: false,
-  showSnackbar: false,
   loading: false,
 });
 export const mutations = {
@@ -24,15 +21,6 @@ export const mutations = {
   },
   setLoading(state, value) {
     state.loading = value;
-  },
-  setShowSnackbar(state, value) {
-    state.showSnackbar = value;
-  },
-  setSnackbarError(state, value) {
-    state.snackbarError = value;
-  },
-  setSnackbarMessage(state, value) {
-    state.snackbarMessage = value;
   },
   setAllRecipesLoaded(state, value) {
     state.isAllRecipesLoaded = value;
@@ -98,7 +86,10 @@ export const actions = {
       .catch((e) => {
         commit("setLoading", false);
         console.log(e);
-        dispatch("setSnackbar", "There was a problem loading recipes", true);
+        dispatch("setSnackbar", {
+          text: "There was a problem loading recipes",
+          error: true,
+        });
       });
   },
   async searchRecipes({ commit, dispatch, rootState }, text) {
@@ -129,11 +120,10 @@ export const actions = {
       } catch (e) {
         console.log(e);
         commit("setLoading", false);
-        dispatch(
-          "setSnackbar",
-          "There is a problem with searching recipes",
-          true
-        );
+        dispatch("setSnackbar", {
+          text: "There is a problem with searching recipes",
+          error: true,
+        });
       }
     } else {
       commit("clearRecipes");
@@ -158,11 +148,10 @@ export const actions = {
       })
       .catch((e) => {
         console.log(e);
-        dispatch(
-          "setSnackbar",
-          "There was a problem loading the liked recipes",
-          true
-        );
+        dispatch("snackbar/setSnackbar", {
+          text: "There was a problem loading the liked recipes",
+          error: true,
+        });
       });
   },
   editRecipe({ commit, dispatch, rootState }, editedRecipe) {
@@ -180,15 +169,17 @@ export const actions = {
     return axios
       .put(url, editedRecipe)
       .then(() => {
-        dispatch("setSnackbar", "The recipe has been updated", false);
+        dispatch("snackbar/setSnackbar", {
+          text: "The recipe has been updated",
+          error: false,
+        });
       })
       .catch((e) => {
         console.log(e);
-        dispatch(
-          "setSnackbar",
-          "There was a problem updating the recipe",
-          true
-        );
+        dispatch("snackbar/setSnackbar", {
+          text: "There was a problem updating the recipe",
+          error: true,
+        });
       });
   },
   editRecipeLike({ commit, rootState }, editedRecipe) {
@@ -226,7 +217,10 @@ export const actions = {
       })
       .catch((e) => {
         console.log(e);
-        dispatch("setSnackbar", "There was a problem loading the recipe", true);
+        dispatch("snackbar/setSnackbar", {
+          text: "There was a problem loading the recipe",
+          error: true,
+        });
       });
   },
   addRecipe({ commit, dispatch, rootState }, recipe) {
@@ -250,15 +244,17 @@ export const actions = {
         commit("setAddedRecipe", {
           ...createdRecipe,
         });
-        dispatch(
-          "setSnackbar",
-          "There recipe has been successfully added",
-          false
-        );
+        dispatch("snackbar/setSnackbar", {
+          text: "There recipe has been successfully added",
+          error: false,
+        });
       })
       .catch((e) => {
         console.log(e);
-        dispatch("setSnackbar", "There was a problem adding the recipe", true);
+        dispatch("snackbar/setSnackbar", {
+          text: "There was a problem adding the recipe",
+          error: true,
+        });
       });
   },
   deleteRecipe({ commit, dispatch, rootState }, deletedRecipe) {
@@ -277,24 +273,17 @@ export const actions = {
       .then((result) => {
         deletedRecipe.id = result.config.id;
         commit("setDeletedRecipe", deletedRecipe);
-        dispatch(
-          "setSnackbar",
-          "There recipe has been successfully deleted",
-          false
-        );
+        dispatch("snackbar/setSnackbar", {
+          text: "There recipe has been successfully deleted",
+          error: false,
+        });
       })
       .catch((e) => {
         console.log(e);
-        dispatch(
-          "setSnackbar",
-          "There was a problem deleting the recipe",
-          true
-        );
+        dispatch("snackbar/setSnackbar", {
+          text: "There was a problem deleting the recipe",
+          error: true,
+        });
       });
-  },
-  setSnackbar({ commit }, text, error) {
-    commit("setSnackbarMessage", text);
-    commit("setSnackbarError", error);
-    commit("setShowSnackbar", true);
   },
 };
