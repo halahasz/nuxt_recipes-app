@@ -1,0 +1,21 @@
+.admin-page {
+  background: url("~assets/img/bg.jpg") no-repeat right;
+  background-size: cover;
+  height: calc(100vh - 60px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.recipes-number {
+  text-align: center;
+  padding-top: 50px;
+  font-size: 22px;
+}
+.admin-page__buttons {
+  display: flex;
+  justify-content: center;
+
+  button {
+    margin: 20px;
+  }
+}

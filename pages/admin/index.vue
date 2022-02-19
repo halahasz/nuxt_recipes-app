@@ -1,13 +1,10 @@
 <template>
   <div class="admin-page">
-    <section class="new-recipe">
-      <!-- <AppAppButton @click="$router.push('/admin/new-recipe')"
-        >Create recipe</AppAppButton
-      >-->
+    <section class="admin-page__buttons">
       <AppButton text="Add recipe" @click="$router.push('/add-recipe')" />
       <AppButton text="Log out" color="white" @click="onLogout" />
     </section>
-    <section class="existing-recipes">
+    <section>
       <p class="recipes-number">
         Number of recipes:
         <strong>{{ this.$store.state.loadedRecipes.length }}</strong>
@@ -40,16 +37,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-.admin-page {
-  background: url("~assets/img/bg.jpg") no-repeat right;
-  background-size: cover;
-  height: calc(100vh - 60px);
-}
-.recipes-number {
-  text-align: center;
-  padding-top: 30vh;
-  font-size: 22px;
-}
-</style>
