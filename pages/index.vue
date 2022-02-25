@@ -41,7 +41,11 @@ export default {
   computed: {
     ...mapState(["loadedRecipes", "isAllRecipesLoaded", "loading"]),
     showButton() {
-      return !this.loading && !this.isAllRecipesLoaded;
+      return (
+        !this.loading &&
+        !this.isAllRecipesLoaded &&
+        this.loadedRecipes.length < 8
+      );
     },
   },
   methods: {

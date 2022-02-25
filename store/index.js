@@ -65,7 +65,6 @@ export const actions = {
       .get(url + `?orderBy="order"&limitToFirst=${recipesNum}`)
       .then((res) => {
         var arr = Object.entries(res.data);
-        // TODO: fix loading button for admin
         if (
           arr.length + num >= state.loadedRecipes.length &&
           arr.length % num !== 0 &&

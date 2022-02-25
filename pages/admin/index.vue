@@ -5,10 +5,10 @@
       <AppButton text="Log out" color="white" @click="onLogout" />
     </section>
     <section>
-      <p class="recipes-number">
+      <!-- <p class="recipes-number">
         Number of recipes:
         <strong>{{ this.$store.state.loadedRecipes.length }}</strong>
-      </p>
+      </p> -->
       <RecipesList isAdmin />
     </section>
   </div>
