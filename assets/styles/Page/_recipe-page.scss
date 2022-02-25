@@ -1,10 +1,10 @@
-// TODO: add rwd mobile
 .recipe-page {
   font-size: 14px;
-  height: 100vh;
+  min-height: 90vh;
   position: relative;
-  @include mQuery(mobile) {
-    height: auto;
+
+  & + .footer {
+    display: none;
   }
 }
 .recipe-photo {
@@ -31,7 +31,12 @@
     padding: 0 25px;
     position: fixed;
     z-index: 3;
-    top: 31vh;
+    top: 37vh;
+    @include mQuery(tablet) {
+      width: 50%;
+      margin-left: 25%;
+      top: 31vh;
+    }
     @include mQuery(desktop) {
       width: 50%;
       margin-left: 25%;
@@ -95,11 +100,13 @@
   margin-bottom: 130px;
   z-index: 10;
   top: 33vh;
-  // overflow-y: overlay;
-  // height: calc(54vh - 100px);
+  margin: 0 10px 10px;
   position: relative;
   background-color: rgba($recipe-bg, 0.95);
   transition: height 2s ease-in-out;
+  @include mQuery(tablet) {
+    margin: 0 30px 10px;
+  }
 
   &__headlines {
     @include mQuery(desktop) {
@@ -137,7 +144,7 @@
   &__recipe {
     width: 100%;
     transition: $transition;
-    padding: 0 25px 90px;
+    padding: 0 25px 50px;
     @include mQuery(mobile) {
       width: 400px;
       margin: 0 auto;

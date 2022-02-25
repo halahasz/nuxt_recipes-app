@@ -19,7 +19,6 @@ export const mutations = {
     state.token = null;
   },
 };
-// TODO: add snackbors
 export const actions = {
   authenticateUser({ commit, dispatch }, authData) {
     let authUrl = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.fbAPIKey}`;
