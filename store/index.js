@@ -53,11 +53,18 @@ export const mutations = {
 };
 
 export const actions = {
-  loadRecipes({ commit, dispatch, state, rootState }, num) {
+  async loadRecipes({ commit, dispatch, state, rootState }, num) {
     commit("setLoading", true);
     const recipesNum = state.recipesNum + num;
     let url = process.env.baseUrl + "recipes.json";
     if (rootState.auth.token != null) {
+      let res = await axios.post(
+        "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=" +
+          process.env.fbAPIKey +
+          "&idToken=" +
+          rootState.auth.token
+      );
+      commit("setEmail", res.data.users[0].email);
       url =
         process.env.baseAuthUrl + rootState.auth.email.split("@")[0] + ".json";
     }
@@ -128,9 +135,16 @@ export const actions = {
       commit("clearRecipes");
     }
   },
-  loadLikedRecipes({ commit, dispatch, rootState }) {
+  async loadLikedRecipes({ commit, dispatch, rootState }) {
     let url = process.env.baseUrl + "recipes.json";
     if (rootState.auth.token != null) {
+      let res = await axios.post(
+        "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=" +
+          process.env.fbAPIKey +
+          "&idToken=" +
+          rootState.auth.token
+      );
+      commit("setEmail", res.data.users[0].email);
       url =
         process.env.baseAuthUrl + rootState.auth.email.split("@")[0] + ".json";
     }

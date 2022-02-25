@@ -70,7 +70,7 @@ export const actions = {
         );
       });
   },
-  initAuth({ commit, dispatch }, req) {
+  async initAuth({ commit, dispatch }, req) {
     let token, expirationDate;
     if (req) {
       if (!req.headers.cookie) {
@@ -96,14 +96,13 @@ export const actions = {
       return;
     }
     commit("setToken", token);
-    return axios
-      .get(
-        "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=" +
-          process.env.fbAPIKey +
-          "&idToken=" +
-          token
-      )
-      .then((res) => commit("setEmail", res.users.email));
+    let res = await axios.post(
+      "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=" +
+        process.env.fbAPIKey +
+        "&idToken=" +
+        token
+    );
+    commit("setEmail", res.data.users[0].email);
   },
   refreshToken({ commit }) {
     return axios
