@@ -167,10 +167,17 @@ export const actions = {
         });
       });
   },
-  editRecipe({ commit, dispatch, rootState }, editedRecipe) {
+  async editRecipe({ commit, dispatch, rootState }, editedRecipe) {
     commit("setEditedRecipe", editedRecipe);
     let url = process.env.baseUrl + "recipes/" + editedRecipe.id + ".json";
     if (rootState.auth.token != null) {
+      let res = await axios.post(
+        "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=" +
+          process.env.fbAPIKey +
+          "&idToken=" +
+          rootState.auth.token
+      );
+      commit("setEmail", res.data.users[0].email);
       url =
         process.env.baseAuthUrl +
         rootState.auth.email.split("@")[0] +
@@ -195,10 +202,17 @@ export const actions = {
         });
       });
   },
-  editRecipeLike({ commit, rootState }, editedRecipe) {
+  async editRecipeLike({ commit, rootState }, editedRecipe) {
     commit("setEditedRecipe", editedRecipe);
     let url = process.env.baseUrl + "recipes/" + editedRecipe.id + ".json";
     if (rootState.auth.token != null) {
+      let res = await axios.post(
+        "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=" +
+          process.env.fbAPIKey +
+          "&idToken=" +
+          rootState.auth.token
+      );
+      commit("setEmail", res.data.users[0].email);
       url =
         process.env.baseAuthUrl +
         rootState.auth.email.split("@")[0] +
@@ -218,7 +232,7 @@ export const actions = {
     const filteredRecipes = state.likedRecipes.filter((el) => el.id != id);
     commit("setLikedRecipes", filteredRecipes);
   },
-  async loadRecipe({ dispatch, rootState }, id) {
+  async loadRecipe({ commit, dispatch, rootState }, id) {
     let url = process.env.baseUrl + "recipes/";
     if (rootState.auth.token != null) {
       let res = await axios.post(
