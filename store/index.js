@@ -218,9 +218,16 @@ export const actions = {
     const filteredRecipes = state.likedRecipes.filter((el) => el.id != id);
     commit("setLikedRecipes", filteredRecipes);
   },
-  loadRecipe({ dispatch, rootState }, id) {
+  async loadRecipe({ dispatch, rootState }, id) {
     let url = process.env.baseUrl + "recipes/";
     if (rootState.auth.token != null) {
+      let res = await axios.post(
+        "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=" +
+          process.env.fbAPIKey +
+          "&idToken=" +
+          rootState.auth.token
+      );
+      commit("setEmail", res.data.users[0].email);
       url = process.env.baseAuthUrl + rootState.auth.email.split("@")[0] + "/";
     }
     return axios
@@ -236,12 +243,19 @@ export const actions = {
         });
       });
   },
-  addRecipe({ commit, dispatch, rootState }, recipe) {
+  async addRecipe({ commit, dispatch, rootState }, recipe) {
     const createdRecipe = {
       ...recipe,
     };
     let url = process.env.baseUrl + "recipes.json";
     if (rootState.auth.token != null) {
+      let res = await axios.post(
+        "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=" +
+          process.env.fbAPIKey +
+          "&idToken=" +
+          rootState.auth.token
+      );
+      commit("setEmail", res.data.users[0].email);
       url =
         process.env.baseAuthUrl +
         rootState.auth.email.split("@")[0] +
@@ -270,9 +284,16 @@ export const actions = {
         });
       });
   },
-  deleteRecipe({ commit, dispatch, rootState }, deletedRecipe) {
+  async deleteRecipe({ commit, dispatch, rootState }, deletedRecipe) {
     let url = process.env.baseUrl + "recipes/" + deletedRecipe.id + ".json";
     if (rootState.auth.token != null) {
+      let res = await axios.post(
+        "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=" +
+          process.env.fbAPIKey +
+          "&idToken=" +
+          rootState.auth.token
+      );
+      commit("setEmail", res.data.users[0].email);
       url =
         process.env.baseAuthUrl +
         rootState.auth.email.split("@")[0] +
